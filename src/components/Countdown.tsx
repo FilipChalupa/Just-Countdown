@@ -3,10 +3,13 @@ import * as React from 'react'
 export interface CountdownProps {
 	paused?: Date
 	end: Date
+	showHours?: boolean
 }
 
+const doubleDigits = (input: number) => input.toString().padStart(2, '0')
+
 export const Countdown: React.SFC<CountdownProps> = (props) => {
-	const { end, paused } = props
+	const { end, paused, showHours } = props
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
 	const updateRemainingSeconds = React.useCallback(() => {
@@ -33,10 +36,20 @@ export const Countdown: React.SFC<CountdownProps> = (props) => {
 		}
 	}, [paused, end])
 
+	const seconds = remainingSeconds % 60
+	let minutes = Math.floor(remainingSeconds / 60)
+	const hours = ((): null | number => {
+		if (showHours) {
+			minutes = minutes % 60
+			return Math.floor(remainingSeconds / (60 * 60))
+		}
+		return null
+	})()
+
 	return (
-		<div>
-			<div>{remainingSeconds}</div>
-			<pre>{JSON.stringify(props)}</pre>
+		<div className="time">
+			{showHours && <>{doubleDigits(hours)}:</>}
+			{doubleDigits(minutes)}:{doubleDigits(seconds)}
 		</div>
 	)
 }

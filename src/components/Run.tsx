@@ -13,7 +13,7 @@ export const Run: React.SFC = () => {
 
 	return (
 		<>
-			<Countdown end={end} />
+			<Countdown showHours end={end} />
 		</>
 	)
 }
