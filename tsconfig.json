@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"lib": ["dom", "es2019"],
+		"module": "commonjs",
+		"target": "es6",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"jsx": "react"
+	},
+	"include": ["./src/**/*"]
+}
