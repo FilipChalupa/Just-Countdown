@@ -47,6 +47,25 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 			})
 	}
 
+	const addCountdown = (seconds: number) => () => {
+		const start = roomState.paused || new Date()
+		db.collection('rooms')
+			.doc(id)
+			.update({
+				end: new Date(
+					Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000,
+				),
+			})
+	}
+
+	const subtractCountdown = (seconds: number) => () => {
+		db.collection('rooms')
+			.doc(id)
+			.update({
+				end: new Date(roomState.end.getTime() - seconds * 1000),
+			})
+	}
+
 	const screenUrl = `${window.location.origin}/screen/?id=${encodeURIComponent(
 		id,
 	)}`
@@ -91,6 +110,20 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 					type="button"
 					onClick={setCountdown(4 * 60)}
 				>
+					Set 2 minutes
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={setCountdown(4 * 60)}
+				>
+					Set 3 minutes
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={setCountdown(4 * 60)}
+				>
 					Set 4 minutes
 				</button>
 				<button
@@ -106,6 +139,20 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 					onClick={setCountdown(10 * 60)}
 				>
 					Set 10 minutes
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={addCountdown(1 * 60)}
+				>
+					Add minute
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={subtractCountdown(1 * 60)}
+				>
+					Subtract minute
 				</button>
 			</div>
 		</div>
