@@ -23,10 +23,14 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 			? new Date(
 					new Date().getTime() +
 						roomState.end.getTime() -
-						roomState.paused.getTime(),
+						roomState.paused.getTime() +
+						(1001 -
+							((roomState.end.getTime() - roomState.paused.getTime()) % 1000)),
 			  )
 			: roomState.end
-		const paused = roomState.paused ? null : new Date()
+		const paused = roomState.paused
+			? null
+			: new Date(new Date().getTime() + 1000)
 		db.collection('rooms').doc(id).update({
 			paused,
 			end,
@@ -34,11 +38,12 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 	}, [id, roomState])
 
 	const setCountdown = (seconds: number) => () => {
+		const now = new Date()
 		db.collection('rooms')
 			.doc(id)
 			.update({
-				end: new Date(new Date().getTime() + seconds * 1000),
-				paused: new Date(),
+				end: new Date(now.getTime() + seconds * 1000),
+				paused: now,
 			})
 	}
 

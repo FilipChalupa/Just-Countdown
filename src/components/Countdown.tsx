@@ -28,7 +28,7 @@ export const Countdown: React.SFC<CountdownProps> = (props) => {
 		let timer: number
 		const tick = () => {
 			updateRemainingSeconds()
-			timer = window.setTimeout(tick, 1000) // @TODO: calculate delay
+			timer = window.setTimeout(tick, 50) // @TODO: calculate exact delay
 		}
 		tick()
 		return () => {
