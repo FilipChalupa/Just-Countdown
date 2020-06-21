@@ -108,14 +108,14 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 				<button
 					className="controlPanel-preset"
 					type="button"
-					onClick={setCountdown(4 * 60)}
+					onClick={setCountdown(2 * 60)}
 				>
 					Set 2 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
-					onClick={setCountdown(4 * 60)}
+					onClick={setCountdown(3 * 60)}
 				>
 					Set 3 minutes
 				</button>
