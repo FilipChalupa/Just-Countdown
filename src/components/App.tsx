@@ -9,18 +9,21 @@ export const App: React.SFC = () => {
 		<Router>
 			<Switch>
 				<Route exact path="/">
-					<ul>
+					<ul style={{ fontSize: '3em' }}>
 						<li>
-							<Link to="/">Home</Link>
+							<Link style={{ color: 'inherit' }} to="/run/?seconds=120">
+								Run
+							</Link>
 						</li>
 						<li>
-							<Link to="/run/">Run</Link>
+							<Link style={{ color: 'inherit' }} to="/screen/?id=1">
+								Screen
+							</Link>
 						</li>
 						<li>
-							<Link to="/screen/?id=1">Screen</Link>
-						</li>
-						<li>
-							<Link to="/control/">Control</Link>
+							<Link style={{ color: 'inherit' }} to="/control/">
+								Control
+							</Link>
 						</li>
 					</ul>
 				</Route>
