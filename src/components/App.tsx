@@ -2,6 +2,7 @@ import * as React from 'react'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import { Control } from './Control'
 import { Run } from './Run'
+import { Screen } from './Screen'
 
 export const App: React.SFC = () => {
 	return (
@@ -16,7 +17,7 @@ export const App: React.SFC = () => {
 							<Link to="/run/">Run</Link>
 						</li>
 						<li>
-							<Link to="/screen/">Screen</Link>
+							<Link to="/screen/?id=1">Screen</Link>
 						</li>
 						<li>
 							<Link to="/control/">Control</Link>
@@ -24,9 +25,7 @@ export const App: React.SFC = () => {
 					</ul>
 				</Route>
 				<Route exact path="/run/" component={Run} />
-				<Route exact path="/screen/">
-					Screen
-				</Route>
+				<Route exact path="/screen/" component={Screen} />
 				<Route exact path="/control/" component={Control} />
 			</Switch>
 		</Router>

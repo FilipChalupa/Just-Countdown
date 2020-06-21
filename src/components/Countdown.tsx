@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export interface CountdownProps {
-	paused?: Date
+	paused?: Date | null
 	end: Date
 	showHours?: boolean
 }
@@ -47,7 +47,7 @@ export const Countdown: React.SFC<CountdownProps> = (props) => {
 	})()
 
 	return (
-		<div className="time">
+		<div className={`time ${showHours ? 'view-showHours' : ''}`}>
 			{showHours && <>{doubleDigits(hours)}:</>}
 			{doubleDigits(minutes)}:{doubleDigits(seconds)}
 		</div>
