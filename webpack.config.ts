@@ -25,7 +25,6 @@ module.exports = (env: any, options: any) => {
 		resolve: {
 			extensions: ['.js', '.tsx', '.ts'],
 		},
-		devtool: 'inline-source-map', // unsafe-eval in Chrome Extension fix
 		module: {
 			rules: [
 				{
