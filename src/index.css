@@ -1,5 +1,14 @@
 body {
 	margin: 0;
+	color: black;
+	background-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		color: white;
+		background-color: black;
+	}
 }
 
 .time {
@@ -8,4 +17,16 @@ body {
 	align-items: center;
 	font-variant-numeric: tabular-nums;
 	font-family: 'Open Sans', sans-serif;
+}
+
+.fullScreenCountdown {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 20vw;
 }
