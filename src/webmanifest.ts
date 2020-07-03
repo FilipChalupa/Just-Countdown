@@ -7,12 +7,12 @@ export const theme_color = '#000000'
 const sizes = [36, 48, 72, 96, 128, 144, 192, 256, 384, 512, 1024, 2048]
 export const icons: any = [
 	...sizes.map((size) => ({
-		src: `icon/${size}x${size}.png`,
+		src: `images/app-icon/${size}x${size}.png`,
 		sizes: `${size}x${size}`,
 		purpose: 'any',
 	})),
 	...sizes.map((size) => ({
-		src: `icon/${size}x${size}-maskable.png`,
+		src: `images/app-icon/${size}x${size}-maskable.png`,
 		sizes: `${size}x${size}`,
 		purpose: 'maskable',
 	})),

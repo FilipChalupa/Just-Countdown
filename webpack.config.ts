@@ -100,6 +100,15 @@ module.exports = (env: any, options: any) => {
 					short_name: APP_NAME,
 				},
 			}),
+			new CopyPlugin({
+				patterns: [
+					{
+						from: './**/*',
+						to: './assets/images/app-icon/',
+						context: 'src/images/app-icon/',
+					},
+				],
+			}),
 		],
 	}
 }
