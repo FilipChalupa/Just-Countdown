@@ -1,6 +1,6 @@
 export const display = 'standalone'
 export const start_url = '/'
-export const description = ''
+export const description = 'Countdown timer with remote control.'
 export const background_color = '#ffffff'
 export const theme_color = '#000000'
 
