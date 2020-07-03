@@ -97,7 +97,7 @@ module.exports = (env: any, options: any) => {
 				filename: 'assets/webmanifest.json',
 				data: {
 					name: APP_NAME,
-					short_name: APP_NAME,
+					short_name: 'Countdown',
 				},
 			}),
 			new CopyPlugin({
