@@ -114,7 +114,13 @@ a:focus {
 }
 
 .frontpage {
+	text-align: center;
 	padding: 1em;
+}
+
+.frontpage-in {
+	display: inline-block;
+	text-align: left;
 }
 
 .frontpage-title {
