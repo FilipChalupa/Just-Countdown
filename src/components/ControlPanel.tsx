@@ -89,7 +89,7 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 				{screenUrl}
 			</a>
 			<button type="button" onClick={toggleShowHours}>
-				Show hours
+				{roomState.showHours ? 'Hide hours' : 'Show hours'}
 			</button>
 			<button type="button" onClick={togglePaused}>
 				{roomState.paused ? 'Start' : 'Pause'}
