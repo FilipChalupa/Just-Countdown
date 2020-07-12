@@ -12,3 +12,4 @@ const app = firebaseApp.initializeApp({
 })
 
 export const db = app.firestore()
+export const { FieldValue } = firebaseApp.firestore

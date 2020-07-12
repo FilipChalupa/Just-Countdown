@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { getServerTime } from '../utils/date'
 
 export interface CountdownProps {
 	paused?: Date | null
@@ -13,7 +14,7 @@ export const Countdown: React.SFC<CountdownProps> = (props) => {
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
 	const updateRemainingSeconds = React.useCallback(() => {
-		const startTimestamp = (paused || new Date()).getTime()
+		const startTimestamp = (paused || getServerTime()).getTime()
 		const endTimestamp = end.getTime()
 		const difference = Math.floor((endTimestamp - startTimestamp) / 1000)
 

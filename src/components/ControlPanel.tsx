@@ -2,6 +2,7 @@ import * as React from 'react'
 import { db } from '../utils/db'
 import { useRoomState } from '../utils/useRoomState'
 import { Countdown } from './Countdown'
+import { getServerTime } from '../utils/date'
 
 interface ControlPanelProps {
 	id: string
@@ -21,7 +22,7 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 	const togglePaused = React.useCallback(() => {
 		const end = roomState.paused
 			? new Date(
-					new Date().getTime() +
+					getServerTime().getTime() +
 						roomState.end.getTime() -
 						roomState.paused.getTime() +
 						(1001 -
@@ -30,7 +31,7 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 			: roomState.end
 		const paused = roomState.paused
 			? null
-			: new Date(new Date().getTime() + 1000)
+			: new Date(getServerTime().getTime() + 1000)
 		db.collection('rooms').doc(id).update({
 			paused,
 			end,
@@ -38,17 +39,16 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 	}, [id, roomState])
 
 	const setCountdown = (seconds: number) => () => {
-		const now = new Date()
 		db.collection('rooms')
 			.doc(id)
 			.update({
-				end: new Date(now.getTime() + seconds * 1000),
-				paused: now,
+				end: new Date(getServerTime().getTime() + seconds * 1000),
+				paused: getServerTime(),
 			})
 	}
 
 	const addCountdown = (seconds: number) => () => {
-		const start = roomState.paused || new Date()
+		const start = roomState.paused || getServerTime()
 		db.collection('rooms')
 			.doc(id)
 			.update({
