@@ -9,13 +9,15 @@ export const Run: React.SFC = () => {
 
 	const seconds = parseInt(useGetParameter('seconds')) || 60
 
+	const showHours = useGetParameter('showHours') !== null
+
 	React.useEffect(() => {
-		setEnd(new Date(getLocalTime().getTime() + (seconds + 1) * 1000))
+		setEnd(new Date(getLocalTime().getTime() + seconds * 1000))
 	}, [seconds])
 
 	return (
 		<FullScreenCountdown>
-			<Countdown showHours end={end} useLocalTime />
+			<Countdown showHours={showHours} end={end} useLocalTime />
 		</FullScreenCountdown>
 	)
 }
