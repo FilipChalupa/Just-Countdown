@@ -1,20 +1,23 @@
 import * as React from 'react'
-import { getServerTime } from '../utils/date'
+import { getLocalTime, getServerTime } from '../utils/date'
 
 export interface CountdownProps {
 	paused?: Date | null
 	end: Date
 	showHours?: boolean
+	useLocalTime?: boolean
 }
 
 const doubleDigits = (input: number) => input.toString().padStart(2, '0')
 
 export const Countdown: React.SFC<CountdownProps> = (props) => {
-	const { end, paused, showHours } = props
+	const { end, paused, showHours, useLocalTime } = props
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
 	const updateRemainingSeconds = React.useCallback(() => {
-		const startTimestamp = (paused || getServerTime()).getTime()
+		const startTimestamp = (
+			paused || (useLocalTime ? getLocalTime : getServerTime)()
+		).getTime()
 		const endTimestamp = end.getTime()
 		const difference = Math.floor((endTimestamp - startTimestamp) / 1000)
 
