@@ -24,6 +24,9 @@ export const Frontpage: React.FunctionComponent = () => (
 					<Link to="/run/?seconds=600">Countdown 10 minutes</Link>
 				</li>
 				<li>
+					<Link to="/run/?seconds=3600">Countdown 60 minutes</Link>
+				</li>
+				<li>
 					<Link to="/run/?seconds=86400&amp;showHours">Countdown 1 day</Link>
 				</li>
 			</ul>

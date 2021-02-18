@@ -1,8 +1,8 @@
 import * as React from 'react'
+import { getServerTime } from '../utils/date'
 import { db } from '../utils/db'
 import { useRoomState } from '../utils/useRoomState'
 import { Countdown } from './Countdown'
-import { getServerTime } from '../utils/date'
 
 interface ControlPanelProps {
 	id: string
@@ -139,6 +139,20 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 					onClick={setCountdown(10 * 60)}
 				>
 					Set 10 minutes
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={setCountdown(45 * 60)}
+				>
+					Set 45 minutes
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={setCountdown(60 * 60)}
+				>
+					Set 60 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
