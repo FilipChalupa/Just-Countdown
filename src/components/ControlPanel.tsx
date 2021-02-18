@@ -88,85 +88,131 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 			>
 				{screenUrl}
 			</a>
-			<button type="button" onClick={toggleShowHours}>
-				{roomState.showHours ? 'Hide hours' : 'Show hours'}
-			</button>
-			<button type="button" onClick={togglePaused}>
-				{roomState.paused ? 'Start' : 'Pause'}
-			</button>
-			<button type="button" onClick={setCountdown(0)}>
-				Clear
-			</button>
+			<div className="controlPanel-mainControls">
+				<button type="button" onClick={togglePaused}>
+					{roomState.paused ? 'Start ▶' : 'Pause ∥'}
+				</button>
+				<button type="button" onClick={setCountdown(0)}>
+					Clear 00:00:00 ❌
+				</button>
+				<button type="button" onClick={toggleShowHours}>
+					{roomState.showHours ? 'Hide hours' : 'Show hours'} 🕐
+				</button>
+			</div>
 			<div className="controlPanel-presets">
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(1 * 60)}
 				>
-					Set 1 minute
+					1 minute
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(2 * 60)}
 				>
-					Set 2 minutes
+					2 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(3 * 60)}
 				>
-					Set 3 minutes
+					3 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(4 * 60)}
 				>
-					Set 4 minutes
+					4 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(5 * 60)}
 				>
-					Set 5 minutes
+					5 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(10 * 60)}
 				>
-					Set 10 minutes
+					10 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(45 * 60)}
 				>
-					Set 45 minutes
+					45 minutes
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={setCountdown(60 * 60)}
 				>
-					Set 60 minutes
+					60 minutes
+				</button>
+			</div>
+			<div className="controlPanel-presets">
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={subtractCountdown(1 * 60)}
+				>
+					-1 minute
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
 					onClick={addCountdown(1 * 60)}
 				>
-					Add minute
+					+1 minute
 				</button>
 				<button
 					className="controlPanel-preset"
 					type="button"
-					onClick={subtractCountdown(1 * 60)}
+					onClick={subtractCountdown(10 * 60)}
 				>
-					Subtract minute
+					-10 minute
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={addCountdown(10 * 60)}
+				>
+					+10 minute
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={subtractCountdown(15 * 60)}
+				>
+					-15 minute
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={addCountdown(15 * 60)}
+				>
+					+15 minute
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={subtractCountdown(60 * 60)}
+				>
+					-60 minute
+				</button>
+				<button
+					className="controlPanel-preset"
+					type="button"
+					onClick={addCountdown(60 * 60)}
+				>
+					+60 minute
 				</button>
 			</div>
 		</div>

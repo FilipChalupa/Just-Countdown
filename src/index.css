@@ -61,14 +61,35 @@ a:focus {
 .controlPanel {
 	display: flex;
 	flex-direction: column;
+	padding: 1em;
+	max-width: 900px;
+	margin: 0 auto;
 }
 
 .controlPanel button {
+	position: relative;
 	background-color: transparent;
 	border: none;
 	color: inherit;
 	padding: 2em 1em;
 	border: 1px solid;
+}
+.controlPanel button::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: currentColor;
+	opacity: 0.1;
+	transition: opacity 0.2s;
+}
+.controlPanel button:hover::before {
+	opacity: 0.2;
+}
+.controlPanel button:active {
+	transform: translateY(1px);
 }
 
 .controlPanel-preview,
@@ -90,13 +111,22 @@ a:focus {
 	padding: 0.25em;
 }
 
+.controlPanel-mainControls {
+	display: grid;
+}
+
 .controlPanel-presets {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	margin-top: 1em;
+}
+
+.controlPanel-mainControls,
+.controlPanel-presets {
+	gap: 0.5em;
 }
 
 .controlPanel-preset {
-	width: 50%;
 }
 
 .controlPanel-url {
@@ -105,12 +135,6 @@ a:focus {
 	color: inherit;
 	text-align: center;
 	margin-bottom: 5em;
-}
-
-@media (min-width: 600px) {
-	.controlPanel-preset {
-		width: 25%;
-	}
 }
 
 .frontpage {
