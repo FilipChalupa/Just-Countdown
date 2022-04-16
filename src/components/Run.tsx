@@ -5,7 +5,7 @@ import { useGetParameter } from '../utils/useQuery'
 import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'
 
-export const Run: React.SFC = () => {
+export const Run: React.FunctionComponent = () => {
 	const [end, setEnd] = React.useState(getLocalTime())
 
 	const seconds = parseInt(useGetParameter('seconds')) || 60

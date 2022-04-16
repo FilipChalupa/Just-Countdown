@@ -5,7 +5,7 @@ import { useRoomState } from '../utils/useRoomState'
 import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'
 
-export const Screen: React.SFC = () => {
+export const Screen: React.FunctionComponent = () => {
 	const id = useGetParameter('id')
 
 	const roomState = useRoomState(id)

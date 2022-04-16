@@ -8,7 +8,7 @@ interface ControlPanelProps {
 	id: string
 }
 
-export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
+export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (props) => {
 	const { id } = props
 
 	const roomState = useRoomState(id)

@@ -1,9 +1,9 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import { useGetParameter } from '../utils/useQuery'
 import { ControlPanel } from './ControlPanel'
-import { Link } from 'react-router-dom'
 
-export const Control: React.SFC = (props) => {
+export const Control: React.FunctionComponent = () => {
 	const id = useGetParameter('id')
 
 	if (id) {

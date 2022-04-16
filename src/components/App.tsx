@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Control } from './Control'
 import { Frontpage } from './Frontpage'
 import { Run } from './Run'
 import { Screen } from './Screen'
 
-export const App: React.SFC = () => {
+export const App: React.FunctionComponent = () => {
 	return (
 		<Router>
 			<Switch>

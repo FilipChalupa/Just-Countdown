@@ -10,7 +10,7 @@ export interface CountdownProps {
 
 const doubleDigits = (input: number) => input.toString().padStart(2, '0')
 
-export const Countdown: React.SFC<CountdownProps> = (props) => {
+export const Countdown: React.FunctionComponent<CountdownProps> = (props) => {
 	const { end, paused, showHours, useLocalTime } = props
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
