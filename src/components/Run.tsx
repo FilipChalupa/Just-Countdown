@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { Countdown } from './Countdown'
-import { useGetParameter } from '../utils/useQuery'
-import { FullScreenCountdown } from './FullScreenCountdown'
+import ScreenWakeLock from 'screen-wake-lock'
 import { getLocalTime } from '../utils/date'
+import { useGetParameter } from '../utils/useQuery'
+import { Countdown } from './Countdown'
+import { FullScreenCountdown } from './FullScreenCountdown'
 
 export const Run: React.SFC = () => {
 	const [end, setEnd] = React.useState(getLocalTime())
@@ -18,6 +19,7 @@ export const Run: React.SFC = () => {
 	return (
 		<FullScreenCountdown>
 			<Countdown showHours={showHours} end={end} useLocalTime />
+			<ScreenWakeLock />
 		</FullScreenCountdown>
 	)
 }

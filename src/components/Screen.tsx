@@ -1,4 +1,5 @@
 import * as React from 'react'
+import ScreenWakeLock from 'screen-wake-lock'
 import { useGetParameter } from '../utils/useQuery'
 import { useRoomState } from '../utils/useRoomState'
 import { Countdown } from './Countdown'
@@ -18,6 +19,7 @@ export const Screen: React.SFC = () => {
 					paused={roomState.paused}
 				/>
 			)}
+			<ScreenWakeLock />
 		</FullScreenCountdown>
 	)
 }
