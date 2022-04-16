@@ -26,13 +26,6 @@ a:focus {
 	text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-	body {
-		color: white;
-		background-color: black;
-	}
-}
-
 .time {
 	display: flex;
 	justify-content: center;
@@ -56,6 +49,19 @@ a:focus {
 	justify-content: center;
 	align-items: center;
 	font-size: 20vw;
+	color: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		color: #FFFFFF;
+		background-color: #121212;
+	}
+
+	.fullScreenCountdown {
+		color: #FFFFFF;
+		background-color: #000000;
+	}
 }
 
 .controlPanel {
@@ -135,26 +141,4 @@ a:focus {
 	color: inherit;
 	text-align: center;
 	margin-bottom: 5em;
-}
-
-.frontpage {
-	text-align: center;
-	padding: 1em;
-}
-
-.frontpage-in {
-	display: inline-block;
-	text-align: left;
-}
-
-.frontpage-title {
-	text-align: center;
-	margin-bottom: 2em;
-}
-
-.frontpage-title img {
-	display: block;
-	width: 70px;
-	height: 70px;
-	margin: 0 auto 0.5em;
 }
