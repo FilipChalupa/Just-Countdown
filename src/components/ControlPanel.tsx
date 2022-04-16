@@ -1,4 +1,26 @@
+import AddIcon from '@mui/icons-material/Add'
+import AlarmIcon from '@mui/icons-material/Alarm'
+import AlarmOffIcon from '@mui/icons-material/AlarmOff'
+import CloseIcon from '@mui/icons-material/Close'
+import PauseIcon from '@mui/icons-material/Pause'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import RemoveIcon from '@mui/icons-material/Remove'
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Container,
+	Grid,
+	Link,
+	Tooltip,
+	Typography,
+	useMediaQuery,
+} from '@mui/material'
+import IconButton from '@mui/material/IconButton'
 import * as React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import { getServerTime } from '../utils/date'
 import { db } from '../utils/db'
 import { useRoomState } from '../utils/useRoomState'
@@ -8,7 +30,9 @@ interface ControlPanelProps {
 	id: string
 }
 
-export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (props) => {
+export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
+	props,
+) => {
 	const { id } = props
 
 	const roomState = useRoomState(id)
@@ -66,154 +90,139 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (props) 
 			})
 	}
 
-	const screenUrl = `${window.location.origin}/screen/?id=${encodeURIComponent(
-		id,
-	)}`
+	const screenUrl = React.useMemo(() => {
+		const path = `/screen/?id=${encodeURIComponent(id)}`
+		return {
+			short: path,
+			full: `${window.location.origin}${path}`,
+		}
+	}, [])
+
+	const setPresets = React.useMemo(
+		() => [1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60, 0],
+		[],
+	)
+
+	const adjustPresets = React.useMemo(() => [1, 5, 10, 15, 30, 60], [])
+
+	const isLarge = useMediaQuery('(min-width:600px)')
 
 	return (
-		<div className="controlPanel">
-			<h1 className="controlPanel-title">{roomState.name}</h1>
-			<div className="controlPanel-preview">
-				<Countdown
-					end={roomState.end}
-					showHours={roomState.showHours}
-					paused={roomState.paused}
-				/>
-			</div>
-			<a
-				className="controlPanel-url"
-				type="url"
-				href={screenUrl}
-			>
-				{screenUrl}
-			</a>
-			<div className="controlPanel-mainControls">
-				<button type="button" onClick={togglePaused}>
-					{roomState.paused ? 'Start ▶' : 'Pause ∥'}
-				</button>
-				<button type="button" onClick={setCountdown(0)}>
-					Clear 00:00:00 ❌
-				</button>
-				<button type="button" onClick={toggleShowHours}>
-					{roomState.showHours ? 'Hide hours' : 'Show hours'} 🕐
-				</button>
-			</div>
-			<div className="controlPanel-presets">
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(1 * 60)}
-				>
-					1 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(2 * 60)}
-				>
-					2 minutes
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(3 * 60)}
-				>
-					3 minutes
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(4 * 60)}
-				>
-					4 minutes
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(5 * 60)}
-				>
-					5 minutes
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(10 * 60)}
-				>
-					10 minutes
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(45 * 60)}
-				>
-					45 minutes
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={setCountdown(60 * 60)}
-				>
-					60 minutes
-				</button>
-			</div>
-			<div className="controlPanel-presets">
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={subtractCountdown(1 * 60)}
-				>
-					-1 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={addCountdown(1 * 60)}
-				>
-					+1 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={subtractCountdown(10 * 60)}
-				>
-					-10 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={addCountdown(10 * 60)}
-				>
-					+10 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={subtractCountdown(15 * 60)}
-				>
-					-15 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={addCountdown(15 * 60)}
-				>
-					+15 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={subtractCountdown(60 * 60)}
-				>
-					-60 minute
-				</button>
-				<button
-					className="controlPanel-preset"
-					type="button"
-					onClick={addCountdown(60 * 60)}
-				>
-					+60 minute
-				</button>
-			</div>
-		</div>
+		<Box paddingTop={4} paddingBottom={4}>
+			<Container>
+				<Card elevation={4}>
+					<CardHeader
+						sx={{ paddingBottom: 0 }}
+						action={
+							<Tooltip title="Return to frontpage">
+								<IconButton component={RouterLink} to="/">
+									<CloseIcon />
+								</IconButton>
+							</Tooltip>
+						}
+						title={`ID: ${id}`}
+						subheader={
+							<Link color="inherit" href={screenUrl.full}>
+								{isLarge ? screenUrl.full : screenUrl.short}
+							</Link>
+						}
+					/>
+					<CardContent>
+						<Box textAlign="center">
+							<Typography variant="h2" component="div">
+								<Countdown
+									end={roomState.end}
+									showHours={roomState.showHours}
+									paused={roomState.paused}
+								/>
+							</Typography>
+							<Box>
+								<Tooltip title="Remove on minute">
+									<IconButton onClick={subtractCountdown(1 * 60)}>
+										<RemoveIcon />
+									</IconButton>
+								</Tooltip>
+								{roomState.paused ? (
+									<Tooltip title="Start countdown">
+										<IconButton onClick={togglePaused}>
+											<PlayArrowIcon sx={{ height: 38, width: 38 }} />
+										</IconButton>
+									</Tooltip>
+								) : (
+									<Tooltip title="Pause countdown">
+										<IconButton onClick={togglePaused}>
+											<PauseIcon sx={{ height: 38, width: 38 }} />
+										</IconButton>
+									</Tooltip>
+								)}
+								<Tooltip title="Add one minute">
+									<IconButton onClick={addCountdown(1 * 60)}>
+										<AddIcon />
+									</IconButton>
+								</Tooltip>
+							</Box>
+						</Box>
+					</CardContent>
+				</Card>
+				<Box paddingBottom={4} />
+				<Grid container spacing={2}>
+					{setPresets.map((preset) => (
+						<Grid item key={preset} xs={6} sm={4} md={3} lg={2}>
+							<Button
+								onClick={setCountdown(preset * 60)}
+								variant="contained"
+								color="primary"
+								fullWidth
+								size="large"
+							>
+								{preset}{' '}
+								{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
+							</Button>
+						</Grid>
+					))}
+				</Grid>
+				<Box paddingBottom={4} />
+				<Grid container spacing={2}>
+					{adjustPresets.map((preset) => (
+						<React.Fragment key={preset}>
+							{[-1, 1].map((sign) => (
+								<Grid key={sign} item xs={6} md={3} lg={2}>
+									<Button
+										onClick={
+											sign === -1
+												? subtractCountdown(preset * 60)
+												: addCountdown(preset * 60)
+										}
+										variant="outlined"
+										color={sign === -1 ? 'error' : 'success'}
+										fullWidth
+										size="large"
+									>
+										{sign === -1 ? '-' : '+'}
+										{preset}{' '}
+										{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
+									</Button>
+								</Grid>
+							))}
+						</React.Fragment>
+					))}
+				</Grid>
+				<Box paddingBottom={4} />
+				<Grid container spacing={2}>
+					<Grid item xs={6} sm={4} md={3} lg={2}>
+						<Button
+							onClick={toggleShowHours}
+							variant="outlined"
+							color="primary"
+							fullWidth
+							size="large"
+							endIcon={roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />}
+						>
+							{roomState.showHours ? 'Hide hours' : 'Show hours'}
+						</Button>
+					</Grid>
+				</Grid>
+			</Container>
+		</Box>
 	)
 }
