@@ -18,7 +18,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = (props) => {
 		const startTimestamp = (
 			paused || (useLocalTime ? getLocalTime : getServerTime)()
 		).getTime()
-		const endTimestamp = end.getTime()
+		const endTimestamp = end.getTime() - 1 // Minus one to prevent short flash of initial tile
 		const difference = Math.floor((endTimestamp - startTimestamp) / 1000)
 
 		setRemainingSeconds(Math.max(0, difference))
