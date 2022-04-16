@@ -13,7 +13,7 @@ export const Run: React.FunctionComponent = () => {
 	const showHours = useGetParameter('showHours') !== null
 
 	React.useEffect(() => {
-		setEnd(new Date(getLocalTime().getTime() + seconds * 1000))
+		setEnd(new Date(getLocalTime().getTime() + seconds * 1000 + 999))
 	}, [seconds])
 
 	return (
