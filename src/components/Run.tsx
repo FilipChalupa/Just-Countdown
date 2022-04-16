@@ -9,8 +9,8 @@ export const Run: React.FunctionComponent = () => {
 	const [end, setEnd] = React.useState(getLocalTime())
 
 	const seconds = parseInt(useGetParameter('seconds')) || 60
-
 	const showHours = useGetParameter('showHours') !== null
+	const flashOnZero = useGetParameter('flashOnZero') !== null
 
 	React.useEffect(() => {
 		setEnd(new Date(getLocalTime().getTime() + seconds * 1000 + 999))
@@ -18,7 +18,12 @@ export const Run: React.FunctionComponent = () => {
 
 	return (
 		<FullScreenCountdown>
-			<Countdown showHours={showHours} end={end} useLocalTime />
+			<Countdown
+				showHours={showHours}
+				end={end}
+				useLocalTime
+				flashOnZero={flashOnZero}
+			/>
 			<ScreenWakeLock />
 		</FullScreenCountdown>
 	)

@@ -4,6 +4,7 @@ import { db } from './db'
 export interface RoomState {
 	name: string
 	showHours: boolean
+	flashOnZero: boolean
 	end: Date
 	paused: Date | null
 	isLoaded: boolean
@@ -12,6 +13,7 @@ export interface RoomState {
 const defaultRoomState: RoomState = {
 	name: '…',
 	showHours: true,
+	flashOnZero: false,
 	end: new Date(),
 	paused: new Date(),
 	isLoaded: false,

@@ -2,6 +2,8 @@ import AddIcon from '@mui/icons-material/Add'
 import AlarmIcon from '@mui/icons-material/Alarm'
 import AlarmOffIcon from '@mui/icons-material/AlarmOff'
 import CloseIcon from '@mui/icons-material/Close'
+import FlashOffIcon from '@mui/icons-material/FlashOff'
+import FlashOnIcon from '@mui/icons-material/FlashOn'
 import PauseIcon from '@mui/icons-material/Pause'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -43,6 +45,12 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 	const toggleShowHours = React.useCallback(() => {
 		db.collection('rooms').doc(id).update({
 			showHours: !roomState.showHours,
+		})
+	}, [id, roomState])
+
+	const toggleFlashOnZero = React.useCallback(() => {
+		db.collection('rooms').doc(id).update({
+			flashOnZero: !roomState.flashOnZero,
 		})
 	}, [id, roomState])
 
@@ -224,6 +232,20 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 							endIcon={roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />}
 						>
 							{roomState.showHours ? 'Hide hours' : 'Show hours'}
+						</Button>
+					</Grid>
+					<Grid item xs={6} sm={4} md={3} lg={2}>
+						<Button
+							onClick={toggleFlashOnZero}
+							variant="outlined"
+							color="primary"
+							fullWidth
+							size="large"
+							endIcon={
+								roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
+							}
+						>
+							{roomState.flashOnZero ? "Don't flash" : 'Flash on 0'}
 						</Button>
 					</Grid>
 				</Grid>

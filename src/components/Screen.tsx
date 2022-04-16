@@ -16,6 +16,7 @@ export const Screen: React.FunctionComponent = () => {
 				<Countdown
 					end={roomState.end}
 					showHours={roomState.showHours}
+					flashOnZero={roomState.flashOnZero}
 					paused={roomState.paused}
 				/>
 			)}

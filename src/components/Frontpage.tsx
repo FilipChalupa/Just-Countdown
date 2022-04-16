@@ -26,12 +26,15 @@ export const Frontpage: React.FunctionComponent = () => {
 
 	const staticPresets = React.useMemo(
 		() => [
-			{ to: '/run/?seconds=60', label: 'Countdown 1 minute' },
-			{ to: '/run/?seconds=120', label: 'Countdown 2 minutes' },
-			{ to: '/run/?seconds=300', label: 'Countdown 5 minutes' },
-			{ to: '/run/?seconds=600', label: 'Countdown 10 minutes' },
-			{ to: '/run/?seconds=3600', label: 'Countdown 60 minutes' },
-			{ to: '/run/?seconds=86400&showHours', label: 'Countdown 1 day' },
+			{ to: '/run/?seconds=60&flashOnZero', label: 'Countdown 1 minute' },
+			{ to: '/run/?seconds=120&flashOnZero', label: 'Countdown 2 minutes' },
+			{ to: '/run/?seconds=300&flashOnZero', label: 'Countdown 5 minutes' },
+			{ to: '/run/?seconds=600&flashOnZero', label: 'Countdown 10 minutes' },
+			{ to: '/run/?seconds=3600&flashOnZero', label: 'Countdown 60 minutes' },
+			{
+				to: '/run/?seconds=86400&showHours&flashOnZero',
+				label: 'Countdown 1 day',
+			},
 		],
 		[],
 	)

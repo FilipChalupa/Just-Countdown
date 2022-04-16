@@ -1,18 +1,52 @@
 import * as React from 'react'
 import { getLocalTime, getServerTime } from '../utils/date'
+import { useStartFlashing, useStopFlashing } from './FullScreenCountdown'
 
 export interface CountdownProps {
 	paused?: Date | null
 	end: Date
 	showHours?: boolean
+	flashOnZero?: boolean
 	useLocalTime?: boolean
 }
 
 const doubleDigits = (input: number) => input.toString().padStart(2, '0')
 
-export const Countdown: React.FunctionComponent<CountdownProps> = (props) => {
-	const { end, paused, showHours, useLocalTime } = props
+const useRemainingSeconds = (flashOnZero: boolean) => {
+	const startFlashing = useStartFlashing()
+	const stopFlashing = useStopFlashing()
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
+	const previousRemainingSeconds = React.useRef(remainingSeconds)
+
+	const set = React.useCallback(
+		(newValue: number) => {
+			if (
+				newValue === 0 &&
+				previousRemainingSeconds.current === 1 &&
+				flashOnZero
+			) {
+				startFlashing()
+			} else if (newValue !== 0 && previousRemainingSeconds.current === 0) {
+				stopFlashing()
+			}
+			previousRemainingSeconds.current = newValue
+			setRemainingSeconds(newValue)
+		},
+		[startFlashing],
+	)
+
+	return [remainingSeconds, set] as const
+}
+
+export const Countdown: React.FunctionComponent<CountdownProps> = ({
+	end,
+	paused = null,
+	showHours = false,
+	useLocalTime = false,
+	flashOnZero = false,
+}) => {
+	const [remainingSeconds, setRemainingSeconds] =
+		useRemainingSeconds(flashOnZero)
 
 	const updateRemainingSeconds = React.useCallback(() => {
 		const startTimestamp = (

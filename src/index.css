@@ -39,6 +39,15 @@ a:focus {
 	font-size: 1em;
 }
 
+@keyframes fullScreenCountdown-flash {
+	30% {
+		filter: invert(100%)
+	}
+	100% {
+		filter: none;
+	}
+}
+
 .fullScreenCountdown {
 	position: fixed;
 	top: 0;
@@ -50,6 +59,11 @@ a:focus {
 	align-items: center;
 	font-size: 20vw;
 	color: #000000;
+	background-color: #FFFFFF;
+}
+
+.fullScreenCountdown.is-flashing {
+	animation: fullScreenCountdown-flash 1s 1s 10 ease-in-out;
 }
 
 @media (prefers-color-scheme: dark) {
