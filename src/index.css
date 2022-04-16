@@ -63,3 +63,10 @@ a:focus {
 		background-color: #000000;
 	}
 }
+
+.controlPanel-footer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}

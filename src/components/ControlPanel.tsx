@@ -14,12 +14,15 @@ import {
 	Container,
 	Grid,
 	Link,
+	Paper,
+	Slide,
 	Tooltip,
 	Typography,
 	useMediaQuery,
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import * as React from 'react'
+import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
 import { getServerTime } from '../utils/date'
 import { db } from '../utils/db'
@@ -107,6 +110,8 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 
 	const isLarge = useMediaQuery('(min-width:600px)')
 
+	const { ref, inView: isMainCountdownInView } = useInView()
+
 	return (
 		<Box paddingTop={4} paddingBottom={4}>
 			<Container>
@@ -129,7 +134,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 					/>
 					<CardContent>
 						<Box textAlign="center">
-							<Typography variant="h2" component="div">
+							<Typography variant="h2" component="div" ref={ref}>
 								<Countdown
 									end={roomState.end}
 									showHours={roomState.showHours}
@@ -223,6 +228,19 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 					</Grid>
 				</Grid>
 			</Container>
+			<div className="controlPanel-footer">
+				<Slide direction="down" in={!isMainCountdownInView}>
+					<Paper elevation={4} square>
+						<Container>
+							<Countdown
+								end={roomState.end}
+								showHours={roomState.showHours}
+								paused={roomState.paused}
+							/>
+						</Container>
+					</Paper>
+				</Slide>
+			</div>
 		</Box>
 	)
 }
