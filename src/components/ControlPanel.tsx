@@ -84,7 +84,6 @@ export const ControlPanel: React.SFC<ControlPanelProps> = (props) => {
 				className="controlPanel-url"
 				type="url"
 				href={screenUrl}
-				target="_blank"
 			>
 				{screenUrl}
 			</a>
