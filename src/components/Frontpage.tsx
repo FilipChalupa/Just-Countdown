@@ -109,7 +109,7 @@ export const Frontpage: React.FunctionComponent = () => {
 						history.push(`/control/?id=${encodeURIComponent(customId)}`)
 					}}
 				>
-					<Box paddingBottom={0.5} />
+					<Box paddingBottom={3} />
 					<Grid container alignItems="center" spacing={1}>
 						<Grid item xs={8}>
 							<TextField
