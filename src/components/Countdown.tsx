@@ -6,6 +6,7 @@ export interface CountdownProps {
 	paused?: Date | null
 	end: Date
 	showHours?: boolean
+	reactiveFontSize?: boolean
 	flashOnZero?: boolean
 	useLocalTime?: boolean
 }
@@ -42,6 +43,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	end,
 	paused = null,
 	showHours = false,
+	reactiveFontSize = false,
 	useLocalTime = false,
 	flashOnZero = false,
 }) => {
@@ -85,7 +87,11 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	})()
 
 	return (
-		<div className={`time ${showHours ? 'view-showHours' : ''}`}>
+		<div
+			className={`time${showHours ? ' view-showHours' : ''}${
+				reactiveFontSize ? ' view-reactiveFontSize' : ''
+			}`}
+		>
 			{showHours && <>{doubleDigits(hours)}:</>}
 			{doubleDigits(minutes)}:{doubleDigits(seconds)}
 		</div>

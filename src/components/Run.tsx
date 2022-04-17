@@ -23,6 +23,7 @@ export const Run: React.FunctionComponent = () => {
 				end={end}
 				useLocalTime
 				flashOnZero={flashOnZero}
+				reactiveFontSize
 			/>
 			<ScreenWakeLock />
 		</FullScreenCountdown>

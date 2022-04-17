@@ -32,10 +32,13 @@ a:focus {
 	align-items: center;
 	font-variant-numeric: tabular-nums;
 	font-family: 'Open Sans', sans-serif;
+}
+
+.time.view-reactiveFontSize {
 	font-size: 1.5em;
 }
 
-.time.view-showHours {
+.time.view-reactiveFontSize.view-showHours {
 	font-size: 1em;
 }
 

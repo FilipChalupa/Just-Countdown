@@ -18,6 +18,7 @@ export const Screen: React.FunctionComponent = () => {
 					showHours={roomState.showHours}
 					flashOnZero={roomState.flashOnZero}
 					paused={roomState.paused}
+					reactiveFontSize
 				/>
 			)}
 			<ScreenWakeLock />
