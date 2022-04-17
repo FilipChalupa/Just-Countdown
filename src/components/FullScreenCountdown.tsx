@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import * as React from 'react'
 
 const FlashingContext = React.createContext({
@@ -25,7 +26,7 @@ export const FullScreenCountdown: React.FunctionComponent = (props) => {
 	return (
 		<FlashingContext.Provider value={{ startFlashing, stopFlashing }}>
 			<div
-				className={`fullScreenCountdown${isFlashing ? ' is-flashing' : ''}`}
+				className={clsx('fullScreenCountdown', isFlashing && 'is-flashing')}
 				onAnimationEnd={stopFlashing}
 			>
 				{props.children}

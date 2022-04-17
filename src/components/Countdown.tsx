@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import * as React from 'react'
 import { getLocalTime, getServerTime } from '../utils/date'
 import { useStartFlashing, useStopFlashing } from './FullScreenCountdown'
@@ -88,9 +89,11 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 
 	return (
 		<div
-			className={`time${showHours ? ' view-showHours' : ''}${
-				reactiveFontSize ? ' view-reactiveFontSize' : ''
-			}`}
+			className={clsx(
+				'time',
+				showHours && 'view-showHours',
+				reactiveFontSize && 'view-reactiveFontSize',
+			)}
 		>
 			{showHours && <>{doubleDigits(hours)}:</>}
 			{doubleDigits(minutes)}:{doubleDigits(seconds)}
