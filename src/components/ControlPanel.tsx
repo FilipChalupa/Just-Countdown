@@ -88,7 +88,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 			.doc(id)
 			.update({
 				end: new Date(
-					Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000,
+					Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000, // @TODO: may be off on newly created countdown
 				),
 			})
 	}
