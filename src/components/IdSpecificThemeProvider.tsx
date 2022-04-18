@@ -55,7 +55,7 @@ export const IdSpecificThemeProvider: FunctionComponent<{
 }> = ({ id, children }) => {
 	const colorIndex = React.useMemo(
 		() => Math.abs(getIdNumberHash(id)) % colors.length,
-		[],
+		[id],
 	)
 	const theme = useTheme(colors[colorIndex])
 
