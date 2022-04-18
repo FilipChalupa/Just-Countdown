@@ -31,6 +31,7 @@ import { getLocalTime, getServerTime } from '../utils/date'
 import { db } from '../utils/db'
 import { useRoomState } from '../utils/useRoomState'
 import { Countdown } from './Countdown'
+import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 
 interface ControlPanelProps {
 	id: string
@@ -146,188 +147,192 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 	}, [roomState.end])
 
 	return (
-		<Box paddingTop={4} paddingBottom={4}>
-			<Container>
-				<Card elevation={4}>
-					<CardHeader
-						sx={{ paddingBottom: 0 }}
-						action={
-							<Tooltip title="Return to frontpage">
-								<IconButton component={RouterLink} to="/">
-									<CloseIcon />
-								</IconButton>
-							</Tooltip>
-						}
-						title={`ID: ${id}`}
-						subheader={
-							<Link color="inherit" href={screenUrl.full}>
-								{isLarge ? screenUrl.full : screenUrl.short}
-							</Link>
-						}
-					/>
-					<CardContent>
-						<Box textAlign="center">
-							<Typography variant="h2" component="div" ref={ref}>
+		<IdSpecificThemeProvider id={id}>
+			<Box paddingTop={4} paddingBottom={4}>
+				<Container>
+					<Card elevation={4}>
+						<CardHeader
+							sx={{ paddingBottom: 0 }}
+							action={
+								<Tooltip title="Return to frontpage">
+									<IconButton component={RouterLink} to="/">
+										<CloseIcon />
+									</IconButton>
+								</Tooltip>
+							}
+							title={`ID: ${id}`}
+							subheader={
+								<Link color="inherit" href={screenUrl.full}>
+									{isLarge ? screenUrl.full : screenUrl.short}
+								</Link>
+							}
+						/>
+						<CardContent>
+							<Box textAlign="center">
+								<Typography variant="h2" component="div" ref={ref}>
+									<Countdown
+										end={roomState.end}
+										showHours={roomState.showHours}
+										paused={roomState.paused}
+									/>
+								</Typography>
+								<Box>
+									<Tooltip title="Remove on minute">
+										<IconButton onClick={subtractCountdown(1 * 60)}>
+											<RemoveIcon />
+										</IconButton>
+									</Tooltip>
+									{roomState.paused ? (
+										<Tooltip title="Start countdown">
+											<IconButton onClick={togglePaused}>
+												<PlayArrowIcon sx={{ height: 38, width: 38 }} />
+											</IconButton>
+										</Tooltip>
+									) : (
+										<Tooltip title="Pause countdown">
+											<IconButton onClick={togglePaused}>
+												<PauseIcon sx={{ height: 38, width: 38 }} />
+											</IconButton>
+										</Tooltip>
+									)}
+									<Tooltip title="Add one minute">
+										<IconButton onClick={addCountdown(1 * 60)}>
+											<AddIcon />
+										</IconButton>
+									</Tooltip>
+								</Box>
+							</Box>
+						</CardContent>
+					</Card>
+					<Box paddingBottom={4} />
+					<Grid container spacing={2}>
+						{setPresets.map((preset) => (
+							<Grid item key={preset} xs={6} sm={4} md={3} lg={2}>
+								<Button
+									onClick={setCountdown(preset * 60)}
+									variant="contained"
+									color="primary"
+									fullWidth
+									size="large"
+								>
+									{preset}{' '}
+									{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
+								</Button>
+							</Grid>
+						))}
+					</Grid>
+					<Box paddingBottom={4} />
+					<Grid container spacing={2}>
+						{adjustPresets.map((preset) => (
+							<React.Fragment key={preset}>
+								{[-1, 1].map((sign) => (
+									<Grid key={sign} item xs={6} md={3} lg={2}>
+										<Button
+											onClick={
+												sign === -1
+													? subtractCountdown(preset * 60)
+													: addCountdown(preset * 60)
+											}
+											variant="outlined"
+											color={sign === -1 ? 'error' : 'success'}
+											fullWidth
+											size="large"
+										>
+											{sign === -1 ? '-' : '+'}
+											{preset}{' '}
+											{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
+										</Button>
+									</Grid>
+								))}
+							</React.Fragment>
+						))}
+					</Grid>
+					<Box paddingBottom={4} />
+					<form
+						onSubmit={(event) => {
+							event.preventDefault()
+							const targetLocalTime = new Date(customDate).getTime()
+							const nowLocalTime = getLocalTime().getTime()
+							const seconds = Math.max(
+								0,
+								Math.ceil((targetLocalTime - nowLocalTime) / 1000),
+							)
+							setCountdown(seconds, false)()
+						}}
+					>
+						<Grid container spacing={2}>
+							<Grid item xs={6} sm={4} md={3} lg={2}>
+								<Button
+									onClick={toggleShowHours}
+									variant="contained"
+									color="primary"
+									fullWidth
+									size="large"
+									endIcon={
+										roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />
+									}
+								>
+									{roomState.showHours ? 'Hide hours' : 'Show hours'}
+								</Button>
+							</Grid>
+							<Grid item xs={6} sm={4} md={3} lg={2}>
+								<Button
+									onClick={toggleFlashOnZero}
+									variant="contained"
+									color="primary"
+									fullWidth
+									size="large"
+									endIcon={
+										roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
+									}
+								>
+									{roomState.flashOnZero ? "Don't flash" : 'Flash on 0'}
+								</Button>
+							</Grid>
+							<Grid item xs={8} md={4} lg={3} alignSelf="center">
+								<TextField
+									label="Custom date"
+									type="datetime-local"
+									value={customDate}
+									onChange={(event) => {
+										setCustomDate(event.target.value)
+									}}
+									size="small"
+									fullWidth
+									required
+									InputLabelProps={{
+										shrink: true,
+									}}
+								/>
+							</Grid>
+							<Grid item xs={4} md={2} lg={1} alignSelf="center">
+								<Button
+									variant="contained"
+									type="submit"
+									size="large"
+									fullWidth
+									endIcon={<PlayArrowIcon />}
+								>
+									Set
+								</Button>
+							</Grid>
+						</Grid>
+					</form>
+				</Container>
+				<div className="controlPanel-footer">
+					<Slide direction="down" in={!isMainCountdownInView}>
+						<Paper elevation={4} square>
+							<Container>
 								<Countdown
 									end={roomState.end}
 									showHours={roomState.showHours}
 									paused={roomState.paused}
 								/>
-							</Typography>
-							<Box>
-								<Tooltip title="Remove on minute">
-									<IconButton onClick={subtractCountdown(1 * 60)}>
-										<RemoveIcon />
-									</IconButton>
-								</Tooltip>
-								{roomState.paused ? (
-									<Tooltip title="Start countdown">
-										<IconButton onClick={togglePaused}>
-											<PlayArrowIcon sx={{ height: 38, width: 38 }} />
-										</IconButton>
-									</Tooltip>
-								) : (
-									<Tooltip title="Pause countdown">
-										<IconButton onClick={togglePaused}>
-											<PauseIcon sx={{ height: 38, width: 38 }} />
-										</IconButton>
-									</Tooltip>
-								)}
-								<Tooltip title="Add one minute">
-									<IconButton onClick={addCountdown(1 * 60)}>
-										<AddIcon />
-									</IconButton>
-								</Tooltip>
-							</Box>
-						</Box>
-					</CardContent>
-				</Card>
-				<Box paddingBottom={4} />
-				<Grid container spacing={2}>
-					{setPresets.map((preset) => (
-						<Grid item key={preset} xs={6} sm={4} md={3} lg={2}>
-							<Button
-								onClick={setCountdown(preset * 60)}
-								variant="contained"
-								color="primary"
-								fullWidth
-								size="large"
-							>
-								{preset}{' '}
-								{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
-							</Button>
-						</Grid>
-					))}
-				</Grid>
-				<Box paddingBottom={4} />
-				<Grid container spacing={2}>
-					{adjustPresets.map((preset) => (
-						<React.Fragment key={preset}>
-							{[-1, 1].map((sign) => (
-								<Grid key={sign} item xs={6} md={3} lg={2}>
-									<Button
-										onClick={
-											sign === -1
-												? subtractCountdown(preset * 60)
-												: addCountdown(preset * 60)
-										}
-										variant="outlined"
-										color={sign === -1 ? 'error' : 'success'}
-										fullWidth
-										size="large"
-									>
-										{sign === -1 ? '-' : '+'}
-										{preset}{' '}
-										{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
-									</Button>
-								</Grid>
-							))}
-						</React.Fragment>
-					))}
-				</Grid>
-				<Box paddingBottom={4} />
-				<form
-					onSubmit={(event) => {
-						event.preventDefault()
-						const targetLocalTime = new Date(customDate).getTime()
-						const nowLocalTime = getLocalTime().getTime()
-						const seconds = Math.max(
-							0,
-							Math.ceil((targetLocalTime - nowLocalTime) / 1000),
-						)
-						setCountdown(seconds, false)()
-					}}
-				>
-					<Grid container spacing={2}>
-						<Grid item xs={6} sm={4} md={3} lg={2}>
-							<Button
-								onClick={toggleShowHours}
-								variant="outlined"
-								color="primary"
-								fullWidth
-								size="large"
-								endIcon={roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />}
-							>
-								{roomState.showHours ? 'Hide hours' : 'Show hours'}
-							</Button>
-						</Grid>
-						<Grid item xs={6} sm={4} md={3} lg={2}>
-							<Button
-								onClick={toggleFlashOnZero}
-								variant="outlined"
-								color="primary"
-								fullWidth
-								size="large"
-								endIcon={
-									roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
-								}
-							>
-								{roomState.flashOnZero ? "Don't flash" : 'Flash on 0'}
-							</Button>
-						</Grid>
-						<Grid item xs={8} md={4} lg={3} alignSelf="center">
-							<TextField
-								label="Custom date"
-								type="datetime-local"
-								value={customDate}
-								onChange={(event) => {
-									setCustomDate(event.target.value)
-								}}
-								size="small"
-								fullWidth
-								required
-								InputLabelProps={{
-									shrink: true,
-								}}
-							/>
-						</Grid>
-						<Grid item xs={4} md={2} lg={1} alignSelf="center">
-							<Button
-								variant="contained"
-								type="submit"
-								size="large"
-								fullWidth
-								endIcon={<PlayArrowIcon />}
-							>
-								Set
-							</Button>
-						</Grid>
-					</Grid>
-				</form>
-			</Container>
-			<div className="controlPanel-footer">
-				<Slide direction="down" in={!isMainCountdownInView}>
-					<Paper elevation={4} square>
-						<Container>
-							<Countdown
-								end={roomState.end}
-								showHours={roomState.showHours}
-								paused={roomState.paused}
-							/>
-						</Container>
-					</Paper>
-				</Slide>
-			</div>
-		</Box>
+							</Container>
+						</Paper>
+					</Slide>
+				</div>
+			</Box>
+		</IdSpecificThemeProvider>
 	)
 }

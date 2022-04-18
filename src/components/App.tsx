@@ -1,27 +1,16 @@
-import { createTheme, useMediaQuery } from '@mui/material'
 import purple from '@mui/material/colors/purple'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useTheme } from '../utils/useTheme'
 import { Control } from './Control'
 import { Frontpage } from './Frontpage'
 import { Run } from './Run'
 import { Screen } from './Screen'
 
 export const App: React.FunctionComponent = () => {
-	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-
-	const theme = React.useMemo(
-		() =>
-			createTheme({
-				palette: {
-					mode: prefersDarkMode ? 'dark' : 'light',
-					primary: purple,
-				},
-			}),
-		[prefersDarkMode],
-	)
+	const theme = useTheme(purple)
 
 	return (
 		<ThemeProvider theme={theme}>
