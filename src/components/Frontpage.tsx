@@ -2,28 +2,21 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import SettingsIcon from '@mui/icons-material/Settings'
 import {
 	Box,
-	Button,
 	Container,
-	Grid,
 	IconButton,
 	List,
 	ListItem,
 	ListItemButton,
 	ListItemIcon,
 	ListItemText,
-	TextField,
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
-import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import logo from '../images/app-icon/favicon.svg'
+import { CreateCustomForm } from './CreateCustomForm'
 
 export const Frontpage: React.FunctionComponent = () => {
-	const history = useHistory()
-	const [customId, setCustomId] = React.useState(() =>
-		Math.random().toString(36).slice(2, 10),
-	)
-
 	const staticPresets = React.useMemo(
 		() => [
 			{ to: '/run/?seconds=60&flashOnZero', label: 'Countdown 1 minute' },
@@ -103,38 +96,7 @@ export const Frontpage: React.FunctionComponent = () => {
 				<Typography variant="h5" component="h2" gutterBottom>
 					Create custom controlled
 				</Typography>
-				<form
-					onSubmit={(event) => {
-						event.preventDefault()
-						history.push(`/control/?id=${encodeURIComponent(customId)}`)
-					}}
-				>
-					<Box paddingBottom={3} />
-					<Grid container alignItems="center" spacing={1}>
-						<Grid item xs={8}>
-							<TextField
-								fullWidth
-								size="small"
-								label="Choose your id"
-								variant="outlined"
-								required
-								value={customId}
-								onChange={(event) => setCustomId(event.target.value)}
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<Button
-								variant="contained"
-								type="submit"
-								size="large"
-								fullWidth
-								endIcon={<SettingsIcon />}
-							>
-								Open
-							</Button>
-						</Grid>
-					</Grid>
-				</form>
+				<CreateCustomForm />
 			</Container>
 		</Box>
 	)
