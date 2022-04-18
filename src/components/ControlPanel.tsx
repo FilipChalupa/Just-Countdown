@@ -18,6 +18,7 @@ import {
 	Link,
 	Paper,
 	Slide,
+	TextField,
 	Tooltip,
 	Typography,
 	useMediaQuery,
@@ -26,7 +27,7 @@ import IconButton from '@mui/material/IconButton'
 import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
-import { getServerTime } from '../utils/date'
+import { getLocalTime, getServerTime } from '../utils/date'
 import { db } from '../utils/db'
 import { useRoomState } from '../utils/useRoomState'
 import { Countdown } from './Countdown'
@@ -73,14 +74,16 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 		})
 	}, [id, roomState])
 
-	const setCountdown = (seconds: number) => () => {
-		db.collection('rooms')
-			.doc(id)
-			.update({
-				end: new Date(getServerTime().getTime() + seconds * 1000),
-				paused: getServerTime(),
-			})
-	}
+	const setCountdown =
+		(seconds: number, pause = true) =>
+		() => {
+			db.collection('rooms')
+				.doc(id)
+				.update({
+					end: new Date(getServerTime().getTime() + seconds * 1000),
+					paused: pause ? getServerTime() : null,
+				})
+		}
 
 	const addCountdown = (seconds: number) => () => {
 		const start = roomState.paused || getServerTime()
@@ -119,6 +122,16 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 	const isLarge = useMediaQuery('(min-width:600px)')
 
 	const { ref, inView: isMainCountdownInView } = useInView()
+
+	const [customDate, setCustomDate] = React.useState(() => {
+		const now = new Date()
+		const doubleDigits = (number: number) => number.toString().padStart(2, '0')
+		return `${now.getFullYear()}-${doubleDigits(
+			now.getMonth() + 1,
+		)}-${doubleDigits(now.getDate())}T${doubleDigits(
+			now.getHours(),
+		)}:${doubleDigits(now.getMinutes())}`
+	})
 
 	return (
 		<Box paddingTop={4} paddingBottom={4}>
@@ -221,34 +234,74 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 					))}
 				</Grid>
 				<Box paddingBottom={4} />
-				<Grid container spacing={2}>
-					<Grid item xs={6} sm={4} md={3} lg={2}>
-						<Button
-							onClick={toggleShowHours}
-							variant="outlined"
-							color="primary"
-							fullWidth
-							size="large"
-							endIcon={roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />}
-						>
-							{roomState.showHours ? 'Hide hours' : 'Show hours'}
-						</Button>
+				<form
+					onSubmit={(event) => {
+						event.preventDefault()
+						const targetLocalTime = new Date(customDate).getTime()
+						const nowLocalTime = getLocalTime().getTime()
+						const seconds = Math.max(
+							0,
+							Math.round((targetLocalTime - nowLocalTime) / 1000),
+						)
+						setCountdown(seconds, false)()
+					}}
+				>
+					<Grid container spacing={2}>
+						<Grid item xs={6} sm={4} md={3} lg={2}>
+							<Button
+								onClick={toggleShowHours}
+								variant="outlined"
+								color="primary"
+								fullWidth
+								size="large"
+								endIcon={roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />}
+							>
+								{roomState.showHours ? 'Hide hours' : 'Show hours'}
+							</Button>
+						</Grid>
+						<Grid item xs={6} sm={4} md={3} lg={2}>
+							<Button
+								onClick={toggleFlashOnZero}
+								variant="outlined"
+								color="primary"
+								fullWidth
+								size="large"
+								endIcon={
+									roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
+								}
+							>
+								{roomState.flashOnZero ? "Don't flash" : 'Flash on 0'}
+							</Button>
+						</Grid>
+						<Grid item xs={8} md={4} lg={3} alignSelf="center">
+							<TextField
+								label="Custom date"
+								type="datetime-local"
+								value={customDate}
+								onChange={(event) => {
+									setCustomDate(event.target.value)
+								}}
+								size="small"
+								fullWidth
+								required
+								InputLabelProps={{
+									shrink: true,
+								}}
+							/>
+						</Grid>
+						<Grid item xs={4} md={2} lg={1} alignSelf="center">
+							<Button
+								variant="contained"
+								type="submit"
+								size="large"
+								fullWidth
+								endIcon={<PlayArrowIcon />}
+							>
+								Set
+							</Button>
+						</Grid>
 					</Grid>
-					<Grid item xs={6} sm={4} md={3} lg={2}>
-						<Button
-							onClick={toggleFlashOnZero}
-							variant="outlined"
-							color="primary"
-							fullWidth
-							size="large"
-							endIcon={
-								roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
-							}
-						>
-							{roomState.flashOnZero ? "Don't flash" : 'Flash on 0'}
-						</Button>
-					</Grid>
-				</Grid>
+				</form>
 			</Container>
 			<div className="controlPanel-footer">
 				<Slide direction="down" in={!isMainCountdownInView}>
