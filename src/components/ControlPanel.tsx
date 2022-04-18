@@ -36,6 +36,15 @@ interface ControlPanelProps {
 	id: string
 }
 
+const formatToDateInputValue = (date: Date) => {
+	const doubleDigits = (number: number) => number.toString().padStart(2, '0')
+	return `${date.getFullYear()}-${doubleDigits(
+		date.getMonth() + 1,
+	)}-${doubleDigits(date.getDate())}T${doubleDigits(
+		date.getHours(),
+	)}:${doubleDigits(date.getMinutes())}`
+}
+
 export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 	props,
 ) => {
@@ -123,15 +132,18 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 
 	const { ref, inView: isMainCountdownInView } = useInView()
 
-	const [customDate, setCustomDate] = React.useState(() => {
-		const now = new Date()
-		const doubleDigits = (number: number) => number.toString().padStart(2, '0')
-		return `${now.getFullYear()}-${doubleDigits(
-			now.getMonth() + 1,
-		)}-${doubleDigits(now.getDate())}T${doubleDigits(
-			now.getHours(),
-		)}:${doubleDigits(now.getMinutes())}`
-	})
+	const [customDate, setCustomDate] = React.useState('')
+
+	React.useEffect(() => {
+		// @TODO: fix drifting from local time
+		const serverTime = getServerTime().getTime()
+		const localTime = getLocalTime().getTime()
+		const roomEndServerTime = roomState.end.getTime()
+		const roomEndLocalTime = new Date(
+			localTime + roomEndServerTime - serverTime,
+		)
+		setCustomDate(formatToDateInputValue(roomEndLocalTime))
+	}, [roomState.end])
 
 	return (
 		<Box paddingTop={4} paddingBottom={4}>
@@ -241,7 +253,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 						const nowLocalTime = getLocalTime().getTime()
 						const seconds = Math.max(
 							0,
-							Math.round((targetLocalTime - nowLocalTime) / 1000),
+							Math.ceil((targetLocalTime - nowLocalTime) / 1000),
 						)
 						setCountdown(seconds, false)()
 					}}
