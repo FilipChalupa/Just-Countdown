@@ -6,4 +6,4 @@ Hosted live: [just-countdown.eu](https://just-countdown.eu/)
 
 ![screenshot](./src/images/og-image.jpg)
 
-./demo.mp4
+https://github.com/FilipChalupa/Just-Countdown/blob/main/demo.mp4?raw=true
