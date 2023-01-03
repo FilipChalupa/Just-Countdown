@@ -80,7 +80,7 @@ module.exports = (env: any, options: any) => {
 				if (pathData.chunk.name === 'serviceWorker') {
 					return 'serviceWorker.js'
 				}
-				return 'assets/[name]-[hash].js'
+				return 'assets/[name]-[fullhash].js'
 			},
 			path: path.resolve(__dirname, './dist'),
 			publicPath: '/',
