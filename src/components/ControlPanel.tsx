@@ -7,6 +7,7 @@ import FlashOnIcon from '@mui/icons-material/FlashOn'
 import PauseIcon from '@mui/icons-material/Pause'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import RemoveIcon from '@mui/icons-material/Remove'
+import ShareIcon from '@mui/icons-material/Share'
 import {
 	Box,
 	Button,
@@ -120,6 +121,13 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 			short: path,
 			full: `${window.location.origin}${path}`,
 		}
+	}, [])
+
+	const shareUrl = React.useMemo(() => {
+		if (!('share' in navigator)) {
+			return null
+		}
+		return screenUrl.full
 	}, [])
 
 	const setPresets = React.useMemo(
@@ -316,6 +324,23 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 									Set
 								</Button>
 							</Grid>
+							{shareUrl && (
+								<Grid item xs={6} sm={4} md={3} lg={2}>
+									<Button
+										variant="contained"
+										onClick={() => {
+											navigator.share({
+												url: shareUrl,
+											})
+										}}
+										size="large"
+										fullWidth
+										endIcon={<ShareIcon />}
+									>
+										Share
+									</Button>
+								</Grid>
+							)}
 						</Grid>
 					</form>
 				</Container>
