@@ -7,5 +7,5 @@ import { registerServiceWorker } from './utils/registerServiceWorker'
 registerServiceWorker()
 
 const app = document.createElement('div')
-document.querySelector('body').appendChild(app)
+document.body.appendChild(app)
 ReactDOM.render(<App />, app)

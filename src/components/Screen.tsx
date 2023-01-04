@@ -6,7 +6,7 @@ import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'
 
 export const Screen: React.FunctionComponent = () => {
-	const id = useGetParameter('id')
+	const id = useGetParameter('id')!
 
 	const roomState = useRoomState(id)
 

@@ -8,7 +8,7 @@ import { FullScreenCountdown } from './FullScreenCountdown'
 export const Run: React.FunctionComponent = () => {
 	const [end, setEnd] = React.useState(getLocalTime())
 
-	const seconds = parseInt(useGetParameter('seconds')) || 60
+	const seconds = parseInt(useGetParameter('seconds') ?? '') || 60
 	const showHours = useGetParameter('showHours') !== null
 	const flashOnZero = useGetParameter('flashOnZero') !== null
 

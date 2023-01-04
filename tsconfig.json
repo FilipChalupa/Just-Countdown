@@ -9,7 +9,9 @@
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
 		"strictNullChecks": true,
+		"skipLibCheck": true,
 		"jsx": "react"
 	},
-	"include": ["./src/**/*"]
+	"include": ["src/**/*"],
+	"exclude": ["node_modules"]
 }

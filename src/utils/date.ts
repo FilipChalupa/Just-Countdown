@@ -1,4 +1,4 @@
-import { FieldValue, db } from './db'
+import { db, FieldValue } from './db'
 
 const TIME_DIFFERENCE_CACHE_KEY = 'time-difference'
 
@@ -16,10 +16,10 @@ const getTimeDifference = async () => {
 	const document = await documentReference.get()
 	const localEnd = getLocalTime()
 
-	const server = document.data().server.toDate()
 	const local = new Date(
 		localStart.getTime() + (localEnd.getTime() - localStart.getTime()) / 2,
 	)
+	const server = document.data()?.server.toDate() ?? local
 	documentReference.delete()
 
 	return server.getTime() - local.getTime()
@@ -27,7 +27,7 @@ const getTimeDifference = async () => {
 
 export const getServerTime = (() => {
 	let timeDifference =
-		parseInt(localStorage.getItem(TIME_DIFFERENCE_CACHE_KEY)) || 0
+		parseInt(localStorage.getItem(TIME_DIFFERENCE_CACHE_KEY) ?? '') || 0
 
 	getTimeDifference().then((x) => {
 		timeDifference = x

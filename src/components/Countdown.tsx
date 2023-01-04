@@ -95,7 +95,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				reactiveFontSize && 'view-reactiveFontSize',
 			)}
 		>
-			{showHours && <>{doubleDigits(hours)}:</>}
+			{hours !== null && <>{doubleDigits(hours)}:</>}
 			{doubleDigits(minutes)}:{doubleDigits(seconds)}
 		</div>
 	)
