@@ -20,7 +20,7 @@ const load = (() => {
 					if (isAvailable) {
 						cast.framework.CastContext.getInstance().setOptions({
 							receiverApplicationId: '6DEA9775',
-							autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
+							autoJoinPolicy: chrome.cast.AutoJoinPolicy.PAGE_SCOPED,
 							language: 'en',
 							resumeSavedSession: true,
 						})
