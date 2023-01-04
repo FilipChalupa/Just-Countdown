@@ -21,9 +21,15 @@ const load = (() => {
 				const loop = () => {
 					if ('chrome' in window && 'cast' in window) {
 						clearTimeout(timer)
+						cast.framework.CastContext.getInstance().setOptions({
+							receiverApplicationId: '6DEA9775',
+							autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
+							language: 'en',
+							resumeSavedSession: true,
+						})
 						resolve({
-							chrome: window.chrome,
-							cast: window.cast,
+							chrome,
+							cast,
 						})
 						return
 					}
