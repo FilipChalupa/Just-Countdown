@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ScreenWakeLock from 'screen-wake-lock'
-import { useGetParameter } from '../utils/useQuery'
-import { useRoomState } from '../utils/useRoomState'
+import { useGetParameter } from '../utilities/useQuery'
+import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'
 

@@ -17,7 +17,7 @@ import yellow from '@mui/material/colors/yellow'
 import { ThemeProvider } from '@mui/material/styles'
 import type { FunctionComponent } from 'react'
 import * as React from 'react'
-import { useTheme } from '../utils/useTheme'
+import { useTheme } from '../utilities/useTheme'
 
 const colors = [
 	//red,

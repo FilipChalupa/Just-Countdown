@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ScreenWakeLock from 'screen-wake-lock'
-import { getLocalTime } from '../utils/date'
-import { useGetParameter } from '../utils/useQuery'
+import { getLocalTime } from '../utilities/date'
+import { useGetParameter } from '../utilities/useQuery'
 import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'
 
