@@ -4,7 +4,7 @@
 	"description": "",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon --watch webpack.config.ts --exec \"webpack-dev-server --mode development\"",
+		"start": "nodemon --watch webpack.config.ts --exec \"webpack serve --mode development\"",
 		"dev": "npm start",
 		"check": "tsc --noEmit",
 		"build": "webpack --mode production"
@@ -31,7 +31,6 @@
 		"firebase": "^7.15.3",
 		"generate-json-from-js-webpack-plugin": "^0.1.1",
 		"html-webpack-plugin": "^4.3.0",
-		"nodemon": "^2.0.4",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-intersection-observer": "^8.34.0",
@@ -45,5 +44,8 @@
 		"webpack": "^5.75.0",
 		"webpack-cli": "^5.0.1",
 		"webpack-dev-server": "^4.11.1"
+	},
+	"dependencies": {
+		"nodemon": "^2.0.20"
 	}
 }
