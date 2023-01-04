@@ -30,6 +30,7 @@ import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
+import { useChromecastSender } from '../utilities/useChromecastSender'
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
@@ -153,6 +154,9 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 		)
 		setCustomDate(formatToDateInputValue(roomEndLocalTime))
 	}, [roomState.end])
+
+	// @TODO
+	const { cast, chrome } = useChromecastSender()
 
 	return (
 		<IdSpecificThemeProvider id={id}>

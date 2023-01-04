@@ -11,7 +11,7 @@ const htmls = ['/', '/run/', '/screen/', '/control/', '/cast/'].map(
 	(path) =>
 		new HtmlWebpackPlugin({
 			title: APP_NAME,
-			scriptLoading: 'defer',
+			scriptLoading: 'module',
 			excludeChunks: ['serviceWorker'],
 			filename: `.${path}index.html`,
 			template: './src/index.html',
