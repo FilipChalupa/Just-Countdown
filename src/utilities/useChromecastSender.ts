@@ -16,11 +16,8 @@ const load = (() => {
 				const script = document.createElement('script')
 				script.src =
 					'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1'
-				document.body.appendChild(script)
-				let timer: ReturnType<typeof setTimeout>
-				const loop = () => {
-					if ('chrome' in window && 'cast' in window) {
-						clearTimeout(timer)
+				window.__onGCastApiAvailable = (isAvailable) => {
+					if (isAvailable) {
 						cast.framework.CastContext.getInstance().setOptions({
 							receiverApplicationId: '6DEA9775',
 							autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
@@ -31,13 +28,9 @@ const load = (() => {
 							chrome,
 							cast,
 						})
-						return
 					}
-					timer = setTimeout(() => {
-						loop()
-					}, 50)
 				}
-				loop()
+				document.body.appendChild(script)
 			})
 		}
 		return promise
