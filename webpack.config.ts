@@ -25,6 +25,9 @@ module.exports = (env: any, options: any) => {
 		resolve: {
 			extensions: ['.js', '.tsx', '.ts'],
 		},
+		devServer: {
+			allowedHosts: 'all',
+		},
 		module: {
 			rules: [
 				{
