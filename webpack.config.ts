@@ -7,7 +7,7 @@ const path = require('path')
 
 const APP_NAME = 'Just Countdown'
 
-const htmls = ['/', '/run/', '/screen/', '/control/'].map(
+const htmls = ['/', '/run/', '/screen/', '/control/', '/cast/'].map(
 	(path) =>
 		new HtmlWebpackPlugin({
 			title: APP_NAME,

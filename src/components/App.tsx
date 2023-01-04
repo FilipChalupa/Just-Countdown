@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { useTheme } from '../utils/useTheme'
+import { Cast } from './Cast'
 import { Control } from './Control'
 import { Frontpage } from './Frontpage'
 import { Run } from './Run'
@@ -21,6 +22,7 @@ export const App: React.FunctionComponent = () => {
 					<Route exact path="/run/" component={Run} />
 					<Route exact path="/screen/" component={Screen} />
 					<Route exact path="/control/" component={Control} />
+					<Route exact path="/cast/" component={Cast} />
 				</Switch>
 			</Router>
 		</ThemeProvider>
