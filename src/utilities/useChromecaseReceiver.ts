@@ -22,9 +22,7 @@ const load = (() => {
 						try {
 							// @ts-ignore
 							const context = cast.framework.CastReceiverContext.getInstance()
-							// @ts-ignore
-							const options = new cast.framework.CastReceiverOptions()
-							context.start(options)
+							context.start()
 						} catch (error) {
 							document.body.textContent = error.message
 						}

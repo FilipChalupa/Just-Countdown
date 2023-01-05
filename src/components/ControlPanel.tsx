@@ -347,7 +347,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 							)}
 							{isChromecastAvailable && (
 								<Grid item xs={6} sm={4} md={3} lg={2}>
-									<CastButton />
+									<CastButton id={id} />
 								</Grid>
 							)}
 						</Grid>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useChromecastSender } from './useChromecastSender'
 
-export const useChromecastSenderSession = () => {
+export const useChromecastSenderSession = (id: string) => {
 	const { cast } = useChromecastSender()
 
-	const [isCasting, setIsCasting] = useState(false)
+	const [session, setSession] = useState<null | {
+		name: string
+	}>(null)
 
 	useEffect(() => {
 		if (cast === null) {
@@ -13,10 +15,19 @@ export const useChromecastSenderSession = () => {
 		const context = cast.framework.CastContext.getInstance()
 
 		const callback = (event: cast.framework.SessionStateEventData) => {
-			console.log('session state changed')
-			console.log(event)
-			setIsCasting(
-				event.sessionState === cast.framework.SessionState.SESSION_STARTED,
+			const isSessionStarted =
+				event.sessionState === cast.framework.SessionState.SESSION_STARTED
+			if (isSessionStarted) {
+				// @TODO: fix invalid_parameter error
+				console.log('sending', typeof id, id)
+				context.getCurrentSession()?.sendMessage('urn:x-cast:my-id', { id })
+			}
+			setSession(
+				isSessionStarted
+					? {
+							name: event.session.getCastDevice().friendlyName,
+					  }
+					: null,
 			)
 		}
 		context.addEventListener(
@@ -32,5 +43,5 @@ export const useChromecastSenderSession = () => {
 		}
 	}, [cast])
 
-	return { isCasting }
+	return session
 }

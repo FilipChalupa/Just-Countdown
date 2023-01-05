@@ -6,9 +6,13 @@ import { FunctionComponent } from 'react'
 import { useChromecastSender } from '../utilities/useChromecastSender'
 import { useChromecastSenderSession } from '../utilities/useChromecastSenderSession'
 
-export const CastButton: FunctionComponent = () => {
+export interface CastButtonProps {
+	id: string
+}
+
+export const CastButton: FunctionComponent<CastButtonProps> = ({ id }) => {
 	const { cast } = useChromecastSender()
-	const session = useChromecastSenderSession()
+	const session = useChromecastSenderSession(id)
 
 	if (cast === null) {
 		return null
@@ -18,17 +22,17 @@ export const CastButton: FunctionComponent = () => {
 		<Button
 			variant="contained"
 			onClick={() => {
-				if (session.isCasting) {
-					cast.framework.CastContext.getInstance().endCurrentSession(true)
-				} else {
+				if (session === null) {
 					cast.framework.CastContext.getInstance().requestSession()
+				} else {
+					cast.framework.CastContext.getInstance().endCurrentSession(true)
 				}
 			}}
 			size="large"
 			fullWidth
-			endIcon={session.isCasting ? <CastConnectedIcon /> : <CastIcon />}
+			endIcon={session === null ? <CastIcon /> : <CastConnectedIcon />}
 		>
-			{session.isCasting ? 'Disconnect' : 'Cast'}
+			{session === null ? 'Cast' : session.name}
 		</Button>
 	)
 }

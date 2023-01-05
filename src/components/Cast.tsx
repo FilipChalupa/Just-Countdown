@@ -1,13 +1,11 @@
 import { Box, CircularProgress, Container, Typography } from '@mui/material'
 import * as React from 'react'
-import { useChromecaseReceiver } from '../utilities/useChromecaseReceiver'
+import { useChromecastReceiverId } from '../utilities/useChromecastReceiverId'
 
 export const Cast: React.FunctionComponent = () => {
-	const { cast } = useChromecaseReceiver()
+	const id = useChromecastReceiverId()
 
-	console.log(cast)
-
-	if (cast === null) {
+	if (id === null) {
 		// @TODO: move styles to CSS
 		return (
 			<Box
@@ -29,7 +27,7 @@ export const Cast: React.FunctionComponent = () => {
 				<Typography variant="h3" component="h1" align="center" gutterBottom>
 					Cast Receiver
 					<br />
-					Just Countdown ngrok
+					Just Countdown ngrok {id}
 				</Typography>
 			</Container>
 		</Box>
