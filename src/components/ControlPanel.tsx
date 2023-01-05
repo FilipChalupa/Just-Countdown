@@ -30,8 +30,9 @@ import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
-import { useChromecastSender } from '../utilities/useChromecastSender'
+import { useIsChromecastSenderAvailable } from '../utilities/useIsChromecastAvailable'
 import { useRoomState } from '../utilities/useRoomState'
+import { CastButton } from './CastButton'
 import { Countdown } from './Countdown'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 
@@ -155,8 +156,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 		setCustomDate(formatToDateInputValue(roomEndLocalTime))
 	}, [roomState.end])
 
-	// @TODO
-	const { cast, chrome } = useChromecastSender()
+	const isChromecastAvailable = useIsChromecastSenderAvailable()
 
 	return (
 		<IdSpecificThemeProvider id={id}>
@@ -343,6 +343,11 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 									>
 										Share
 									</Button>
+								</Grid>
+							)}
+							{isChromecastAvailable && (
+								<Grid item xs={6} sm={4} md={3} lg={2}>
+									<CastButton />
 								</Grid>
 							)}
 						</Grid>
