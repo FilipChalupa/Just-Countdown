@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import * as React from 'react'
+import ScreenWakeLock from 'screen-wake-lock/lib/ScreenWakeLock'
 
 const FlashingContext = React.createContext({
 	startFlashing: () => {},
@@ -31,6 +32,7 @@ export const FullScreenCountdown: React.FunctionComponent = (props) => {
 			>
 				{props.children}
 			</div>
+			<ScreenWakeLock />
 		</FlashingContext.Provider>
 	)
 }

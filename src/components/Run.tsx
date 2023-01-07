@@ -1,5 +1,4 @@
 import * as React from 'react'
-import ScreenWakeLock from 'screen-wake-lock'
 import { getLocalTime } from '../utilities/date'
 import { useGetParameter } from '../utilities/useQuery'
 import { Countdown } from './Countdown'
@@ -25,7 +24,6 @@ export const Run: React.FunctionComponent = () => {
 				flashOnZero={flashOnZero}
 				reactiveFontSize
 			/>
-			<ScreenWakeLock />
 		</FullScreenCountdown>
 	)
 }

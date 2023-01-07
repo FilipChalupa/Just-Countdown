@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { chromecastMessageNamespace } from '../common/constants'
 import { useChromecastSender } from './useChromecastSender'
 
 export const useChromecastSenderSession = (id: string) => {
@@ -18,9 +19,9 @@ export const useChromecastSenderSession = (id: string) => {
 			const isSessionStarted =
 				event.sessionState === cast.framework.SessionState.SESSION_STARTED
 			if (isSessionStarted) {
-				// @TODO: fix invalid_parameter error
-				console.log('sending', typeof id, id)
-				context.getCurrentSession()?.sendMessage('urn:x-cast:my-id', { id })
+				context
+					.getCurrentSession()
+					?.sendMessage(chromecastMessageNamespace, { id })
 			}
 			setSession(
 				isSessionStarted

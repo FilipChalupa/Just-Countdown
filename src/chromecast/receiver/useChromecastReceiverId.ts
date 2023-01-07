@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useChromecastReceiver } from 'use-chromecast-caf-receiver'
+import { chromecastMessageNamespace } from '../common/constants'
 
 export const useChromecastReceiverId = () => {
 	const [id, setId] = useState<string | null>(null)
@@ -10,20 +11,34 @@ export const useChromecastReceiverId = () => {
 		if (cast === null) {
 			return
 		}
-		const castSession = cast.framework.CastReceiverContext.getInstance()
+		const context = cast.framework.CastReceiverContext.getInstance()
 
-		if (castSession === null) {
+		if (context === null) {
 			return
 		}
 
-		// const callback = (namespace: string, message: string) => {
-		// 	console.log(namespace, message)
-		// 	setId(message)
-		// }
-		castSession.addCustomMessageListener('urn:x-cast:id', () => {})
+		const handleMessage: SystemEventHandler = (event) => {
+			if (
+				// @ts-ignore
+				event.type !== 'message' ||
+				typeof event.data !== 'object' ||
+				event.data === null
+			) {
+				return
+			}
+			if (typeof event.data.id === 'string') {
+				setId(event.data.id)
+			}
+		}
+
+		context.addCustomMessageListener(chromecastMessageNamespace, handleMessage)
+		context.start()
 
 		return () => {
-			castSession.removeCustomMessageListener('urn:x-cast:id', () => {})
+			context.removeCustomMessageListener(
+				chromecastMessageNamespace,
+				handleMessage,
+			)
 		}
 	}, [cast])
 

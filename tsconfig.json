@@ -6,7 +6,8 @@
 	},
 	"references": [
 		{ "path": "./src/chromecast/receiver" },
-		{ "path": "./src/chromecast/sender" }
+		{ "path": "./src/chromecast/sender" },
+		{ "path": "./src/chromecast/common" }
 	],
 	"include": ["src/**/*"],
 	"exclude": ["node_modules"]

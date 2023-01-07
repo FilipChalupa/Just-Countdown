@@ -1,9 +1,6 @@
 {
-	"extends": "../../../tsconfig-base.json",
+	"extends": "../tsconfig-base.json",
 	"compilerOptions": {
-		"types": ["chromecast-caf-receiver", "react"],
-		"rootDir": ".",
-		"composite": true
-	},
-	"exclude": ["node_modules"]
+		"types": ["chromecast-caf-receiver", "react"]
+	}
 }
