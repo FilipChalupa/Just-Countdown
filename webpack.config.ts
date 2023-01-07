@@ -1,6 +1,7 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
-// import GenerateJsonFromJsPlugin from 'generate-json-from-js-webpack-plugin'
+// @ts-ignore
+import GenerateJsonFromJsPlugin from 'generate-json-from-js-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 import { Configuration, DefinePlugin } from 'webpack'
@@ -94,15 +95,14 @@ module.exports = (_environment: any, options: any) => {
 				IS_DEVELOPMENT: JSON.stringify(mode === 'development'),
 			}),
 			...htmls,
-			// @TODO: fix later (Could not find a declaration file for module 'generate-json-from-js-webpack-plugin')
-			// new GenerateJsonFromJsPlugin({
-			// 	path: './src/webmanifest.ts',
-			// 	filename: 'assets/webmanifest.json',
-			// 	data: {
-			// 		name: APP_NAME,
-			// 		short_name: 'Countdown',
-			// 	},
-			// }),
+			new GenerateJsonFromJsPlugin({
+				path: './src/webmanifest.ts',
+				filename: 'assets/webmanifest.json',
+				data: {
+					name: APP_NAME,
+					short_name: 'Countdown',
+				},
+			}),
 			new CopyPlugin({
 				patterns: [
 					{
