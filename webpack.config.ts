@@ -33,11 +33,10 @@ module.exports = (_environment: any, options: any) => {
 				{
 					test: /\.ts(x?)$/,
 					exclude: /node_modules/,
-					use: [
-						{
-							loader: 'ts-loader',
-						},
-					],
+					loader: 'esbuild-loader',
+					options: {
+						loader: 'tsx',
+					},
 				},
 				{
 					enforce: 'pre',
