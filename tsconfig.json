@@ -1,16 +1,7 @@
 {
+	"extends": "./tsconfig-base.json",
 	"compilerOptions": {
 		"outDir": "./dist/",
-		"sourceMap": true,
-		"noImplicitAny": true,
-		"lib": ["dom", "es2019"],
-		"module": "commonjs",
-		"target": "es6",
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"strictNullChecks": true,
-		"skipLibCheck": true,
-		"jsx": "react-jsx",
 		"types": ["debounce", "react", "react-dom", "react-router-dom"]
 	},
 	"references": [

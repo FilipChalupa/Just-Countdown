@@ -1,16 +1,8 @@
 {
+	"extends": "../../../tsconfig-base.json",
 	"compilerOptions": {
-		"sourceMap": true,
-		"noImplicitAny": true,
-		"lib": ["dom", "es2019"],
-		"module": "commonjs",
-		"target": "es6",
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"strictNullChecks": true,
-		"skipLibCheck": true,
-		"jsx": "react-jsx",
 		"types": ["chromecast-caf-receiver", "react"],
+		"rootDir": ".",
 		"composite": true
 	},
 	"exclude": ["node_modules"]
