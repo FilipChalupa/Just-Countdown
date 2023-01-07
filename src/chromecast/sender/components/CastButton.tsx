@@ -1,10 +1,9 @@
 import CastIcon from '@mui/icons-material/Cast'
 import CastConnectedIcon from '@mui/icons-material/CastConnected'
 import { Button } from '@mui/material'
-import * as React from 'react'
 import { FunctionComponent } from 'react'
-import { useChromecastSender } from '../utilities/useChromecastSender'
-import { useChromecastSenderSession } from '../utilities/useChromecastSenderSession'
+import { useChromecastSender } from '../useChromecastSender'
+import { useChromecastSenderSession } from '../useChromecastSenderSession'
 
 export interface CastButtonProps {
 	id: string

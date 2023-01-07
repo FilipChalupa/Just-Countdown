@@ -1,9 +1,11 @@
 import { Box, CircularProgress, Container, Typography } from '@mui/material'
 import * as React from 'react'
-import { useChromecastReceiverId } from '../utilities/useChromecastReceiverId'
+import { useChromecastReceiverId } from '../useChromecastReceiverId'
 
 export const Cast: React.FunctionComponent = () => {
 	const id = useChromecastReceiverId()
+
+	return <>ID: {id}</>
 
 	if (id === null) {
 		// @TODO: move styles to CSS

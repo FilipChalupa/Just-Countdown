@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"outDir": "./dist/",
 		"sourceMap": true,
 		"noImplicitAny": true,
 		"lib": ["dom", "es2019"],
@@ -11,12 +10,8 @@
 		"strictNullChecks": true,
 		"skipLibCheck": true,
 		"jsx": "react-jsx",
-		"types": ["debounce", "react", "react-dom", "react-router-dom"]
+		"types": ["chromecast-caf-receiver", "react"],
+		"composite": true
 	},
-	"references": [
-		{ "path": "./src/chromecast/receiver" },
-		{ "path": "./src/chromecast/sender" }
-	],
-	"include": ["src/**/*"],
 	"exclude": ["node_modules"]
 }

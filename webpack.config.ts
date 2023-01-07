@@ -1,9 +1,10 @@
-import * as webpack from 'webpack'
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const GenerateJsonFromJsPlugin = require('generate-json-from-js-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const path = require('path')
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+// import GenerateJsonFromJsPlugin from 'generate-json-from-js-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import path from 'path'
+import { Configuration, DefinePlugin } from 'webpack'
+import 'webpack-dev-server'
 
 const APP_NAME = 'Just Countdown'
 
@@ -11,17 +12,16 @@ const htmls = ['/', '/run/', '/screen/', '/control/', '/cast/'].map(
 	(path) =>
 		new HtmlWebpackPlugin({
 			title: APP_NAME,
-			scriptLoading: 'module',
 			excludeChunks: ['serviceWorker'],
 			filename: `.${path}index.html`,
 			template: './src/index.html',
 		}),
 )
 
-module.exports = (env: any, options: any) => {
+module.exports = (_environment: any, options: any) => {
 	const mode = (options.mode as 'production' | undefined) || 'development'
 
-	return {
+	const configuration: Configuration = {
 		resolve: {
 			extensions: ['.js', '.tsx', '.ts'],
 		},
@@ -90,19 +90,20 @@ module.exports = (env: any, options: any) => {
 		},
 		plugins: [
 			new CleanWebpackPlugin(),
-			new webpack.DefinePlugin({
+			new DefinePlugin({
 				IS_PRODUCTION: JSON.stringify(mode === 'production'),
 				IS_DEVELOPMENT: JSON.stringify(mode === 'development'),
 			}),
 			...htmls,
-			new GenerateJsonFromJsPlugin({
-				path: './src/webmanifest.ts',
-				filename: 'assets/webmanifest.json',
-				data: {
-					name: APP_NAME,
-					short_name: 'Countdown',
-				},
-			}),
+			// @TODO: fix later (Could not find a declaration file for module 'generate-json-from-js-webpack-plugin')
+			// new GenerateJsonFromJsPlugin({
+			// 	path: './src/webmanifest.ts',
+			// 	filename: 'assets/webmanifest.json',
+			// 	data: {
+			// 		name: APP_NAME,
+			// 		short_name: 'Countdown',
+			// 	},
+			// }),
 			new CopyPlugin({
 				patterns: [
 					{
@@ -114,4 +115,5 @@ module.exports = (env: any, options: any) => {
 			}),
 		],
 	}
+	return configuration
 }
