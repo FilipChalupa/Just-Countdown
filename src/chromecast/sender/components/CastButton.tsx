@@ -19,21 +19,26 @@ export const CastButton: React.FunctionComponent<CastButtonProps> = ({
 		return null
 	}
 
+	// @TODO: handle not available session.state
+
 	return (
 		<Button
 			variant="contained"
 			onClick={() => {
-				if (session === null) {
-					cast.framework.CastContext.getInstance().requestSession()
-				} else {
+				if (session.state === 'connected') {
 					cast.framework.CastContext.getInstance().endCurrentSession(true)
+				} else {
+					cast.framework.CastContext.getInstance().requestSession()
 				}
 			}}
 			size="large"
 			fullWidth
-			endIcon={session === null ? <CastIcon /> : <CastConnectedIcon />}
+			disabled={session.state === 'loading'}
+			endIcon={
+				session.state === 'connected' ? <CastConnectedIcon /> : <CastIcon />
+			}
 		>
-			{session === null ? 'Cast' : session.name}
+			{session.state === 'connected' ? session.name : 'Cast'}
 		</Button>
 	)
 }

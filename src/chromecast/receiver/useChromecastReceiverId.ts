@@ -32,7 +32,10 @@ export const useChromecastReceiverId = () => {
 		}
 
 		context.addCustomMessageListener(chromecastMessageNamespace, handleMessage)
-		context.start()
+
+		const options = new cast.framework.CastReceiverOptions()
+		options.disableIdleTimeout = true
+		context.start(options)
 
 		return () => {
 			context.removeCustomMessageListener(

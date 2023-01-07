@@ -2,12 +2,25 @@ import { useEffect, useState } from 'react'
 import { chromecastMessageNamespace } from '../common/constants'
 import { useChromecastSender } from './useChromecastSender'
 
+type State =
+	| {
+			state: 'connected'
+			name: string
+	  }
+	| {
+			state: 'loading'
+	  }
+	| {
+			state: 'not_connected'
+	  }
+	| {
+			state: 'not_available'
+	  }
+
 export const useChromecastSenderSession = (id: string) => {
 	const { cast } = useChromecastSender()
 
-	const [session, setSession] = useState<null | {
-		name: string
-	}>(null)
+	const [session, setSession] = useState<State>({ state: 'not_available' })
 
 	useEffect(() => {
 		if (cast === null) {
@@ -15,21 +28,40 @@ export const useChromecastSenderSession = (id: string) => {
 		}
 		const context = cast.framework.CastContext.getInstance()
 
-		const callback = (event: cast.framework.SessionStateEventData) => {
+		const handleState = (state: cast.framework.SessionState) => {
 			const isSessionStarted =
-				event.sessionState === cast.framework.SessionState.SESSION_STARTED
+				state === cast.framework.SessionState.SESSION_STARTED
 			if (isSessionStarted) {
 				context
 					.getCurrentSession()
 					?.sendMessage(chromecastMessageNamespace, { id })
+				setSession({
+					state: 'connected',
+					name:
+						context.getCurrentSession()?.getCastDevice().friendlyName ??
+						'Unknown',
+				})
+				return
 			}
-			setSession(
-				isSessionStarted
-					? {
-							name: event.session.getCastDevice().friendlyName,
-					  }
-					: null,
-			)
+			if (
+				state === cast.framework.SessionState.NO_SESSION ||
+				state === cast.framework.SessionState.SESSION_ENDED ||
+				state === cast.framework.SessionState.SESSION_START_FAILED
+			) {
+				setSession({
+					state: 'not_connected',
+				})
+				return
+			}
+			setSession({
+				state: 'loading',
+			})
+		}
+
+		handleState(context.getSessionState())
+
+		const callback = (event: cast.framework.SessionStateEventData) => {
+			handleState(event.sessionState)
 		}
 		context.addEventListener(
 			cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
