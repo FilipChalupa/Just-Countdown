@@ -1,9 +1,5 @@
 import AddIcon from '@mui/icons-material/Add'
-import AlarmIcon from '@mui/icons-material/Alarm'
-import AlarmOffIcon from '@mui/icons-material/AlarmOff'
 import CloseIcon from '@mui/icons-material/Close'
-import FlashOffIcon from '@mui/icons-material/FlashOff'
-import FlashOnIcon from '@mui/icons-material/FlashOn'
 import PauseIcon from '@mui/icons-material/Pause'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -14,7 +10,10 @@ import {
 	Card,
 	CardContent,
 	CardHeader,
+	Checkbox,
 	Container,
+	FormControlLabel,
+	FormGroup,
 	Grid,
 	Link,
 	Paper,
@@ -274,32 +273,24 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 					>
 						<Grid container spacing={2}>
 							<Grid item xs={6} sm={4} md={3} lg={2}>
-								<Button
-									onClick={toggleShowHours}
-									variant="contained"
-									color="primary"
-									fullWidth
-									size="large"
-									endIcon={
-										roomState.showHours ? <AlarmOffIcon /> : <AlarmIcon />
-									}
-								>
-									{roomState.showHours ? 'Hide hours' : 'Show hours'}
-								</Button>
+								<FormGroup>
+									<FormControlLabel
+										control={<Checkbox checked={roomState.showHours} />}
+										onChange={() => {
+											toggleShowHours()
+										}}
+										label="Show hours" />
+								</FormGroup>
 							</Grid>
 							<Grid item xs={6} sm={4} md={3} lg={2}>
-								<Button
-									onClick={toggleFlashOnZero}
-									variant="contained"
-									color="primary"
-									fullWidth
-									size="large"
-									endIcon={
-										roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
-									}
-								>
-									{roomState.flashOnZero ? 'Don\'t flash' : 'Flash on 0'}
-								</Button>
+								<FormGroup>
+									<FormControlLabel
+										control={<Checkbox checked={roomState.flashOnZero} />}
+										onChange={() => {
+											toggleFlashOnZero()
+										}}
+										label="Flash on 00:00" />
+								</FormGroup>
 							</Grid>
 							<Grid item xs={8} md={4} lg={3} alignSelf="center">
 								<TextField
