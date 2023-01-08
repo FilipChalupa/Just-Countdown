@@ -75,7 +75,7 @@ export const useChromecastSenderSession = (id: string) => {
 				callback,
 			)
 		}
-	}, [cast])
+	}, [cast, id])
 
 	return session
 }

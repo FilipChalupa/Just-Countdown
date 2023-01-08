@@ -34,7 +34,7 @@ const useRemainingSeconds = (flashOnZero: boolean) => {
 			previousRemainingSeconds.current = newValue
 			setRemainingSeconds(newValue)
 		},
-		[startFlashing],
+		[flashOnZero, startFlashing, stopFlashing],
 	)
 
 	return [remainingSeconds, set] as const
@@ -59,7 +59,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 		const difference = Math.floor((endTimestamp - startTimestamp) / 1000)
 
 		setRemainingSeconds(Math.max(0, difference))
-	}, [end, paused])
+	}, [end, paused, setRemainingSeconds, useLocalTime])
 
 	React.useEffect(() => {
 		updateRemainingSeconds()

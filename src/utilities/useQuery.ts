@@ -12,7 +12,7 @@ export function useGetParameter(name: string) {
 	React.useEffect(() => {
 		const newValue = query.get(name)
 		setValue(newValue)
-	}, [query])
+	}, [name, query])
 
 	return value
 }

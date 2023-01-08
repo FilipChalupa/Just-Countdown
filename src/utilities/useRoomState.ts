@@ -51,7 +51,7 @@ export function useRoomState(id: string) {
 					})
 				}
 			})
-	}, [id])
+	}, [id, roomState])
 
 	return roomState
 }

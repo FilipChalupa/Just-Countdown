@@ -123,14 +123,14 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 			short: path,
 			full: `${window.location.origin}${path}`,
 		}
-	}, [])
+	}, [id])
 
 	const shareUrl = React.useMemo(() => {
 		if (!('share' in navigator)) {
 			return null
 		}
 		return screenUrl.full
-	}, [])
+	}, [screenUrl.full])
 
 	const setPresets = React.useMemo(
 		() => [1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60, 0],
