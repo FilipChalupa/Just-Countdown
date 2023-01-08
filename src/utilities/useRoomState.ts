@@ -32,7 +32,7 @@ export function useRoomState(id: string) {
 			.doc(id)
 			.onSnapshot(function (document) {
 				if (document.exists) {
-					const data = document.data() as any
+					const data = document.data() as Record<string, unknown>
 					const newRoomState = {
 						...defaultRoomState,
 						...data,

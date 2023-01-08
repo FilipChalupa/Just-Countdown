@@ -6,9 +6,9 @@ import { ControlPanel } from './ControlPanel'
 export const Control: React.FunctionComponent = () => {
 	const id = useGetParameter('id')
 
-	if (id) {
-		return <ControlPanel id={id} />
+	if (id === null) {
+		return <Redirect to="/" />
 	}
 
-	return <Redirect to="/" />
+	return <ControlPanel id={id} />
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect, useState } from 'react'
 import { chromecastMessageNamespace } from '../common/constants'
 import { useChromecastSender } from './useChromecastSender'

@@ -19,6 +19,7 @@ export const useChromecastReceiverId = () => {
 
 		const handleMessage: SystemEventHandler = (event) => {
 			if (
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				event.type !== 'message' ||
 				typeof event.data !== 'object' ||
