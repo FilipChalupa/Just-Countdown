@@ -63,19 +63,19 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 
 	React.useEffect(() => {
 		updateRemainingSeconds()
-	}, [])
+	}, [updateRemainingSeconds])
 
 	React.useEffect(() => {
-		let timer: number
+		let timer: ReturnType<typeof setTimeout>
 		const tick = () => {
 			updateRemainingSeconds()
-			timer = window.setTimeout(tick, 50) // @TODO: calculate exact delay
+			timer = setTimeout(tick, 50) // @TODO: calculate exact delay
 		}
 		tick()
 		return () => {
 			clearTimeout(timer)
 		}
-	}, [paused, end])
+	}, [updateRemainingSeconds])
 
 	const seconds = remainingSeconds % 60
 	let minutes = Math.floor(remainingSeconds / 60)
