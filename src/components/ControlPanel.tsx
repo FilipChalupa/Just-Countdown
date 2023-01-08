@@ -22,7 +22,7 @@ import {
 	TextField,
 	Tooltip,
 	Typography,
-	useMediaQuery,
+	useMediaQuery
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import * as React from 'react'
@@ -71,12 +71,12 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 	const togglePaused = React.useCallback(() => {
 		const end = roomState.paused
 			? new Date(
-					getServerTime().getTime() +
+				getServerTime().getTime() +
 						roomState.end.getTime() -
 						roomState.paused.getTime() +
 						(1001 -
 							((roomState.end.getTime() - roomState.paused.getTime()) % 1000)),
-			  )
+			)
 			: roomState.end
 		const paused = roomState.paused
 			? null
@@ -89,14 +89,14 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 
 	const setCountdown =
 		(seconds: number, pause = true) =>
-		() => {
-			db.collection('rooms')
-				.doc(id)
-				.update({
-					end: new Date(getServerTime().getTime() + seconds * 1000),
-					paused: pause ? getServerTime() : null,
-				})
-		}
+			() => {
+				db.collection('rooms')
+					.doc(id)
+					.update({
+						end: new Date(getServerTime().getTime() + seconds * 1000),
+						paused: pause ? getServerTime() : null,
+					})
+			}
 
 	const addCountdown = (seconds: number) => () => {
 		const start = roomState.paused || getServerTime()
@@ -298,7 +298,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 										roomState.flashOnZero ? <FlashOffIcon /> : <FlashOnIcon />
 									}
 								>
-									{roomState.flashOnZero ? "Don't flash" : 'Flash on 0'}
+									{roomState.flashOnZero ? 'Don\'t flash' : 'Flash on 0'}
 								</Button>
 							</Grid>
 							<Grid item xs={8} md={4} lg={3} alignSelf="center">
