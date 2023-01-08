@@ -32,7 +32,8 @@ export function useRoomState(id: string) {
 			.doc(id)
 			.onSnapshot(function (document) {
 				if (document.exists) {
-					const data = document.data() as Record<string, unknown>
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const data: any = document.data()
 					const newRoomState = {
 						...defaultRoomState,
 						...data,
