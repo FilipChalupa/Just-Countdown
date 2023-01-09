@@ -110,6 +110,10 @@ module.exports = (_environment: any, options: any) => {
 						to: './assets/images/app-icon/',
 						context: 'src/images/app-icon/',
 					},
+					{
+						from: './public',
+						to: './',
+					},
 				],
 			}),
 		],

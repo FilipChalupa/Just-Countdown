@@ -1,0 +1,12 @@
+[
+	{
+		"relation": ["delegate_permission/common.handle_all_urls"],
+		"target": {
+			"namespace": "android_app",
+			"package_name": "eu.just_countdown.twa",
+			"sha256_cert_fingerprints": [
+				"2F:86:61:E2:4C:D0:E6:3C:9A:E3:C1:E9:B4:6C:BC:E5:AB:EE:40:E0:4E:58:9D:7C:FC:A4:D9:AA:2E:47:2A:01"
+			]
+		}
+	}
+]
