@@ -23,10 +23,7 @@ export function useRoomState(id: string) {
 	const [roomState, setRoomState] = React.useState<RoomState>(defaultRoomState)
 
 	React.useEffect(() => {
-		setRoomState((roomState) => ({
-			...roomState,
-			isLoaded: false,
-		}))
+		setRoomState(defaultRoomState)
 		return db
 			.collection('rooms')
 			.doc(id)
