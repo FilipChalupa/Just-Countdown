@@ -1,9 +1,16 @@
 export const display = 'standalone'
+export const display_override = ['standalone']
+// @TODO: export const iarc_rating_id = ''
 export const start_url = '/'
 export const description = 'Countdown timer with remote control.'
 export const background_color = '#ffffff'
 export const theme_color = '#000000'
 export const categories = ['productivity', 'utilities']
+export const lang = 'en'
+export const dir = 'ltr'
+export const prefer_related_applications = false
+export const related_applications = [] // @TODO: add google play
+export const scope = '/'
 
 const sizes = [36, 48, 72, 96, 128, 144, 192, 256, 384, 512, 1024, 2048]
 export const icons = [
