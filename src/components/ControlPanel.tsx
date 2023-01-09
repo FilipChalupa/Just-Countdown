@@ -363,15 +363,17 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 				</Container>
 				<div className="controlPanel-footer">
 					<Slide direction="down" in={!isMainCountdownInView}>
-						<Paper elevation={4} square>
-							<Container>
-								<Countdown
-									end={roomState.end}
-									showHours={roomState.showHours}
-									paused={roomState.paused}
-								/>
-							</Container>
-						</Paper>
+						<div className="controlPanel-footer-in">
+							<Paper elevation={4} square>
+								<Container>
+									<Countdown
+										end={roomState.end}
+										showHours={roomState.showHours}
+										paused={roomState.paused}
+									/>
+								</Container>
+							</Paper>
+						</div>
 					</Slide>
 				</div>
 			</Box>

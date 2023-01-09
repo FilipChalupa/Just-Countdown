@@ -86,6 +86,11 @@ a:focus {
 	top: 0;
 	left: 0;
 	right: 0;
+	pointer-events: none;
+}
+
+.controlPanel-footer-in {
+	pointer-events: auto;
 }
 
 .castButton-text {
