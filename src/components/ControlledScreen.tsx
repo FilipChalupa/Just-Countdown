@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useChromecastSenderSession } from '../chromecast/sender/useChromecastSenderSession'
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'
@@ -11,6 +12,7 @@ export const ControlledScreen: React.FunctionComponent<
 	ControlledScreenProps
 > = ({ id }) => {
 	const roomState = useRoomState(id)
+	useChromecastSenderSession(id)
 
 	return (
 		<FullScreenCountdown>
