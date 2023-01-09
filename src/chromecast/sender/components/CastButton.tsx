@@ -38,7 +38,9 @@ export const CastButton: React.FunctionComponent<CastButtonProps> = ({
 				session.state === 'connected' ? <CastConnectedIcon /> : <CastIcon />
 			}
 		>
-			{session.state === 'connected' ? session.name : 'Cast'}
+			<span className='castButton-text'>
+				{session.state === 'connected' ? session.name : 'Cast'}
+			</span>
 		</Button>
 	)
 }
