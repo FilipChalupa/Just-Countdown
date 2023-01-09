@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import PauseIcon from '@mui/icons-material/Pause'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import PreviewIcon from '@mui/icons-material/Preview'
 import RemoveIcon from '@mui/icons-material/Remove'
 import ShareIcon from '@mui/icons-material/Share'
 import {
@@ -15,7 +16,6 @@ import {
 	FormControlLabel,
 	FormGroup,
 	Grid,
-	Link,
 	Paper,
 	Slide,
 	TextField,
@@ -176,9 +176,11 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 							}
 							title={`ID: ${id}`}
 							subheader={
-								<Link color="inherit" href={screenUrl.full}>
+								<Button variant="text" color="inherit" startIcon={<PreviewIcon />} style={{
+									textTransform: 'none',
+								}} component={RouterLink} to={screenUrl.short}>
 									{isLarge ? screenUrl.full : screenUrl.short}
-								</Link>
+								</Button>
 							}
 						/>
 						<CardContent>
