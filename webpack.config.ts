@@ -97,7 +97,7 @@ module.exports = (_environment: any, options: any) => {
 			...htmls,
 			new GenerateJsonFromJsPlugin({
 				path: './src/webmanifest.ts',
-				filename: 'assets/webmanifest.json',
+				filename: 'assets/app.webmanifest',
 				data: {
 					name: APP_NAME,
 					short_name: 'Countdown',
