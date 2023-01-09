@@ -7,6 +7,7 @@
 		"start": "nodemon --watch webpack.config.ts --exec \"webpack serve --mode development\"",
 		"dev": "npm start",
 		"lint": "eslint src",
+		"fix": "eslint src --fix",
 		"check": "npm run lint #&& tsc --noEmit",
 		"build": "webpack --mode production"
 	},
