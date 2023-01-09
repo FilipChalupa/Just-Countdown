@@ -136,7 +136,10 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 		[],
 	)
 
-	const adjustPresets = React.useMemo(() => [1, 5, 10, 15, 30, 60], [])
+	const adjustPresets = React.useMemo(
+		() => [10, 1 * 60, 3 * 60, 5 * 60, 10 * 60, 15 * 60, 30 * 60, 60 * 60],
+		[],
+	)
 
 	const isLarge = useMediaQuery('(min-width:600px)')
 
@@ -241,8 +244,8 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 										<Button
 											onClick={
 												sign === -1
-													? subtractCountdown(preset * 60)
-													: addCountdown(preset * 60)
+													? subtractCountdown(preset)
+													: addCountdown(preset)
 											}
 											variant="outlined"
 											color={sign === -1 ? 'error' : 'success'}
@@ -250,8 +253,20 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 											size="large"
 										>
 											{sign === -1 ? '-' : '+'}
-											{preset}{' '}
-											{isLarge ? (preset === 1 ? 'minute' : 'minutes') : 'min'}
+											{preset >= 60 ? (
+												<>
+													{preset / 60}{' '}
+													{isLarge
+														? preset === 1
+															? 'minute'
+															: 'minutes'
+														: 'min'}
+												</>
+											) : (
+												<>
+													{preset} {isLarge ? 'seconds' : 'sec'}
+												</>
+											)}
 										</Button>
 									</Grid>
 								))}
@@ -279,7 +294,8 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 										onChange={() => {
 											toggleShowHours()
 										}}
-										label="Show hours" />
+										label="Show hours"
+									/>
 								</FormGroup>
 							</Grid>
 							<Grid item xs={6} sm={4} md={3} lg={2}>
@@ -289,7 +305,8 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 										onChange={() => {
 											toggleFlashOnZero()
 										}}
-										label="Flash on 00:00" />
+										label="Flash on 00:00"
+									/>
 								</FormGroup>
 							</Grid>
 							<Grid item xs={8} md={4} lg={3} alignSelf="center">
