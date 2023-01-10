@@ -1,6 +1,6 @@
 export const display = 'standalone'
 export const display_override = ['standalone']
-// @TODO: export const iarc_rating_id = ''
+export const iarc_rating_id = 'e4dd9b92-968f-4700-b891-59864ee27997'
 export const start_url = '/'
 export const description = 'Countdown timer with remote control.'
 export const background_color = '#ffffff'
