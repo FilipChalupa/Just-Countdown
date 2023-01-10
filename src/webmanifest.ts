@@ -11,6 +11,7 @@ export const dir = 'ltr'
 export const prefer_related_applications = false
 export const related_applications = [] // @TODO: add google play
 export const scope = '/'
+export const id = '/'
 
 const sizes = [36, 48, 72, 96, 128, 144, 192, 256, 384, 512, 1024, 2048]
 export const icons = [
