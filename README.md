@@ -2,7 +2,9 @@
 
 Countdown timer with remote control.
 
-Hosted live: [just-countdown.eu](https://just-countdown.eu/)
+- Web: [just-countdown.eu](https://just-countdown.eu/)
+- Google Play Store: [Just Countdown](https://play.google.com/store/apps/details?id=eu.just_countdown.twa)
+- Microsoft Store: [Just Countdown](https://apps.microsoft.com/store/detail/just-countdown/9P65S6HKWB6P)
 
 ![screenshot](./src/images/og-image.jpg)
 
