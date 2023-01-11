@@ -2,6 +2,7 @@
 	"name": "just-countdown",
 	"version": "1.0.0",
 	"description": "",
+	"private": true,
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "nodemon --watch webpack.config.ts --exec \"webpack serve --mode development\"",
