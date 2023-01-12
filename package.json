@@ -31,6 +31,7 @@
 		"react-intersection-observer": "^9.4.1",
 		"react-keep-awake": "^0.0.3",
 		"use-chromecast-caf-receiver": "^0.0.3",
-		"use-chromecast-caf-sender": "^0.0.5"
+		"use-chromecast-caf-sender": "^0.0.5",
+		"zod": "^3.20.2"
 	}
 }

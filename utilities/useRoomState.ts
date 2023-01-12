@@ -1,30 +1,24 @@
 import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import * as React from 'react'
 import { db } from './db'
+import { getDefaultRoomState, RoomState } from './roomState'
 
-export interface RoomState {
-	name: string
-	showHours: boolean
-	flashOnZero: boolean
-	end: Date
-	paused: Date | null
+const getNotLoadedRoomState = () => ({
+	...getDefaultRoomState(),
+	isLoaded: false,
+})
+
+interface RoomStateWithLoadState extends RoomState {
 	isLoaded: boolean
 }
 
-const defaultRoomState: RoomState = {
-	name: '…',
-	showHours: true,
-	flashOnZero: false,
-	end: new Date(),
-	paused: new Date(),
-	isLoaded: false,
-}
-
 export function useRoomState(id: string) {
-	const [roomState, setRoomState] = React.useState<RoomState>(defaultRoomState)
+	const [roomState, setRoomState] = React.useState<RoomStateWithLoadState>(() =>
+		getNotLoadedRoomState(),
+	)
 
 	React.useEffect(() => {
-		setRoomState(defaultRoomState)
+		setRoomState(getNotLoadedRoomState())
 		collection(db, 'rooms')
 		const roomDocumentReference = doc(db, 'rooms', id)
 		return onSnapshot(roomDocumentReference, (roomDocumentSnapshot) => {
@@ -35,8 +29,8 @@ export function useRoomState(id: string) {
 				return
 			}
 			const data: any = roomDocumentSnapshot.data()
-			const newRoomState = {
-				...defaultRoomState,
+			const newRoomState: RoomStateWithLoadState = {
+				...getDefaultRoomState(),
 				...data,
 				isLoaded: true,
 			}
