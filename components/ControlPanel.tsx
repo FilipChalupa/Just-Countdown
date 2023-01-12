@@ -345,6 +345,19 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 									Set
 								</Button>
 							</Grid>
+
+							<Grid item xs={6} sm={4} md={3} lg={2}>
+								<Button
+									variant="contained"
+									component={Link}
+									href={screenUrl.short}
+									size="large"
+									fullWidth
+									endIcon={<PreviewIcon />}
+								>
+									Screen
+								</Button>
+							</Grid>
 							{shareUrl && (
 								<Grid item xs={6} sm={4} md={3} lg={2}>
 									<Button
