@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import * as React from 'react'
-import { getLocalTime, getServerTime } from '../../../utilities/date'
+import { getLocalTime, getServerTime } from '../utilities/date'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
 import { useStartFlashing, useStopFlashing } from './FullScreenCountdown'
 

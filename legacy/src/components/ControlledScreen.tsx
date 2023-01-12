@@ -1,8 +1,8 @@
 import * as React from 'react'
+import { FullScreenCountdown } from '../../../components/FullScreenCountdown'
 import { useChromecastSenderSession } from '../chromecast/sender/useChromecastSenderSession'
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
-import { FullScreenCountdown } from './FullScreenCountdown'
 
 export interface ControlledScreenProps {
 	id: string

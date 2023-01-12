@@ -14,7 +14,13 @@ export const useStopFlashing = () => {
 	return React.useContext(FlashingContext).stopFlashing
 }
 
-export const FullScreenCountdown: React.FunctionComponent = (props) => {
+export interface FullScreenCountdownProps {
+	children: React.ReactNode
+}
+
+export const FullScreenCountdown: React.FunctionComponent<
+	FullScreenCountdownProps
+> = (props) => {
 	const [isFlashing, setIsFlashing] = React.useState(false)
 
 	const startFlashing = React.useCallback(() => {

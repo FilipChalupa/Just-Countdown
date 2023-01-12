@@ -14,7 +14,9 @@
 		"../utilities/date.ts",
 		"../components/Frontpage.tsx",
 		"../components/CreateCustomForm.tsx",
-		"../components/IdSpecificThemeProvider.tsx"
+		"../components/IdSpecificThemeProvider.tsx",
+		"../components/FullScreenCountdown.tsx",
+		"../utilities/useQuery.ts"
 	],
 	"exclude": ["node_modules"]
 }
