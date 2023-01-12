@@ -30,6 +30,7 @@ import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
+import { togglePaused, toggleShowHours } from '../utilities/roomState'
 import { useRoomState } from '../utilities/useRoomState'
 import { CastButton } from './chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
@@ -56,36 +57,11 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 
 	const roomState = useRoomState(id)
 
-	const toggleShowHours = React.useCallback(() => {
-		updateDoc(roomDocumentReference, {
-			showHours: !roomState.showHours,
-		})
-	}, [roomDocumentReference, roomState.showHours])
-
 	const toggleFlashOnZero = React.useCallback(() => {
 		updateDoc(roomDocumentReference, {
 			flashOnZero: !roomState.flashOnZero,
 		})
 	}, [roomDocumentReference, roomState.flashOnZero])
-
-	const togglePaused = React.useCallback(() => {
-		const end = roomState.paused
-			? new Date(
-					getServerTime().getTime() +
-						roomState.end.getTime() -
-						roomState.paused.getTime() +
-						(1001 -
-							((roomState.end.getTime() - roomState.paused.getTime()) % 1000)),
-			  )
-			: roomState.end
-		const paused = roomState.paused
-			? null
-			: new Date(getServerTime().getTime() + 1000)
-		updateDoc(roomDocumentReference, {
-			paused,
-			end,
-		})
-	}, [roomDocumentReference, roomState.end, roomState.paused])
 
 	const setCountdown =
 		(seconds: number, pause = true) =>
@@ -202,13 +178,21 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 									</Tooltip>
 									{roomState.paused ? (
 										<Tooltip title="Start countdown">
-											<IconButton onClick={togglePaused}>
+											<IconButton
+												onClick={() => {
+													togglePaused(roomState, roomDocumentReference)
+												}}
+											>
 												<PlayArrowIcon sx={{ height: 38, width: 38 }} />
 											</IconButton>
 										</Tooltip>
 									) : (
 										<Tooltip title="Pause countdown">
-											<IconButton onClick={togglePaused}>
+											<IconButton
+												onClick={() => {
+													togglePaused(roomState, roomDocumentReference)
+												}}
+											>
 												<PauseIcon sx={{ height: 38, width: 38 }} />
 											</IconButton>
 										</Tooltip>
@@ -296,7 +280,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 									<FormControlLabel
 										control={<Checkbox checked={roomState.showHours} />}
 										onChange={() => {
-											toggleShowHours()
+											toggleShowHours(roomState, roomDocumentReference)
 										}}
 										label="Show hours"
 									/>

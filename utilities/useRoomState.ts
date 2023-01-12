@@ -1,7 +1,11 @@
 import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import * as React from 'react'
 import { db } from './db'
-import { getDefaultRoomState, RoomState } from './roomState'
+import {
+	cleanRemoteRoomStateData,
+	getDefaultRoomState,
+	RoomState,
+} from './roomState'
 
 const getNotLoadedRoomState = () => ({
 	...getDefaultRoomState(),
@@ -28,19 +32,10 @@ export function useRoomState(id: string) {
 				})
 				return
 			}
-			const data: any = roomDocumentSnapshot.data()
-			const newRoomState: RoomStateWithLoadState = {
-				...getDefaultRoomState(),
-				...data,
+			setRoomState({
+				...cleanRemoteRoomStateData(roomDocumentSnapshot.data()),
 				isLoaded: true,
-			}
-			if (data.end) {
-				newRoomState.end = new Date((data.end?.seconds || 0) * 1000)
-			}
-			if (data.paused) {
-				newRoomState.paused = new Date((data.paused?.seconds || 0) * 1000)
-			}
-			setRoomState(newRoomState)
+			})
 		})
 	}, [id])
 
