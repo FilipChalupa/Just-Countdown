@@ -1,3 +1,4 @@
+import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore'
 import * as React from 'react'
 import { db } from './db'
 
@@ -24,31 +25,29 @@ export function useRoomState(id: string) {
 
 	React.useEffect(() => {
 		setRoomState(defaultRoomState)
-		return db
-			.collection('rooms')
-			.doc(id)
-			.onSnapshot(function (document) {
-				if (document.exists) {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					const data: any = document.data()
-					const newRoomState = {
-						...defaultRoomState,
-						...data,
-						isLoaded: true,
-					}
-					if (data.end) {
-						newRoomState.end = new Date((data.end?.seconds || 0) * 1000)
-					}
-					if (data.paused) {
-						newRoomState.paused = new Date((data.paused?.seconds || 0) * 1000)
-					}
-					setRoomState(newRoomState)
-				} else {
-					document.ref.set({
-						name: id,
-					})
-				}
-			})
+		collection(db, 'rooms')
+		const roomDocumentReference = doc(db, 'rooms', id)
+		return onSnapshot(roomDocumentReference, (roomDocumentSnapshot) => {
+			if (roomDocumentSnapshot.exists() === false) {
+				addDoc(collection(db, 'rooms'), {
+					name: id,
+				})
+				return
+			}
+			const data: any = roomDocumentSnapshot.data()
+			const newRoomState = {
+				...defaultRoomState,
+				...data,
+				isLoaded: true,
+			}
+			if (data.end) {
+				newRoomState.end = new Date((data.end?.seconds || 0) * 1000)
+			}
+			if (data.paused) {
+				newRoomState.paused = new Date((data.paused?.seconds || 0) * 1000)
+			}
+			setRoomState(newRoomState)
+		})
 	}, [id])
 
 	return roomState

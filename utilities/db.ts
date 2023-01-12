@@ -1,7 +1,7 @@
-import firebaseApp from 'firebase/app'
-import 'firebase/firestore'
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
 
-const app = firebaseApp.initializeApp({
+const app = initializeApp({
 	apiKey: 'AIzaSyAFRhXa-Ee7NedXKui45AndsNH-7l9Ntrg',
 	authDomain: 'just-countdown.firebaseapp.com',
 	databaseURL: 'https://just-countdown.firebaseio.com',
@@ -11,5 +11,4 @@ const app = firebaseApp.initializeApp({
 	appId: '1:830337397960:web:650a8f8bc4e933d78461fd',
 })
 
-export const db = app.firestore()
-export const { FieldValue } = firebaseApp.firestore
+export const db = getFirestore(app)

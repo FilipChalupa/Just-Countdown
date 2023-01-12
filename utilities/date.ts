@@ -1,4 +1,11 @@
-import { db, FieldValue } from './db'
+import {
+	addDoc,
+	collection,
+	deleteDoc,
+	getDoc,
+	serverTimestamp,
+} from 'firebase/firestore'
+import { db } from './db'
 
 const TIME_DIFFERENCE_CACHE_KEY = 'time-difference'
 
@@ -7,20 +14,21 @@ export const getLocalTime = () => {
 }
 
 const getTimeDifference = async () => {
-	const collection = db.collection('timeSynchronization')
-	const documentReference = collection.doc()
+	const documentReference = await addDoc(
+		collection(db, 'timeSynchronization'),
+		{
+			server: serverTimestamp(),
+		},
+	)
 	const localStart = getLocalTime()
-	await documentReference.set({
-		server: FieldValue.serverTimestamp(),
-	})
-	const document = await documentReference.get()
+	const document = await getDoc(documentReference)
 	const localEnd = getLocalTime()
 
 	const local = new Date(
 		localStart.getTime() + (localEnd.getTime() - localStart.getTime()) / 2,
 	)
 	const server = document.data()?.server.toDate() ?? local
-	documentReference.delete()
+	deleteDoc(documentReference)
 
 	return server.getTime() - local.getTime()
 }

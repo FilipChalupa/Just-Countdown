@@ -24,6 +24,7 @@ import {
 	useMediaQuery,
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import { doc, updateDoc } from 'firebase/firestore'
 import Link from 'next/link'
 import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -48,24 +49,24 @@ const formatToDateInputValue = (date: Date) => {
 	)}:${doubleDigits(date.getMinutes())}`
 }
 
-export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
-	props,
-) => {
-	const { id } = props
+export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
+	id,
+}) => {
+	const roomDocumentReference = React.useMemo(() => doc(db, 'rooms', id), [id])
 
 	const roomState = useRoomState(id)
 
 	const toggleShowHours = React.useCallback(() => {
-		db.collection('rooms').doc(id).update({
+		updateDoc(roomDocumentReference, {
 			showHours: !roomState.showHours,
 		})
-	}, [id, roomState])
+	}, [roomDocumentReference, roomState.showHours])
 
 	const toggleFlashOnZero = React.useCallback(() => {
-		db.collection('rooms').doc(id).update({
+		updateDoc(roomDocumentReference, {
 			flashOnZero: !roomState.flashOnZero,
 		})
-	}, [id, roomState])
+	}, [roomDocumentReference, roomState.flashOnZero])
 
 	const togglePaused = React.useCallback(() => {
 		const end = roomState.paused
@@ -80,40 +81,34 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 		const paused = roomState.paused
 			? null
 			: new Date(getServerTime().getTime() + 1000)
-		db.collection('rooms').doc(id).update({
+		updateDoc(roomDocumentReference, {
 			paused,
 			end,
 		})
-	}, [id, roomState])
+	}, [roomDocumentReference, roomState.end, roomState.paused])
 
 	const setCountdown =
 		(seconds: number, pause = true) =>
 		() => {
-			db.collection('rooms')
-				.doc(id)
-				.update({
-					end: new Date(getServerTime().getTime() + seconds * 1000),
-					paused: pause ? getServerTime() : null,
-				})
+			updateDoc(roomDocumentReference, {
+				end: new Date(getServerTime().getTime() + seconds * 1000),
+				paused: pause ? getServerTime() : null,
+			})
 		}
 
 	const addCountdown = (seconds: number) => () => {
 		const start = roomState.paused || getServerTime()
-		db.collection('rooms')
-			.doc(id)
-			.update({
-				end: new Date(
-					Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000, // @TODO: may be off on newly created countdown
-				),
-			})
+		updateDoc(roomDocumentReference, {
+			end: new Date(
+				Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000, // @TODO: may be off on newly created countdown
+			),
+		})
 	}
 
 	const subtractCountdown = (seconds: number) => () => {
-		db.collection('rooms')
-			.doc(id)
-			.update({
-				end: new Date(roomState.end.getTime() - seconds * 1000),
-			})
+		updateDoc(roomDocumentReference, {
+			end: new Date(roomState.end.getTime() - seconds * 1000),
+		})
 	}
 
 	const screenUrl = React.useMemo(() => {
