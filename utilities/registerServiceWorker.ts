@@ -1,5 +1,5 @@
 export async function registerServiceWorker() {
-	if ('serviceWorker' in navigator) {
+	if ('navigator' in globalThis && 'serviceWorker' in navigator) {
 		await navigator.serviceWorker.register('/serviceWorker.js')
 	}
 }
