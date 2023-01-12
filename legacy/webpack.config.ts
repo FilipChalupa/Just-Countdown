@@ -9,15 +9,13 @@ import 'webpack-dev-server'
 
 const APP_NAME = 'Just Countdown'
 
-const htmls = ['/', '/run/', '/screen/', '/control/', '/cast/'].map(
-	(path) =>
-		new HtmlWebpackPlugin({
-			title: APP_NAME,
-			excludeChunks: ['serviceWorker'],
-			filename: `.${path}index.html`,
-			template: './src/index.html',
-		}),
-)
+const x = (path) =>
+	new HtmlWebpackPlugin({
+		title: APP_NAME,
+		excludeChunks: ['serviceWorker'],
+		filename: `.${path}index.html`,
+		template: './src/index.html',
+	})
 
 module.exports = (_environment: any, options: any) => {
 	const mode = (options.mode as 'production' | undefined) || 'development'
