@@ -1,9 +1,0 @@
-{
-	"extends": "../../../tsconfig-base.json",
-	"compilerOptions": {
-		"types": ["react"],
-		"rootDir": ".",
-		"composite": true
-	},
-	"exclude": ["node_modules"]
-}

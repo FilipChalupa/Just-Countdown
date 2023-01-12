@@ -24,16 +24,16 @@ import {
 	useMediaQuery,
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import Link from 'next/link'
 import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
-import { Link as RouterLink } from 'react-router-dom'
-import { IdSpecificThemeProvider } from '../../../components/IdSpecificThemeProvider'
-import { getLocalTime, getServerTime } from '../../../utilities/date'
-import { CastButton } from '../chromecast/sender/components/CastButton'
-import { useIsChromecastSenderAvailable } from '../chromecast/sender/useIsChromecastAvailable'
+import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
 import { useRoomState } from '../utilities/useRoomState'
+import { CastButton } from './chromecast/sender/components/CastButton'
+import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
 import { Countdown } from './Countdown'
+import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 
 interface ControlPanelProps {
 	id: string
@@ -169,7 +169,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 							sx={{ paddingBottom: 0 }}
 							action={
 								<Tooltip title="Return to frontpage">
-									<IconButton component={RouterLink} to="/">
+									<IconButton component={Link} href="/">
 										<CloseIcon />
 									</IconButton>
 								</Tooltip>
@@ -183,8 +183,8 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 									style={{
 										textTransform: 'none',
 									}}
-									component={RouterLink}
-									to={screenUrl.short}
+									component={Link}
+									href={screenUrl.short}
 								>
 									{isLarge ? screenUrl.full : screenUrl.short}
 								</Button>
