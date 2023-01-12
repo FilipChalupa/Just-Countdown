@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore'
+import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import * as React from 'react'
 import { db } from './db'
 
@@ -29,7 +29,7 @@ export function useRoomState(id: string) {
 		const roomDocumentReference = doc(db, 'rooms', id)
 		return onSnapshot(roomDocumentReference, (roomDocumentSnapshot) => {
 			if (roomDocumentSnapshot.exists() === false) {
-				addDoc(collection(db, 'rooms'), {
+				setDoc(roomDocumentReference, {
 					name: id,
 				})
 				return
