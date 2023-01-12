@@ -11,9 +11,10 @@ import {
 	ListItemText,
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
+import Image from 'next/image'
+import Link from 'next/link'
 import * as React from 'react'
-import { Link as RouterLink } from 'react-router-dom'
-import logo from '../images/app-icon/favicon.svg'
+import logo from '../public/images/app-icon/favicon.svg'
 import { CreateCustomForm } from './CreateCustomForm'
 
 export const Frontpage: React.FunctionComponent = () => {
@@ -38,7 +39,7 @@ export const Frontpage: React.FunctionComponent = () => {
 		<Box paddingTop={4} paddingBottom={4}>
 			<Container maxWidth="xs">
 				<Box textAlign="center" paddingBottom={4}>
-					<img src={logo} alt="Logo" width="100" height="100" />
+					<Image src={logo} alt="logo" width="100" height="100" />
 					<Typography variant="h3" component="h1" gutterBottom>
 						Just Countdown
 					</Typography>
@@ -53,7 +54,7 @@ export const Frontpage: React.FunctionComponent = () => {
 				<List>
 					{staticPresets.map((preset) => (
 						<ListItem key={preset.to} disablePadding>
-							<ListItemButton component={RouterLink} to={preset.to}>
+							<ListItemButton component={Link} href={preset.to}>
 								<ListItemIcon>
 									<AccessTimeIcon />
 								</ListItemIcon>
@@ -72,18 +73,12 @@ export const Frontpage: React.FunctionComponent = () => {
 							key={presetId}
 							disablePadding
 							secondaryAction={
-								<IconButton
-									component={RouterLink}
-									to={`/control/?id=${presetId}`}
-								>
+								<IconButton component={Link} href={`/control/?id=${presetId}`}>
 									<SettingsIcon />
 								</IconButton>
 							}
 						>
-							<ListItemButton
-								component={RouterLink}
-								to={`/screen/?id=${presetId}`}
-							>
+							<ListItemButton component={Link} href={`/screen/?id=${presetId}`}>
 								<ListItemIcon>
 									<AccessTimeIcon />
 								</ListItemIcon>

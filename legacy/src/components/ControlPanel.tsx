@@ -27,13 +27,13 @@ import IconButton from '@mui/material/IconButton'
 import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
+import { IdSpecificThemeProvider } from '../../../components/IdSpecificThemeProvider'
 import { getLocalTime, getServerTime } from '../../../utilities/date'
 import { CastButton } from '../chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from '../chromecast/sender/useIsChromecastAvailable'
 import { db } from '../utilities/db'
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
-import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 
 interface ControlPanelProps {
 	id: string

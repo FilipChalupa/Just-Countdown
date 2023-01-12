@@ -1,13 +1,13 @@
 import SettingsIcon from '@mui/icons-material/Settings'
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { debounce } from 'debounce'
+import { useRouter } from 'next/router'
 import type { FunctionComponent } from 'react'
 import * as React from 'react'
-import { useHistory } from 'react-router-dom'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 
 export const CreateCustomForm: FunctionComponent = () => {
-	const history = useHistory()
+	const router = useRouter()
 	const [customId, setCustomId] = React.useState(() =>
 		Math.random().toString(36).slice(2, 10),
 	)
@@ -24,7 +24,7 @@ export const CreateCustomForm: FunctionComponent = () => {
 		<form
 			onSubmit={(event) => {
 				event.preventDefault()
-				history.push(`/control/?id=${encodeURIComponent(customId)}`)
+				router.push(`/control/?id=${encodeURIComponent(customId)}`)
 			}}
 		>
 			<Box paddingBottom={3} />

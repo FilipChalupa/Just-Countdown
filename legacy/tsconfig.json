@@ -9,6 +9,12 @@
 		{ "path": "./src/chromecast/sender" },
 		{ "path": "./src/chromecast/common" }
 	],
-	"include": ["src/**/*", "../utilities/date.ts"],
+	"include": [
+		"src/**/*",
+		"../utilities/date.ts",
+		"../components/Frontpage.tsx",
+		"../components/CreateCustomForm.tsx",
+		"../components/IdSpecificThemeProvider.tsx"
+	],
 	"exclude": ["node_modules"]
 }
