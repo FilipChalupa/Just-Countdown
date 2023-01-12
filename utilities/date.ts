@@ -27,7 +27,11 @@ const getTimeDifference = async () => {
 
 export const getServerTime = (() => {
 	let timeDifference =
-		parseInt(localStorage.getItem(TIME_DIFFERENCE_CACHE_KEY) ?? '') || 0
+		parseInt(
+			('localStorage' in globalThis
+				? localStorage.getItem(TIME_DIFFERENCE_CACHE_KEY)
+				: null) ?? '',
+		) || 0
 
 	getTimeDifference().then((x) => {
 		timeDifference = x
