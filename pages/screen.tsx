@@ -1,5 +1,14 @@
-import { Screen as ScreenComponent } from '../components/Screen'
+import dynamic from 'next/dynamic'
+import { FullScreenLoading } from '../components/FullScreenLoading'
+
+const DynamicScreen = dynamic(
+	() => import('../components/Screen').then(({ Screen }) => Screen),
+	{
+		loading: () => <FullScreenLoading />,
+		ssr: false,
+	},
+)
 
 export default function Screen() {
-	return <ScreenComponent />
+	return <DynamicScreen />
 }
