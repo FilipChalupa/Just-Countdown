@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Redirect } from 'react-router-dom'
-import { useGetParameter } from '../../../utilities/useQuery'
+import { useGetParameter } from '../utilities/useGetParameter'
 import { ControlledScreen } from './ControlledScreen'
+import { Redirect } from './Redirect'
 
 export const Screen: React.FunctionComponent = () => {
 	const id = useGetParameter('id')
