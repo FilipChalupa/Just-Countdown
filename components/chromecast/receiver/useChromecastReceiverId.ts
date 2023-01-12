@@ -11,6 +11,7 @@ export const useChromecastReceiverId = () => {
 		if (cast === null) {
 			return
 		}
+		// @ts-ignore
 		const context = cast.framework.CastReceiverContext.getInstance()
 
 		if (context === null) {
@@ -33,6 +34,7 @@ export const useChromecastReceiverId = () => {
 
 		context.addCustomMessageListener(chromecastMessageNamespace, handleMessage)
 
+		// @ts-ignore
 		const options = new cast.framework.CastReceiverOptions()
 		options.disableIdleTimeout = true
 		context.start(options)
