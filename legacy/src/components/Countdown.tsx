@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import * as React from 'react'
-import { getLocalTime, getServerTime } from '../utilities/date'
+import { getLocalTime, getServerTime } from '../../../utilities/date'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
 import { useStartFlashing, useStopFlashing } from './FullScreenCountdown'
 
@@ -78,7 +78,10 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 		}
 	}, [updateRemainingSeconds])
 
-	const {seconds, minutes, hours} = React.useMemo(() => secondsToTimeComponents(remainingSeconds, showHours), [remainingSeconds, showHours])
+	const { seconds, minutes, hours } = React.useMemo(
+		() => secondsToTimeComponents(remainingSeconds, showHours),
+		[remainingSeconds, showHours],
+	)
 
 	return (
 		<div

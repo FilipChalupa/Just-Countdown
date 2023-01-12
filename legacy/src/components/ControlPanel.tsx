@@ -21,15 +21,15 @@ import {
 	TextField,
 	Tooltip,
 	Typography,
-	useMediaQuery
+	useMediaQuery,
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
+import { getLocalTime, getServerTime } from '../../../utilities/date'
 import { CastButton } from '../chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from '../chromecast/sender/useIsChromecastAvailable'
-import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
@@ -70,12 +70,12 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 	const togglePaused = React.useCallback(() => {
 		const end = roomState.paused
 			? new Date(
-				getServerTime().getTime() +
+					getServerTime().getTime() +
 						roomState.end.getTime() -
 						roomState.paused.getTime() +
 						(1001 -
 							((roomState.end.getTime() - roomState.paused.getTime()) % 1000)),
-			)
+			  )
 			: roomState.end
 		const paused = roomState.paused
 			? null
@@ -88,14 +88,14 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 
 	const setCountdown =
 		(seconds: number, pause = true) =>
-			() => {
-				db.collection('rooms')
-					.doc(id)
-					.update({
-						end: new Date(getServerTime().getTime() + seconds * 1000),
-						paused: pause ? getServerTime() : null,
-					})
-			}
+		() => {
+			db.collection('rooms')
+				.doc(id)
+				.update({
+					end: new Date(getServerTime().getTime() + seconds * 1000),
+					paused: pause ? getServerTime() : null,
+				})
+		}
 
 	const addCountdown = (seconds: number) => () => {
 		const start = roomState.paused || getServerTime()
@@ -176,9 +176,16 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = (
 							}
 							title={`ID: ${id}`}
 							subheader={
-								<Button variant="text" color="inherit" startIcon={<PreviewIcon />} style={{
-									textTransform: 'none',
-								}} component={RouterLink} to={screenUrl.short}>
+								<Button
+									variant="text"
+									color="inherit"
+									startIcon={<PreviewIcon />}
+									style={{
+										textTransform: 'none',
+									}}
+									component={RouterLink}
+									to={screenUrl.short}
+								>
 									{isLarge ? screenUrl.full : screenUrl.short}
 								</Button>
 							}

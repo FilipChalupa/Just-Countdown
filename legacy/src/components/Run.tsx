@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getLocalTime } from '../utilities/date'
+import { getLocalTime } from '../../../utilities/date'
 import { useGetParameter } from '../utilities/useQuery'
 import { Countdown } from './Countdown'
 import { FullScreenCountdown } from './FullScreenCountdown'

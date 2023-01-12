@@ -9,6 +9,6 @@
 		{ "path": "./src/chromecast/sender" },
 		{ "path": "./src/chromecast/common" }
 	],
-	"include": ["src/**/*"],
+	"include": ["src/**/*", "../utilities/date.ts"],
 	"exclude": ["node_modules"]
 }

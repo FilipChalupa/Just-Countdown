@@ -21,6 +21,15 @@
 		"typescript": "4.9.4"
 	},
 	"devDependencies": {
-		"eslint-plugin-react-hooks": "^4.6.0"
+		"@emotion/react": "^11.10.5",
+		"@emotion/styled": "^11.10.5",
+		"@mui/icons-material": "^5.11.0",
+		"@mui/material": "^5.11.4",
+		"@types/debounce": "^1.2.1",
+		"debounce": "^1.2.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"firebase": "^7.24.0",
+		"use-chromecast-caf-receiver": "^0.0.3",
+		"use-chromecast-caf-sender": "^0.0.5"
 	}
 }
