@@ -1,13 +1,30 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Head, Html, Main, NextScript } from 'next/document'
 
 export default function Document() {
-  return (
-    <Html lang="en">
-      <Head />
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  )
+	return (
+		<Html lang="en">
+			<Head>
+				<link rel="manifest" href="/app.webmanifest" />
+				<link rel="shortcut icon" href="images/app-icon/favicon.svg" />
+				<meta property="og:image" content="images/og-image.jpg" />
+				<meta property="og:image:width" content="1200" />
+				<meta property="og:image:height" content="630" />
+				<meta name="color-scheme" content="light dark" />
+				<meta
+					name="theme-color"
+					media="(prefers-color-scheme: light)"
+					content="white"
+				/>
+				<meta
+					name="theme-color"
+					media="(prefers-color-scheme: dark)"
+					content="#121212"
+				/>
+			</Head>
+			<body>
+				<Main />
+				<NextScript />
+			</body>
+		</Html>
+	)
 }

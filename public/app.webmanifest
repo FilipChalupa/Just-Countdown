@@ -1,0 +1,140 @@
+{
+	"name": "Just Countdown",
+	"short_name": "Countdown",
+	"display": "standalone",
+	"display_override": ["standalone"],
+	"iarc_rating_id": "e4dd9b92-968f-4700-b891-59864ee27997",
+	"start_url": "/",
+	"description": "Countdown timer with remote control.",
+	"background_color": "#ffffff",
+	"theme_color": "#000000",
+	"categories": ["productivity", "utilities"],
+	"lang": "en",
+	"dir": "ltr",
+	"prefer_related_applications": false,
+	"related_applications": [],
+	"scope": "/",
+	"id": "/",
+	"icons": [
+		{
+			"src": "images/app-icon/36x36.png",
+			"sizes": "36x36",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/48x48.png",
+			"sizes": "48x48",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/72x72.png",
+			"sizes": "72x72",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/96x96.png",
+			"sizes": "96x96",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/128x128.png",
+			"sizes": "128x128",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/144x144.png",
+			"sizes": "144x144",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/192x192.png",
+			"sizes": "192x192",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/256x256.png",
+			"sizes": "256x256",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/384x384.png",
+			"sizes": "384x384",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/512x512.png",
+			"sizes": "512x512",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/1024x1024.png",
+			"sizes": "1024x1024",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/2048x2048.png",
+			"sizes": "2048x2048",
+			"purpose": "any"
+		},
+		{
+			"src": "images/app-icon/36x36-maskable.png",
+			"sizes": "36x36",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/48x48-maskable.png",
+			"sizes": "48x48",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/72x72-maskable.png",
+			"sizes": "72x72",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/96x96-maskable.png",
+			"sizes": "96x96",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/128x128-maskable.png",
+			"sizes": "128x128",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/144x144-maskable.png",
+			"sizes": "144x144",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/192x192-maskable.png",
+			"sizes": "192x192",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/256x256-maskable.png",
+			"sizes": "256x256",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/384x384-maskable.png",
+			"sizes": "384x384",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/512x512-maskable.png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/1024x1024-maskable.png",
+			"sizes": "1024x1024",
+			"purpose": "maskable"
+		},
+		{
+			"src": "images/app-icon/2048x2048-maskable.png",
+			"sizes": "2048x2048",
+			"purpose": "maskable"
+		}
+	]
+}
