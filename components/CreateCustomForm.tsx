@@ -8,9 +8,10 @@ import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 
 export const CreateCustomForm: FunctionComponent = () => {
 	const router = useRouter()
-	const [customId, setCustomId] = React.useState(() =>
-		Math.random().toString(36).slice(2, 10),
-	)
+	const [customId, setCustomId] = React.useState('')
+	React.useEffect(() => {
+		setCustomId(Math.random().toString(36).slice(2, 10))
+	}, [])
 	const [debouncedCustomId, setDebouncedCustomId] = React.useState(
 		() => customId,
 	)
