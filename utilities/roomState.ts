@@ -108,3 +108,22 @@ export const setCountdown = async (
 		paused: pause ? getServerTime() : null,
 	})
 }
+
+export const adjustCountdown = async (
+	roomState: RoomState,
+	roomDocumentReference: DocumentReference<DocumentData>,
+	seconds: number,
+) => {
+	if (seconds >= 0) {
+		const start = roomState.paused || getServerTime()
+		await updateDoc(roomDocumentReference, {
+			end: new Date(
+				Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000, // @TODO: may be off on newly created countdown
+			),
+		})
+	} else {
+		await updateDoc(roomDocumentReference, {
+			end: new Date(roomState.end.getTime() + seconds * 1000),
+		})
+	}
+}

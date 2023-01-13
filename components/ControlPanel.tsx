@@ -31,6 +31,7 @@ import { useInView } from 'react-intersection-observer'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
 import {
+	adjustCountdown,
 	setCountdown,
 	togglePaused,
 	toggleShowHours,
@@ -66,21 +67,6 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 			flashOnZero: !roomState.flashOnZero,
 		})
 	}, [roomDocumentReference, roomState.flashOnZero])
-
-	const addCountdown = (seconds: number) => () => {
-		const start = roomState.paused || getServerTime()
-		updateDoc(roomDocumentReference, {
-			end: new Date(
-				Math.max(start.getTime(), roomState.end.getTime()) + seconds * 1000, // @TODO: may be off on newly created countdown
-			),
-		})
-	}
-
-	const subtractCountdown = (seconds: number) => () => {
-		updateDoc(roomDocumentReference, {
-			end: new Date(roomState.end.getTime() - seconds * 1000),
-		})
-	}
 
 	const screenUrl = React.useMemo(() => {
 		const path = `/screen/?id=${encodeURIComponent(id)}`
@@ -167,7 +153,15 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 								</Typography>
 								<Box>
 									<Tooltip title="Remove on minute">
-										<IconButton onClick={subtractCountdown(1 * 60)}>
+										<IconButton
+											onClick={() => {
+												adjustCountdown(
+													roomState,
+													roomDocumentReference,
+													-1 * 60,
+												)
+											}}
+										>
 											<RemoveIcon />
 										</IconButton>
 									</Tooltip>
@@ -193,7 +187,15 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 										</Tooltip>
 									)}
 									<Tooltip title="Add one minute">
-										<IconButton onClick={addCountdown(1 * 60)}>
+										<IconButton
+											onClick={() => {
+												adjustCountdown(
+													roomState,
+													roomDocumentReference,
+													1 * 60,
+												)
+											}}
+										>
 											<AddIcon />
 										</IconButton>
 									</Tooltip>
@@ -227,11 +229,13 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 								{[-1, 1].map((sign) => (
 									<Grid key={sign} item xs={6} md={3} lg={2}>
 										<Button
-											onClick={
-												sign === -1
-													? subtractCountdown(preset)
-													: addCountdown(preset)
-											}
+											onClick={() => {
+												adjustCountdown(
+													roomState,
+													roomDocumentReference,
+													sign * preset,
+												)
+											}}
 											variant="outlined"
 											color={sign === -1 ? 'error' : 'success'}
 											fullWidth

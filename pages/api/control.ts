@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import { db } from '../../utilities/db'
 import {
+	adjustCountdown,
 	cleanRemoteRoomStateData,
 	hideHours,
 	pause,
@@ -55,6 +56,11 @@ export default async function handler(
 	if (parameters.set !== undefined) {
 		await setCountdown(roomDocumentReference, parseInt(parameters.set, 10) || 0)
 	} else if (parameters.adjust !== undefined) {
+		await adjustCountdown(
+			roomState,
+			roomDocumentReference,
+			parseInt(parameters.adjust, 10) || 0,
+		)
 	}
 	if (parameters.start !== undefined) {
 		await start(roomState, roomDocumentReference)
