@@ -46,35 +46,37 @@ export default async function handler(
 	const parameters = result.data
 
 	const roomDocumentReference = doc(db, 'rooms', parameters.id)
-	const roomDocumentSnapshot = await getDoc(roomDocumentReference)
-	if (roomDocumentSnapshot.exists() === false) {
-		await setDoc(roomDocumentReference, {
-			name: parameters.id,
-		})
+	const getRoomState = async () => {
+		const roomDocumentSnapshot = await getDoc(roomDocumentReference)
+		if (roomDocumentSnapshot.exists() === false) {
+			await setDoc(roomDocumentReference, {
+				name: parameters.id,
+			})
+		}
+		return cleanRemoteRoomStateData(roomDocumentSnapshot.data())
 	}
-	const roomState = cleanRemoteRoomStateData(roomDocumentSnapshot.data())
 	if (parameters.set !== undefined) {
 		await setCountdown(roomDocumentReference, parseInt(parameters.set, 10) || 0)
 	} else if (parameters.adjust !== undefined) {
 		await adjustCountdown(
-			roomState,
+			await getRoomState(),
 			roomDocumentReference,
 			parseInt(parameters.adjust, 10) || 0,
 		)
 	}
 	if (parameters.start !== undefined) {
-		await start(roomState, roomDocumentReference)
+		await start(await getRoomState(), roomDocumentReference)
 	} else if (parameters.pause !== undefined) {
-		await pause(roomState, roomDocumentReference)
+		await pause(await getRoomState(), roomDocumentReference)
 	} else if (parameters.togglePaused !== undefined) {
-		await togglePaused(roomState, roomDocumentReference)
+		await togglePaused(await getRoomState(), roomDocumentReference)
 	}
 	if (parameters.showHours !== undefined) {
 		await showHours(roomDocumentReference)
 	} else if (parameters.hideHours !== undefined) {
 		await hideHours(roomDocumentReference)
 	} else if (parameters.toggleHours !== undefined) {
-		await toggleShowHours(roomState, roomDocumentReference)
+		await toggleShowHours(await getRoomState(), roomDocumentReference)
 	}
 	response
 		.status(200)

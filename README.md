@@ -31,7 +31,7 @@ Add any of them to the URL above.
 - `set=60` (set countdown to 60 seconds)
 - `adjust=10` (add 10 more seconds to countdown)
 
-#### Example:
+#### Example
 
 1.  ```
     GET https://just-countdown.eu/api/control?id=my-countdown&set=300&hideHours&start
@@ -47,7 +47,6 @@ Add any of them to the URL above.
 
 #### Note
 
-- Combining several parameters in one request may be buggy for now.
 - Server may be off by few seconds.
 
 ## Development
