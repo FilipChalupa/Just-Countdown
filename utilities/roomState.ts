@@ -97,3 +97,14 @@ export const start = async (
 		end,
 	})
 }
+
+export const setCountdown = async (
+	roomDocumentReference: DocumentReference<DocumentData>,
+	seconds: number,
+	pause = true,
+) => {
+	await updateDoc(roomDocumentReference, {
+		end: new Date(getServerTime().getTime() + seconds * 1000),
+		paused: pause ? getServerTime() : null,
+	})
+}

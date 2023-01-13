@@ -30,7 +30,11 @@ import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
-import { togglePaused, toggleShowHours } from '../utilities/roomState'
+import {
+	setCountdown,
+	togglePaused,
+	toggleShowHours,
+} from '../utilities/roomState'
 import { useRoomState } from '../utilities/useRoomState'
 import { CastButton } from './chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
@@ -62,15 +66,6 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 			flashOnZero: !roomState.flashOnZero,
 		})
 	}, [roomDocumentReference, roomState.flashOnZero])
-
-	const setCountdown =
-		(seconds: number, pause = true) =>
-		() => {
-			updateDoc(roomDocumentReference, {
-				end: new Date(getServerTime().getTime() + seconds * 1000),
-				paused: pause ? getServerTime() : null,
-			})
-		}
 
 	const addCountdown = (seconds: number) => () => {
 		const start = roomState.paused || getServerTime()
@@ -211,7 +206,9 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 						{setPresets.map((preset) => (
 							<Grid item key={preset} xs={6} sm={4} md={3} lg={2}>
 								<Button
-									onClick={setCountdown(preset * 60)}
+									onClick={() => {
+										setCountdown(roomDocumentReference, preset * 60)
+									}}
 									variant="contained"
 									color="primary"
 									fullWidth
@@ -271,7 +268,7 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 								0,
 								Math.ceil((targetLocalTime - nowLocalTime) / 1000),
 							)
-							setCountdown(seconds, false)()
+							setCountdown(roomDocumentReference, seconds, false)
 						}}
 					>
 						<Grid container spacing={2}>

@@ -6,6 +6,7 @@ import {
 	cleanRemoteRoomStateData,
 	hideHours,
 	pause,
+	setCountdown,
 	showHours,
 	start,
 	togglePaused,
@@ -51,6 +52,10 @@ export default async function handler(
 		})
 	}
 	const roomState = cleanRemoteRoomStateData(roomDocumentSnapshot.data())
+	if (parameters.set !== undefined) {
+		await setCountdown(roomDocumentReference, parseInt(parameters.set, 10) || 0)
+	} else if (parameters.adjust !== undefined) {
+	}
 	if (parameters.start !== undefined) {
 		await start(roomState, roomDocumentReference)
 	} else if (parameters.pause !== undefined) {
@@ -64,9 +69,6 @@ export default async function handler(
 		await hideHours(roomDocumentReference)
 	} else if (parameters.toggleHours !== undefined) {
 		await toggleShowHours(roomState, roomDocumentReference)
-	}
-	if (parameters.set !== undefined) {
-	} else if (parameters.adjust !== undefined) {
 	}
 	response
 		.status(200)
