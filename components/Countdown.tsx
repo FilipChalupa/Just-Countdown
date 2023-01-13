@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import * as React from 'react'
-import { getLocalTime, getServerTime } from '../utilities/date'
+import { doubleDigits } from '../utilities/doubleDigits'
+import { calculateRamainingSeconds } from '../utilities/roomState'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
 import { useStartFlashing, useStopFlashing } from './FullScreenCountdown'
 
@@ -12,8 +13,6 @@ export interface CountdownProps {
 	flashOnZero?: boolean
 	useLocalTime?: boolean
 }
-
-const doubleDigits = (input: number) => input.toString().padStart(2, '0')
 
 const useRemainingSeconds = (flashOnZero: boolean) => {
 	const startFlashing = useStartFlashing()
@@ -53,13 +52,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 		useRemainingSeconds(flashOnZero)
 
 	const updateRemainingSeconds = React.useCallback(() => {
-		const startTimestamp = (
-			paused || (useLocalTime ? getLocalTime : getServerTime)()
-		).getTime()
-		const endTimestamp = end.getTime()
-		const difference = Math.floor((endTimestamp - startTimestamp) / 1000)
-
-		setRemainingSeconds(Math.max(0, difference))
+		setRemainingSeconds(calculateRamainingSeconds(end, paused, useLocalTime))
 	}, [end, paused, setRemainingSeconds, useLocalTime])
 
 	React.useEffect(() => {

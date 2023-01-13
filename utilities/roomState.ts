@@ -1,5 +1,5 @@
 import { DocumentData, DocumentReference, updateDoc } from 'firebase/firestore'
-import { getServerTime } from './date'
+import { getLocalTime, getServerTime } from './date'
 export interface RoomState {
 	name: string
 	showHours: boolean
@@ -126,4 +126,18 @@ export const adjustCountdown = async (
 			end: new Date(roomState.end.getTime() + seconds * 1000),
 		})
 	}
+}
+
+export const calculateRamainingSeconds = (
+	end: Date,
+	paused: Date | null,
+	useLocalTime = false,
+) => {
+	const startTimestamp = (
+		paused || (useLocalTime ? getLocalTime : getServerTime)()
+	).getTime()
+	const endTimestamp = end.getTime()
+	const difference = Math.floor((endTimestamp - startTimestamp) / 1000)
+
+	return Math.max(0, difference)
 }

@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { db } from '../../utilities/db'
 import {
 	adjustCountdown,
+	calculateRamainingSeconds,
 	cleanRemoteRoomStateData,
 	hideHours,
 	pause,
@@ -13,11 +14,28 @@ import {
 	togglePaused,
 	toggleShowHours,
 } from '../../utilities/roomState'
+import { secondsToTimeComponents } from '../../utilities/secondsToTimeComponents'
 
-type Data = {
-	status: 'ok' | 'error'
-	message: string
-}
+type Data =
+	| {
+			status: 'error'
+			message: string
+	  }
+	| {
+			status: 'ok'
+			roomState: {
+				id: string
+				showHours: boolean
+				flashOnZero: boolean
+				end: string
+				paused: string | null
+				remainingTime: {
+					hours: number | null
+					minutes: number
+					seconds: number
+				}
+			}
+	  }
 
 const RequestParameters = z.object({
 	id: z.string(),
@@ -78,7 +96,22 @@ export default async function handler(
 	} else if (parameters.toggleHours !== undefined) {
 		await toggleShowHours(await getRoomState(), roomDocumentReference)
 	}
-	response
-		.status(200)
-		.json({ status: 'ok', message: 'Request fulfilled successfully.' })
+
+	const roomState = await getRoomState()
+	const remainingTime = secondsToTimeComponents(
+		calculateRamainingSeconds(roomState.end, roomState.paused),
+		roomState.showHours,
+	)
+
+	response.status(200).json({
+		status: 'ok',
+		roomState: {
+			id: roomState.name,
+			showHours: roomState.showHours,
+			flashOnZero: roomState.flashOnZero,
+			end: roomState.end.toISOString(),
+			paused: roomState.paused?.toISOString() ?? null,
+			remainingTime,
+		},
+	})
 }

@@ -10,13 +10,15 @@ Countdown timer with remote control.
 
 [demo](https://user-images.githubusercontent.com/1045362/165823939-cb697d8d-8de0-4861-b781-af73e5551996.mp4)
 
-## API (work in progress)
+## API
 
 ```
 GET https://just-countdown.eu/api/control?id=my-countdown
 ```
 
 Replace `my-countdown` with your own countdown ID.
+
+Response is described by `type Data` in [pages/api/control.ts](pages/api/control.ts).
 
 ### Optional parameters
 
