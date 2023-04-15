@@ -15,6 +15,8 @@ import {
 	toggleShowHours,
 } from '../../utilities/roomState'
 import { secondsToTimeComponents } from '../../utilities/secondsToTimeComponents'
+import Cors from 'cors'
+
 
 type Data =
 	| {
@@ -52,10 +54,32 @@ const RequestParameters = z.object({
 
 // @TODO: get server time - respect firebase time on server
 
+const cors = Cors({
+  methods: ['POST', 'GET', 'HEAD'],
+})
+
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
+
+      return resolve(result)
+    })
+  })
+}
+
 export default async function handler(
 	request: NextApiRequest,
 	response: NextApiResponse<Data>,
 ) {
+	await runMiddleware(request, response, cors)
+
 	const result = RequestParameters.safeParse(request.query)
 	if (!result.success) {
 		response.status(400).json({ status: 'error', message: 'Invalid request.' })
