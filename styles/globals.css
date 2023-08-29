@@ -6,9 +6,12 @@
 
 body {
 	margin: 0;
-	color: black;
-	background-color: white;
+	color: #000000;
 	font-family: sans-serif;
+}
+
+body:not(:has(.fullScreenCountdown.is-iframe)) {
+	background-color: #ffffff;
 }
 
 button {
@@ -62,6 +65,8 @@ a:focus {
 	align-items: center;
 	font-size: 20vw;
 	color: #000000;
+}
+.fullScreenCountdown:not(.is-iframe) {
 	background-color: #ffffff;
 }
 
@@ -72,10 +77,13 @@ a:focus {
 @media (prefers-color-scheme: dark) {
 	body {
 		color: #ffffff;
+	}
+
+	body:not(:has(.fullScreenCountdown.is-iframe)) {
 		background-color: #121212;
 	}
 
-	.fullScreenCountdown {
+	.fullScreenCountdown:not(.is-iframe) {
 		color: #ffffff;
 		background-color: #000000;
 	}

@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import * as React from 'react'
 import { KeepAwake } from 'react-keep-awake'
+import { useIsIframe } from '../utilities/useIsIframe'
 
 const FlashingContext = React.createContext({
 	startFlashing: () => {},
@@ -22,6 +23,7 @@ export const FullScreenCountdown: React.FunctionComponent<
 	FullScreenCountdownProps
 > = (props) => {
 	const [isFlashing, setIsFlashing] = React.useState(false)
+	const isIframe = useIsIframe()
 
 	const startFlashing = React.useCallback(() => {
 		setIsFlashing(true)
@@ -33,7 +35,11 @@ export const FullScreenCountdown: React.FunctionComponent<
 	return (
 		<FlashingContext.Provider value={{ startFlashing, stopFlashing }}>
 			<div
-				className={clsx('fullScreenCountdown', isFlashing && 'is-flashing')}
+				className={clsx(
+					'fullScreenCountdown',
+					isFlashing && 'is-flashing',
+					isIframe && 'is-iframe',
+				)}
 				onAnimationEnd={stopFlashing}
 			>
 				{props.children}
