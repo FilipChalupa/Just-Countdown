@@ -76,6 +76,21 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 		[remainingSeconds, showHours],
 	)
 
+	const formattedTime = React.useMemo(() => {
+		const formattedHours = hours === null ? '' : `${doubleDigits(hours)}:`
+		return `${formattedHours}${doubleDigits(minutes)}:${doubleDigits(seconds)}`
+	}, [hours, minutes, seconds])
+
+	React.useEffect(() => {
+		window.parent?.postMessage(
+			{
+				formattedTime,
+				remainingTimeInSeconds: remainingSeconds,
+			},
+			'*',
+		)
+	}, [formattedTime, remainingSeconds])
+
 	return (
 		<div
 			className={clsx(
@@ -84,8 +99,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				reactiveFontSize && 'view-reactiveFontSize',
 			)}
 		>
-			{hours !== null && <>{doubleDigits(hours)}:</>}
-			{doubleDigits(minutes)}:{doubleDigits(seconds)}
+			{formattedTime}
 		</div>
 	)
 }
