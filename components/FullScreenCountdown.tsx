@@ -6,6 +6,7 @@ import { useIsIframe } from '../utilities/useIsIframe'
 const FlashingContext = React.createContext({
 	startFlashing: () => {},
 	stopFlashing: () => {},
+	isFlashing: false,
 })
 
 export const useStartFlashing = () => {
@@ -13,6 +14,9 @@ export const useStartFlashing = () => {
 }
 export const useStopFlashing = () => {
 	return React.useContext(FlashingContext).stopFlashing
+}
+export const useIsFlashing = () => {
+	return React.useContext(FlashingContext).isFlashing
 }
 
 export interface FullScreenCountdownProps {
@@ -33,7 +37,9 @@ export const FullScreenCountdown: React.FunctionComponent<
 	}, [])
 
 	return (
-		<FlashingContext.Provider value={{ startFlashing, stopFlashing }}>
+		<FlashingContext.Provider
+			value={{ startFlashing, stopFlashing, isFlashing }}
+		>
 			<div
 				className={clsx(
 					'fullScreenCountdown',

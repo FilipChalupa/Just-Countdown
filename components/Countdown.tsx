@@ -3,7 +3,11 @@ import * as React from 'react'
 import { doubleDigits } from '../utilities/doubleDigits'
 import { calculateRamainingSeconds } from '../utilities/roomState'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
-import { useStartFlashing, useStopFlashing } from './FullScreenCountdown'
+import {
+	useIsFlashing,
+	useStartFlashing,
+	useStopFlashing,
+} from './FullScreenCountdown'
 
 export interface CountdownProps {
 	paused?: Date | null
@@ -81,15 +85,19 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 		return `${formattedHours}${doubleDigits(minutes)}:${doubleDigits(seconds)}`
 	}, [hours, minutes, seconds])
 
+	const isFlashing = useIsFlashing()
+
 	React.useEffect(() => {
 		window.parent?.postMessage(
 			{
 				formattedTime,
 				remainingTimeInSeconds: remainingSeconds,
+				isFlashing,
+				showHours,
 			},
 			'*',
 		)
-	}, [formattedTime, remainingSeconds])
+	}, [formattedTime, isFlashing, remainingSeconds, showHours])
 
 	return (
 		<div
