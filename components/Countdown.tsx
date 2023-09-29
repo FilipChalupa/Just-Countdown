@@ -96,11 +96,12 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				formattedTime,
 				remainingTimeInSeconds: remainingSeconds,
 				isFlashing,
+				isPaused: paused !== null,
 				showHours,
 			},
 			'*',
 		)
-	}, [formattedTime, id, isFlashing, remainingSeconds, showHours])
+	}, [formattedTime, id, isFlashing, paused, remainingSeconds, showHours])
 
 	return (
 		<div
