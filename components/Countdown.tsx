@@ -10,6 +10,7 @@ import {
 } from './FullScreenCountdown'
 
 export interface CountdownProps {
+	id?: string
 	paused?: Date | null
 	end: Date
 	showHours?: boolean
@@ -45,6 +46,7 @@ const useRemainingSeconds = (flashOnZero: boolean) => {
 }
 
 export const Countdown: React.FunctionComponent<CountdownProps> = ({
+	id,
 	end,
 	paused = null,
 	showHours = false,
@@ -90,6 +92,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	React.useEffect(() => {
 		window.parent?.postMessage(
 			{
+				id,
 				formattedTime,
 				remainingTimeInSeconds: remainingSeconds,
 				isFlashing,
@@ -97,7 +100,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 			},
 			'*',
 		)
-	}, [formattedTime, isFlashing, remainingSeconds, showHours])
+	}, [formattedTime, id, isFlashing, remainingSeconds, showHours])
 
 	return (
 		<div
