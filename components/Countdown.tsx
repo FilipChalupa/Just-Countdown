@@ -13,6 +13,7 @@ export interface CountdownProps {
 	flashOnZero?: boolean
 	forceFlash?: boolean
 	useLocalTime?: boolean
+	message?: string
 }
 
 export const Countdown: React.FunctionComponent<CountdownProps> = ({
@@ -24,6 +25,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	useLocalTime = false,
 	flashOnZero = false,
 	forceFlash = false,
+	message = '',
 }) => {
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
@@ -84,6 +86,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				remainingSeconds === 0 && flashOnZero && <div className="flash" />
 			)}
 			{formattedTime}
+			{message && <div className="message">{message}</div>}
 		</div>
 	)
 }

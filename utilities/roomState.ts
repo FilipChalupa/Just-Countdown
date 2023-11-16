@@ -7,6 +7,7 @@ export interface RoomState {
 	forceFlash: boolean
 	end: Date
 	paused: Date | null
+	message: string
 }
 
 export const getDefaultRoomState: () => RoomState = () => ({
@@ -16,6 +17,7 @@ export const getDefaultRoomState: () => RoomState = () => ({
 	forceFlash: false,
 	end: new Date(),
 	paused: new Date(),
+	message: '',
 })
 
 export const cleanRemoteRoomStateData = (data: any) => {

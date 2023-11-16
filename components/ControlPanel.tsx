@@ -44,6 +44,9 @@ import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 import { CastButton } from './chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
 
+const messageFormId = 'messageForm'
+const customDateFormId = 'customDateForm'
+
 interface ControlPanelProps {
 	id: string
 }
@@ -105,6 +108,11 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 
 	const { ref, inView: isMainCountdownInView } = useInView()
 
+	const [message, setMessage] = React.useState('')
+	React.useEffect(() => {
+		setMessage(roomState.message)
+	}, [roomState.message])
+
 	const [customDate, setCustomDate] = React.useState('')
 
 	React.useEffect(() => {
@@ -125,6 +133,28 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 
 	return (
 		<IdSpecificThemeProvider id={id}>
+			<form
+				id={customDateFormId}
+				onSubmit={(event) => {
+					event.preventDefault()
+					const targetLocalTime = new Date(customDate).getTime()
+					const nowLocalTime = getLocalTime().getTime()
+					const seconds = Math.max(
+						0,
+						Math.ceil((targetLocalTime - nowLocalTime) / 1000),
+					)
+					setCountdown(roomDocumentReference, seconds, false)
+				}}
+			/>
+			<form
+				id={messageFormId}
+				onSubmit={(event) => {
+					event.preventDefault()
+					updateDoc(roomDocumentReference, {
+						message,
+					})
+				}}
+			/>
 			<Box paddingTop={4} paddingBottom={4}>
 				<Container>
 					<Card elevation={4}>
@@ -274,115 +304,106 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 						))}
 					</Grid>
 					<Box paddingBottom={4} />
-					<form
-						onSubmit={(event) => {
-							event.preventDefault()
-							const targetLocalTime = new Date(customDate).getTime()
-							const nowLocalTime = getLocalTime().getTime()
-							const seconds = Math.max(
-								0,
-								Math.ceil((targetLocalTime - nowLocalTime) / 1000),
-							)
-							setCountdown(roomDocumentReference, seconds, false)
-						}}
-					>
-						<Grid container spacing={2}>
-							<Grid item xs={6} sm={4} md={3} lg={2}>
-								<FormGroup>
-									<FormControlLabel
-										control={<Checkbox checked={roomState.showHours} />}
-										onChange={() => {
-											toggleShowHours(roomState, roomDocumentReference)
-										}}
-										label="Show hours"
-									/>
-								</FormGroup>
-							</Grid>
-							<Grid item xs={6} sm={4} md={3} lg={2}>
-								<FormGroup>
-									<FormControlLabel
-										control={<Checkbox checked={roomState.flashOnZero} />}
-										onChange={() => {
-											toggleFlashOnZero()
-										}}
-										label="Flash on 00:00"
-									/>
-								</FormGroup>
-							</Grid>
-							<Grid item xs={8} md={4} lg={3} alignSelf="center">
-								<TextField
-									label="Custom date"
-									type="datetime-local"
-									value={customDate}
-									onChange={(event) => {
-										setCustomDate(event.target.value)
+					<Grid container spacing={2}>
+						<Grid item xs={6} sm={4} md={3} lg={2}>
+							<FormGroup>
+								<FormControlLabel
+									control={<Checkbox checked={roomState.showHours} />}
+									onChange={() => {
+										toggleShowHours(roomState, roomDocumentReference)
 									}}
-									size="small"
-									fullWidth
-									required
-									InputLabelProps={{
-										shrink: true,
-									}}
+									label="Show hours"
 								/>
-							</Grid>
-							<Grid item xs={4} md={2} lg={1} alignSelf="center">
-								<Button
-									variant="contained"
-									type="submit"
-									size="large"
-									fullWidth
-									endIcon={<PlayArrowIcon />}
-								>
-									Set
-								</Button>
-							</Grid>
+							</FormGroup>
+						</Grid>
+						<Grid item xs={6} sm={4} md={3} lg={2}>
+							<FormGroup>
+								<FormControlLabel
+									control={<Checkbox checked={roomState.flashOnZero} />}
+									onChange={() => {
+										toggleFlashOnZero()
+									}}
+									label="Flash on 00:00"
+								/>
+							</FormGroup>
+						</Grid>
+						<Grid item xs={8} md={4} lg={3} alignSelf="center">
+							<TextField
+								label="Custom date"
+								type="datetime-local"
+								value={customDate}
+								inputProps={{
+									form: customDateFormId,
+								}}
+								onChange={(event) => {
+									setCustomDate(event.target.value)
+								}}
+								size="small"
+								fullWidth
+								required
+								InputLabelProps={{
+									shrink: true,
+								}}
+							/>
+						</Grid>
+						<Grid item xs={4} md={2} lg={1} alignSelf="center">
+							<Button
+								variant="contained"
+								type="submit"
+								form={customDateFormId}
+								size="large"
+								fullWidth
+								endIcon={<PlayArrowIcon />}
+							>
+								Set
+							</Button>
+						</Grid>
 
+						<Grid item xs={6} sm={4} md={3} lg={2}>
+							<Button
+								variant="contained"
+								component={Link}
+								href={screenUrl.short}
+								size="large"
+								fullWidth
+								endIcon={<PreviewIcon />}
+							>
+								Screen
+							</Button>
+						</Grid>
+						{shareUrl && (
 							<Grid item xs={6} sm={4} md={3} lg={2}>
 								<Button
 									variant="contained"
-									component={Link}
-									href={screenUrl.short}
+									onClick={() => {
+										navigator.share({
+											url: shareUrl,
+										})
+									}}
 									size="large"
 									fullWidth
-									endIcon={<PreviewIcon />}
+									endIcon={<ShareIcon />}
 								>
-									Screen
+									Share
 								</Button>
 							</Grid>
-							{shareUrl && (
-								<Grid item xs={6} sm={4} md={3} lg={2}>
-									<Button
-										variant="contained"
-										onClick={() => {
-											navigator.share({
-												url: shareUrl,
-											})
-										}}
-										size="large"
-										fullWidth
-										endIcon={<ShareIcon />}
-									>
-										Share
-									</Button>
-								</Grid>
-							)}
-							<Grid item xs={6} sm={4} md={4} lg={4}>
-								<FormGroup>
-									<FormControlLabel
-										control={<Checkbox checked={isExperimentalAllowed} />}
-										onChange={() => {
-											setIsExperimentalAllowed(!isExperimentalAllowed)
-										}}
-										label="Allow experimental features"
-									/>
-								</FormGroup>
-							</Grid>
-							{isChromecastAvailable && (
-								<Grid item xs={6} sm={4} md={3} lg={2}>
-									<CastButton id={id} />
-								</Grid>
-							)}
+						)}
+						<Grid item xs={6} sm={4} md={4} lg={4}>
+							<FormGroup>
+								<FormControlLabel
+									control={<Checkbox checked={isExperimentalAllowed} />}
+									onChange={() => {
+										setIsExperimentalAllowed(!isExperimentalAllowed)
+									}}
+									label="Allow experimental features"
+								/>
+							</FormGroup>
 						</Grid>
+						{isChromecastAvailable && (
+							<Grid item xs={6} sm={4} md={3} lg={2}>
+								<CastButton id={id} />
+							</Grid>
+						)}
 						{isExperimentalAllowed && (
 							<>
 								<Grid item xs={12}>
@@ -401,9 +422,36 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 										/>
 									</FormGroup>
 								</Grid>
+								<Grid item xs={8} md={4} lg={3} alignSelf="center">
+									<TextField
+										label="Message"
+										value={message}
+										onChange={(event) => {
+											setMessage(event.target.value)
+										}}
+										inputProps={{ form: messageFormId }}
+										size="small"
+										fullWidth
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+								</Grid>
+								<Grid item xs={4} md={2} lg={1} alignSelf="center">
+									<Button
+										variant="contained"
+										type="submit"
+										form={messageFormId}
+										size="large"
+										fullWidth
+										endIcon={<PlayArrowIcon />}
+									>
+										Set
+									</Button>
+								</Grid>
 							</>
 						)}
-					</form>
+					</Grid>
 				</Container>
 				<div className="controlPanel-footer">
 					<Slide direction="down" in={!isMainCountdownInView}>
