@@ -115,4 +115,17 @@ body:has(.fullScreenCountdown.is-iframe) {
 	font-size: 0.3em;
 	padding: 0.3em;
 	line-height: 1.2;
+	transition-property: translate;
+	translate: 0 100%;
+	transition-timing-function: ease-in-out;
+}
+
+.message.is-visible {
+	translate: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.message {
+		transition-duration: 0.3s;
+	}
 }
