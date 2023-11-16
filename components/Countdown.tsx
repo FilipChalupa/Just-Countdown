@@ -3,12 +3,6 @@ import * as React from 'react'
 import { doubleDigits } from '../utilities/doubleDigits'
 import { calculateRamainingSeconds } from '../utilities/roomState'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
-import {
-	useForceFlash,
-	useIsFlashing,
-	useStartFlashing,
-	useStopFlashing,
-} from './FullScreenCountdown'
 
 export interface CountdownProps {
 	id?: string
@@ -21,32 +15,6 @@ export interface CountdownProps {
 	useLocalTime?: boolean
 }
 
-const useRemainingSeconds = (flashOnZero: boolean) => {
-	const startFlashing = useStartFlashing()
-	const stopFlashing = useStopFlashing()
-	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
-	const previousRemainingSeconds = React.useRef(remainingSeconds)
-
-	const set = React.useCallback(
-		(newValue: number) => {
-			if (
-				newValue === 0 &&
-				previousRemainingSeconds.current === 1 &&
-				flashOnZero
-			) {
-				startFlashing()
-			} else if (newValue !== 0 && previousRemainingSeconds.current === 0) {
-				stopFlashing()
-			}
-			previousRemainingSeconds.current = newValue
-			setRemainingSeconds(newValue)
-		},
-		[flashOnZero, startFlashing, stopFlashing],
-	)
-
-	return [remainingSeconds, set] as const
-}
-
 export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	id,
 	end,
@@ -57,10 +25,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	flashOnZero = false,
 	forceFlash = false,
 }) => {
-	const [remainingSeconds, setRemainingSeconds] =
-		useRemainingSeconds(flashOnZero)
-
-	useForceFlash(forceFlash)
+	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
 	const updateRemainingSeconds = React.useCallback(() => {
 		setRemainingSeconds(calculateRamainingSeconds(end, paused, useLocalTime))
@@ -92,21 +57,18 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 		return `${formattedHours}${doubleDigits(minutes)}:${doubleDigits(seconds)}`
 	}, [hours, minutes, seconds])
 
-	const isFlashing = useIsFlashing()
-
 	React.useEffect(() => {
 		window.parent?.postMessage(
 			{
 				id,
 				formattedTime,
 				remainingTimeInSeconds: remainingSeconds,
-				isFlashing,
 				isPaused: paused !== null,
 				showHours,
 			},
 			'*',
 		)
-	}, [formattedTime, id, isFlashing, paused, remainingSeconds, showHours])
+	}, [formattedTime, id, paused, remainingSeconds, showHours])
 
 	return (
 		<div
@@ -116,6 +78,11 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				reactiveFontSize && 'view-reactiveFontSize',
 			)}
 		>
+			{forceFlash ? (
+				<div className="forceFlash" />
+			) : (
+				remainingSeconds === 0 && flashOnZero && <div className="flash" />
+			)}
 			{formattedTime}
 		</div>
 	)

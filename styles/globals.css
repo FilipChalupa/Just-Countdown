@@ -67,8 +67,11 @@ a:focus {
 	background-color: #ffffff;
 }
 
-.fullScreenCountdown.is-flashing {
+.fullScreenCountdown:has(.flash, .forceFlash) {
 	animation: fullScreenCountdown-flash 1s 1s 10 ease-in-out;
+}
+.fullScreenCountdown:has(.forceFlash) {
+	animation-iteration-count: infinite;
 }
 
 @media (prefers-color-scheme: dark) {
