@@ -41,6 +41,7 @@ import {
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
+import { InvisibleTimeInput } from './InvisibleTimeInput'
 import { CastButton } from './chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
 
@@ -449,6 +450,14 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 										Set
 									</Button>
 								</Grid>
+								<InvisibleTimeInput
+									onInput={(seconds) => {
+										setCountdown(roomDocumentReference, seconds)
+									}}
+									onTogglePause={() => {
+										togglePaused(roomState, roomDocumentReference)
+									}}
+								/>
 							</>
 						)}
 					</Grid>

@@ -129,3 +129,10 @@ body:has(.fullScreenCountdown.is-iframe) {
 		transition-duration: 0.3s;
 	}
 }
+
+.invisibleInput {
+	position: fixed;
+	inset: 0 auto auto 0;
+	z-index: 10;
+	padding: 0.125rem;
+}
