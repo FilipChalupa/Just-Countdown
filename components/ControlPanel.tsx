@@ -13,6 +13,7 @@ import {
 	CardHeader,
 	Checkbox,
 	Container,
+	Divider,
 	FormControlLabel,
 	FormGroup,
 	Grid,
@@ -28,6 +29,7 @@ import { doc, updateDoc } from 'firebase/firestore'
 import Link from 'next/link'
 import * as React from 'react'
 import { useInView } from 'react-intersection-observer'
+import { useStorageBackedState } from 'use-storage-backed-state'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
 import {
@@ -37,10 +39,10 @@ import {
 	toggleShowHours,
 } from '../utilities/roomState'
 import { useRoomState } from '../utilities/useRoomState'
-import { CastButton } from './chromecast/sender/components/CastButton'
-import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
 import { Countdown } from './Countdown'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
+import { CastButton } from './chromecast/sender/components/CastButton'
+import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
 
 interface ControlPanelProps {
 	id: string
@@ -67,6 +69,12 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 			flashOnZero: !roomState.flashOnZero,
 		})
 	}, [roomDocumentReference, roomState.flashOnZero])
+
+	const toggleForceFlash = React.useCallback(() => {
+		updateDoc(roomDocumentReference, {
+			forceFlash: !roomState.forceFlash,
+		})
+	}, [roomDocumentReference, roomState.forceFlash])
 
 	const screenUrl = React.useMemo(() => {
 		const path = `/screen/?id=${encodeURIComponent(id)}`
@@ -111,6 +119,9 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 	}, [roomState.end])
 
 	const isChromecastAvailable = useIsChromecastSenderAvailable()
+
+	const [isExperimentalAllowed, setIsExperimentalAllowed] =
+		useStorageBackedState(false, 'experimental')
 
 	return (
 		<IdSpecificThemeProvider id={id}>
@@ -355,12 +366,43 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 									</Button>
 								</Grid>
 							)}
+							<Grid item xs={6} sm={4} md={4} lg={4}>
+								<FormGroup>
+									<FormControlLabel
+										control={<Checkbox checked={isExperimentalAllowed} />}
+										onChange={() => {
+											setIsExperimentalAllowed(!isExperimentalAllowed)
+										}}
+										label="Allow experimental features"
+									/>
+								</FormGroup>
+							</Grid>
 							{isChromecastAvailable && (
 								<Grid item xs={6} sm={4} md={3} lg={2}>
 									<CastButton id={id} />
 								</Grid>
 							)}
 						</Grid>
+						{isExperimentalAllowed && (
+							<>
+								<Grid item xs={12}>
+									<div style={{ paddingBlock: '2em' }}>
+										<Divider />
+									</div>
+								</Grid>
+								<Grid item xs={6} sm={4} md={3} lg={2}>
+									<FormGroup>
+										<FormControlLabel
+											control={<Checkbox checked={roomState.forceFlash} />}
+											onChange={() => {
+												toggleForceFlash()
+											}}
+											label="Force flash"
+										/>
+									</FormGroup>
+								</Grid>
+							</>
+						)}
 					</form>
 				</Container>
 				<div className="controlPanel-footer">

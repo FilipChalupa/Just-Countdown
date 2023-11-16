@@ -4,6 +4,7 @@ import { doubleDigits } from '../utilities/doubleDigits'
 import { calculateRamainingSeconds } from '../utilities/roomState'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
 import {
+	useForceFlash,
 	useIsFlashing,
 	useStartFlashing,
 	useStopFlashing,
@@ -16,6 +17,7 @@ export interface CountdownProps {
 	showHours?: boolean
 	reactiveFontSize?: boolean
 	flashOnZero?: boolean
+	forceFlash?: boolean
 	useLocalTime?: boolean
 }
 
@@ -53,9 +55,12 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	reactiveFontSize = false,
 	useLocalTime = false,
 	flashOnZero = false,
+	forceFlash = false,
 }) => {
 	const [remainingSeconds, setRemainingSeconds] =
 		useRemainingSeconds(flashOnZero)
+
+	useForceFlash(forceFlash)
 
 	const updateRemainingSeconds = React.useCallback(() => {
 		setRemainingSeconds(calculateRamainingSeconds(end, paused, useLocalTime))

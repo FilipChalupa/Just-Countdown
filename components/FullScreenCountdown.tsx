@@ -6,6 +6,7 @@ import { useIsIframe } from '../utilities/useIsIframe'
 const FlashingContext = React.createContext({
 	startFlashing: () => {},
 	stopFlashing: () => {},
+	forceFlash: (forceFlash: boolean) => {},
 	isFlashing: false,
 })
 
@@ -14,6 +15,9 @@ export const useStartFlashing = () => {
 }
 export const useStopFlashing = () => {
 	return React.useContext(FlashingContext).stopFlashing
+}
+export const useForceFlash = (forceFlash: boolean) => {
+	React.useContext(FlashingContext).forceFlash(forceFlash)
 }
 export const useIsFlashing = () => {
 	return React.useContext(FlashingContext).isFlashing
@@ -26,19 +30,24 @@ export interface FullScreenCountdownProps {
 export const FullScreenCountdown: React.FunctionComponent<
 	FullScreenCountdownProps
 > = (props) => {
-	const [isFlashing, setIsFlashing] = React.useState(false)
+	const [isFlashingInternal, setIsFlashingInternal] = React.useState(false)
+	const [isFlashingForced, setIsFlashingForced] = React.useState(false)
 	const isIframe = useIsIframe()
+	const isFlashing = isFlashingInternal || isFlashingForced
 
 	const startFlashing = React.useCallback(() => {
-		setIsFlashing(true)
+		setIsFlashingInternal(true)
 	}, [])
 	const stopFlashing = React.useCallback(() => {
-		setIsFlashing(false)
+		setIsFlashingInternal(false)
+	}, [])
+	const forceFlash = React.useCallback((forceFlash: boolean) => {
+		setIsFlashingForced(forceFlash)
 	}, [])
 
 	return (
 		<FlashingContext.Provider
-			value={{ startFlashing, stopFlashing, isFlashing }}
+			value={{ startFlashing, stopFlashing, isFlashing, forceFlash }}
 		>
 			<div
 				className={clsx(

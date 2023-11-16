@@ -22,6 +22,7 @@ export const ControlledScreen: React.FunctionComponent<
 					end={roomState.end}
 					showHours={roomState.showHours}
 					flashOnZero={roomState.flashOnZero}
+					forceFlash={roomState.forceFlash}
 					paused={roomState.paused}
 					reactiveFontSize
 				/>

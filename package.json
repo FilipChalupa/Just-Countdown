@@ -34,6 +34,7 @@
 		"react-keep-awake": "^0.0.3",
 		"use-chromecast-caf-receiver": "^0.0.3",
 		"use-chromecast-caf-sender": "^0.0.5",
+		"use-storage-backed-state": "^0.2.4",
 		"zod": "^3.20.2"
 	}
 }
