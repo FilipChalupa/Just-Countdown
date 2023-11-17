@@ -110,14 +110,26 @@ body:has(.fullScreenCountdown.is-iframe) {
 
 .message {
 	position: absolute;
+	isolation: isolate;
 	inset: auto 0 0;
 	text-align: center;
 	font-size: 0.3em;
-	padding: 0.3em;
+	padding: 0 0.3em 0.3em;
 	line-height: 1.2;
 	transition-property: translate;
 	translate: 0 100%;
 	transition-timing-function: ease-in-out;
+}
+
+.message::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background-color: currentColor;
+	opacity: 0.9;
+	box-shadow: 0 0 10px 10px currentColor;
+	filter: invert(100%);
 }
 
 .message.is-visible {

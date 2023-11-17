@@ -25,7 +25,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	useLocalTime = false,
 	flashOnZero = false,
 	forceFlash = false,
-	message = '',
+	message,
 }) => {
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
@@ -90,9 +90,13 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				remainingSeconds === 0 && flashOnZero && <div className="flash" />
 			)}
 			{formattedTime}
-			<div className={clsx('message', isMessageVisible && 'is-visible')}>
-				{lastMessage.current}
-			</div>
+			{message !== undefined && (
+				<>
+					<div className={clsx('message', isMessageVisible && 'is-visible')}>
+						{lastMessage.current}
+					</div>
+				</>
+			)}
 		</div>
 	)
 }
