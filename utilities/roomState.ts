@@ -1,5 +1,9 @@
 import { DocumentData, DocumentReference, updateDoc } from 'firebase/firestore'
 import { getLocalTime, getServerTime } from './date'
+
+export const themes = ['system', 'light', 'dark'] as const
+
+// @TODO: use zod to validate data
 export interface RoomState {
 	name: string
 	showHours: boolean
@@ -8,6 +12,7 @@ export interface RoomState {
 	end: Date
 	paused: Date | null
 	message: string
+	theme: (typeof themes)[number]
 }
 
 export const getDefaultRoomState = () =>
@@ -19,6 +24,7 @@ export const getDefaultRoomState = () =>
 		end: new Date(),
 		paused: new Date(),
 		message: '',
+		theme: 'system',
 	} satisfies RoomState)
 
 export const cleanRemoteRoomStateData = (data: any) => {
@@ -33,6 +39,15 @@ export const cleanRemoteRoomStateData = (data: any) => {
 		cleanRoomState.paused = new Date((data.paused?.seconds || 0) * 1000)
 	}
 	return cleanRoomState
+}
+
+export const setTheme = async (
+	roomDocumentReference: DocumentReference<DocumentData>,
+	theme: RoomState['theme'],
+) => {
+	await updateDoc(roomDocumentReference, {
+		theme,
+	})
 }
 
 export const toggleShowHours = async (

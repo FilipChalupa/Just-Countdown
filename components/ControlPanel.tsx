@@ -14,10 +14,14 @@ import {
 	Checkbox,
 	Container,
 	Divider,
+	FormControl,
 	FormControlLabel,
 	FormGroup,
 	Grid,
+	InputLabel,
+	MenuItem,
 	Paper,
+	Select,
 	Slide,
 	TextField,
 	Tooltip,
@@ -33,8 +37,11 @@ import { useStorageBackedState } from 'use-storage-backed-state'
 import { getLocalTime, getServerTime } from '../utilities/date'
 import { db } from '../utilities/db'
 import {
+	RoomState,
 	adjustCountdown,
 	setCountdown,
+	setTheme,
+	themes,
 	togglePaused,
 	toggleShowHours,
 } from '../utilities/roomState'
@@ -359,7 +366,28 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 								Set
 							</Button>
 						</Grid>
-
+						<Grid item xs={6} sm={4} md={3} lg={2}>
+							<FormControl fullWidth size="small">
+								<InputLabel id="theme-label">Theme</InputLabel>
+								<Select
+									labelId="theme-label"
+									value={roomState.theme}
+									label="Age"
+									onChange={(event) => {
+										setTheme(
+											roomDocumentReference,
+											event.target.value as RoomState['theme'],
+										)
+									}}
+								>
+									{themes.map((theme) => (
+										<MenuItem key={theme} value={theme}>
+											{theme}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						</Grid>
 						<Grid item xs={6} sm={4} md={3} lg={2}>
 							<Button
 								variant="contained"
