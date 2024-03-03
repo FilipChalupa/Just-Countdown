@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import * as React from 'react'
 import { doubleDigits } from '../utilities/doubleDigits'
-import { calculateRamainingSeconds } from '../utilities/roomState'
+import { calculateRamainingSeconds, RoomState } from '../utilities/roomState'
 import { secondsToTimeComponents } from '../utilities/secondsToTimeComponents'
 
 export interface CountdownProps {
@@ -14,6 +14,7 @@ export interface CountdownProps {
 	forceFlash?: boolean
 	useLocalTime?: boolean
 	message?: string
+	theme?: RoomState['theme']
 }
 
 export const Countdown: React.FunctionComponent<CountdownProps> = ({
@@ -26,6 +27,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 	flashOnZero = false,
 	forceFlash = false,
 	message,
+	theme = 'system',
 }) => {
 	const [remainingSeconds, setRemainingSeconds] = React.useState(0)
 
@@ -82,6 +84,7 @@ export const Countdown: React.FunctionComponent<CountdownProps> = ({
 				'time',
 				showHours && 'view-showHours',
 				reactiveFontSize && 'view-reactiveFontSize',
+				`view-theme-${theme}`,
 			)}
 		>
 			{forceFlash ? (

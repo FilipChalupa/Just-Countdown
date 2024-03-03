@@ -1,0 +1,40 @@
+@keyframes fullScreenCountdown-flash
+	30%
+		filter: invert(100%)
+
+	100%
+		filter: none
+
+=light
+	color: #000000
+	background-color: #ffffff
+
+=dark
+	color: #ffffff
+	background-color: #000000
+
+.wrapper
+	position: fixed
+	inset: 0
+	display: flex
+	justify-content: center
+	align-items: center
+	font-size: 20vw
+
+	&:not(:global(.is-iframe))
+		+light
+
+		@media (prefers-color-scheme: dark)
+			+dark
+
+		&:has(:global(.view-theme-light))
+			+light
+
+		&:has(:global(.view-theme-dark))
+			+dark
+
+	&:has(:global(.flash), :global(.forceFlash))
+		animation: fullScreenCountdown-flash 1s 1s 10 ease-in-out
+
+	&:has(:global(.forceFlash))
+		animation-iteration-count: infinite
