@@ -10,15 +10,16 @@ export interface RoomState {
 	message: string
 }
 
-export const getDefaultRoomState: () => RoomState = () => ({
-	name: '…',
-	showHours: true,
-	flashOnZero: false,
-	forceFlash: false,
-	end: new Date(),
-	paused: new Date(),
-	message: '',
-})
+export const getDefaultRoomState = () =>
+	({
+		name: '…',
+		showHours: true,
+		flashOnZero: false,
+		forceFlash: false,
+		end: new Date(),
+		paused: new Date(),
+		message: '',
+	} satisfies RoomState)
 
 export const cleanRemoteRoomStateData = (data: any) => {
 	const cleanRoomState: RoomState = {
