@@ -1,4 +1,5 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import SettingsIcon from '@mui/icons-material/Settings'
 import {
 	Box,
@@ -92,6 +93,28 @@ export const Frontpage: React.FunctionComponent = () => {
 					Create custom controlled
 				</Typography>
 				<CreateCustomForm />
+				<Box paddingBottom={10} />
+				<Typography variant="h5" component="h2" gutterBottom>
+					Donate
+				</Typography>
+				<List>
+					<ListItem disablePadding>
+						<ListItemButton
+							component={Link}
+							href="https://filipchalupa.cz/transfer/"
+						>
+							<ListItemIcon>
+								<FavoriteBorderIcon />
+							</ListItemIcon>
+							<ListItemText primary="filipchalupa.cz" />
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<Typography variant="body1">
+					Even small donations motivate me to improve the{' '}
+					<span style={{ whiteSpace: 'nowrap' }}>just-countdown.eu</span>. Thank
+					you for letting me know that the site matters to you.
+				</Typography>
 			</Container>
 		</Box>
 	)
