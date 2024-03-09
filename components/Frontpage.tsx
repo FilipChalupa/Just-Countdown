@@ -20,24 +20,20 @@ import { usePWAInstall } from 'react-use-pwa-install'
 import logo from '../public/images/app-icon/favicon.svg'
 import { CreateCustomForm } from './CreateCustomForm'
 
+const staticPresets = [
+	{ to: '/run/?seconds=60&flashOnZero', label: 'Countdown 1 minute' },
+	{ to: '/run/?seconds=120&flashOnZero', label: 'Countdown 2 minutes' },
+	{ to: '/run/?seconds=300&flashOnZero', label: 'Countdown 5 minutes' },
+	{ to: '/run/?seconds=600&flashOnZero', label: 'Countdown 10 minutes' },
+	{ to: '/run/?seconds=3600&flashOnZero', label: 'Countdown 60 minutes' },
+	{
+		to: '/run/?seconds=86400&showHours&flashOnZero',
+		label: 'Countdown 1 day',
+	},
+] as const
+const dynamicPresets = ['1', '2', '3'] as const
+
 export const Frontpage: React.FunctionComponent = () => {
-	const staticPresets = React.useMemo(
-		() => [
-			{ to: '/run/?seconds=60&flashOnZero', label: 'Countdown 1 minute' },
-			{ to: '/run/?seconds=120&flashOnZero', label: 'Countdown 2 minutes' },
-			{ to: '/run/?seconds=300&flashOnZero', label: 'Countdown 5 minutes' },
-			{ to: '/run/?seconds=600&flashOnZero', label: 'Countdown 10 minutes' },
-			{ to: '/run/?seconds=3600&flashOnZero', label: 'Countdown 60 minutes' },
-			{
-				to: '/run/?seconds=86400&showHours&flashOnZero',
-				label: 'Countdown 1 day',
-			},
-		],
-		[],
-	)
-
-	const dynamicPresets = React.useMemo(() => ['1', '2', '3'], [])
-
 	const install = usePWAInstall()
 
 	return (
