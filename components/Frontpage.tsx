@@ -1,4 +1,5 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import SettingsIcon from '@mui/icons-material/Settings'
 import {
@@ -15,6 +16,7 @@ import Typography from '@mui/material/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
+import { usePWAInstall } from 'react-use-pwa-install'
 import logo from '../public/images/app-icon/favicon.svg'
 import { CreateCustomForm } from './CreateCustomForm'
 
@@ -35,6 +37,8 @@ export const Frontpage: React.FunctionComponent = () => {
 	)
 
 	const dynamicPresets = React.useMemo(() => ['1', '2', '3'], [])
+
+	const install = usePWAInstall()
 
 	return (
 		<Box paddingTop={4} paddingBottom={4}>
@@ -93,11 +97,31 @@ export const Frontpage: React.FunctionComponent = () => {
 					Create custom controlled
 				</Typography>
 				<CreateCustomForm />
-				<Box paddingBottom={10} />
-				<Typography variant="h5" component="h2" gutterBottom>
-					Donate
-				</Typography>
+				<Box paddingBottom={4} />
 				<List>
+					<ListItem
+						disablePadding
+						style={
+							Boolean(install)
+								? undefined
+								: {
+										opacity: 0,
+										visibility: 'hidden',
+								  }
+						}
+					>
+						<ListItemButton
+							onClick={() => {
+								install()
+							}}
+							disabled={!install}
+						>
+							<ListItemIcon>
+								<AddBoxIcon />
+							</ListItemIcon>
+							<ListItemText primary="Install Just Countdown" />
+						</ListItemButton>
+					</ListItem>
 					<ListItem disablePadding>
 						<ListItemButton
 							component={Link}
@@ -106,7 +130,7 @@ export const Frontpage: React.FunctionComponent = () => {
 							<ListItemIcon>
 								<FavoriteBorderIcon />
 							</ListItemIcon>
-							<ListItemText primary="filipchalupa.cz" />
+							<ListItemText primary="Donate to filipchalupa.cz" />
 						</ListItemButton>
 					</ListItem>
 				</List>
