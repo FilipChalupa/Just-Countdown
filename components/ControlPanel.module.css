@@ -1,0 +1,8 @@
+.multibutton {
+	display: flex;
+	gap: 0.5em;
+}
+
+.growContent {
+	flex-grow: 1;
+}

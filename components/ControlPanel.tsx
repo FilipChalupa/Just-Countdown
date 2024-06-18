@@ -46,6 +46,7 @@ import {
 	toggleShowHours,
 } from '../utilities/roomState'
 import { useRoomState } from '../utilities/useRoomState'
+import styles from './ControlPanel.module.css'
 import { Countdown } from './Countdown'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
 import { InvisibleTimeInput } from './InvisibleTimeInput'
@@ -53,6 +54,7 @@ import { CastButton } from './chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
 
 const messageFormId = 'messageForm'
+const customTimeAdjustmentFormId = 'customTimeAdjustmentForm'
 const customDateFormId = 'customDateForm'
 
 interface ControlPanelProps {
@@ -136,6 +138,8 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 
 	const isChromecastAvailable = useIsChromecastSenderAvailable()
 
+	const [customTime, setCustomTime] = React.useState('')
+
 	const [isExperimentalAllowed, setIsExperimentalAllowed] =
 		useStorageBackedState(false, 'experimental')
 
@@ -161,6 +165,13 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 					updateDoc(roomDocumentReference, {
 						message,
 					})
+				}}
+			/>
+			<form
+				id={customTimeAdjustmentFormId}
+				onSubmit={(event) => {
+					event.preventDefault()
+					// @TODO
 				}}
 			/>
 			<Box paddingTop={4} paddingBottom={4}>
@@ -285,31 +296,75 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 													sign * preset,
 												)
 											}}
+											startIcon={sign === -1 ? <RemoveIcon /> : <AddIcon />}
 											variant="outlined"
 											color={sign === -1 ? 'error' : 'success'}
 											fullWidth
 											size="large"
 										>
-											{sign === -1 ? '-' : '+'}
-											{preset >= 60 ? (
-												<>
-													{preset / 60}{' '}
-													{isLarge
-														? preset === 1
-															? 'minute'
-															: 'minutes'
-														: 'min'}
-												</>
-											) : (
-												<>
-													{preset} {isLarge ? 'seconds' : 'sec'}
-												</>
-											)}
+											<span className={styles.growContent}>
+												{preset >= 60 ? (
+													<>
+														{preset / 60}{' '}
+														{isLarge
+															? preset === 1
+																? 'minute'
+																: 'minutes'
+															: 'min'}
+													</>
+												) : (
+													<>
+														{preset} {isLarge ? 'seconds' : 'sec'}
+													</>
+												)}
+											</span>
 										</Button>
 									</Grid>
 								))}
 							</React.Fragment>
 						))}
+						<Grid item xs={6} md={3} lg={2}>
+							<TextField
+								label="Custom adjustment"
+								value={customTime}
+								inputProps={{
+									form: customTimeAdjustmentFormId,
+								}}
+								onChange={(event) => {
+									setCustomTime(event.target.value)
+								}}
+								size="small"
+								fullWidth
+								required
+								InputLabelProps={{
+									shrink: true,
+								}}
+							/>
+						</Grid>
+						<Grid item xs={6} md={3} lg={2}>
+							<div className={styles.multibutton}>
+								<Button
+									variant="outlined"
+									type="submit"
+									form={customTimeAdjustmentFormId}
+									color="error"
+									size="large"
+									fullWidth
+								>
+									<RemoveIcon />
+								</Button>
+								<Button
+									variant="outlined"
+									type="submit"
+									form={customTimeAdjustmentFormId}
+									color="success"
+									size="large"
+									fullWidth
+								>
+									<AddIcon />
+								</Button>
+							</div>
+						</Grid>
 					</Grid>
 					<Box paddingBottom={4} />
 					<Grid container spacing={2}>
