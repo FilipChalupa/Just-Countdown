@@ -5,7 +5,8 @@
 			"namespace": "android_app",
 			"package_name": "eu.just_countdown.twa",
 			"sha256_cert_fingerprints": [
-				"2F:86:61:E2:4C:D0:E6:3C:9A:E3:C1:E9:B4:6C:BC:E5:AB:EE:40:E0:4E:58:9D:7C:FC:A4:D9:AA:2E:47:2A:01"
+				"2F:86:61:E2:4C:D0:E6:3C:9A:E3:C1:E9:B4:6C:BC:E5:AB:EE:40:E0:4E:58:9D:7C:FC:A4:D9:AA:2E:47:2A:01",
+				"3E:90:29:5A:05:B3:67:BE:CD:AA:55:45:A2:B4:0C:21:A3:47:5A:11:DB:84:C6:BC:EA:56:4F:44:2A:8E:EB:88"
 			]
 		}
 	}
