@@ -12,7 +12,7 @@
 	"lang": "en",
 	"dir": "ltr",
 	"launch_handler": {
-		"client_moda": ["navigate-new", "auto"]
+		"client_mode": ["navigate-new", "auto"]
 	},
 	"prefer_related_applications": false,
 	"related_applications": [],
