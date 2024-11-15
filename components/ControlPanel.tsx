@@ -484,6 +484,18 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 										Set
 									</Button>
 								</Grid>
+								<Grid item xs={12}>
+									<Typography variant="h6">Hotkeys</Typography>
+									<ul>
+										<li>
+											<kbd>F</kbd>: Toggle force flash.
+										</li>
+										<li>
+											<kbd>Number keys</kbd> + <kbd>Enter</kbd>: Set countdown
+											in seconds.
+										</li>
+									</ul>
+								</Grid>
 								<InvisibleTimeInput
 									onInput={(seconds) => {
 										setCountdown(roomDocumentReference, seconds)
