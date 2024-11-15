@@ -48,6 +48,7 @@ import {
 import { useRoomState } from '../utilities/useRoomState'
 import { Countdown } from './Countdown'
 import { IdSpecificThemeProvider } from './IdSpecificThemeProvider'
+import { InvisibleForceFlashToggle } from './InvisibleForceFlashToggle'
 import { InvisibleTimeInput } from './InvisibleTimeInput'
 import { CastButton } from './chromecast/sender/components/CastButton'
 import { useIsChromecastSenderAvailable } from './chromecast/sender/useIsChromecastAvailable'
@@ -450,6 +451,11 @@ export const ControlPanel: React.FunctionComponent<ControlPanelProps> = ({
 											label="Force flash"
 										/>
 									</FormGroup>
+									<InvisibleForceFlashToggle
+										onToggle={() => {
+											toggleForceFlash()
+										}}
+									/>
 								</Grid>
 								<Grid item xs={8} md={4} lg={3} alignSelf="center">
 									<TextField

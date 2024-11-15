@@ -1,4 +1,6 @@
 import { useEffect, useState, type FunctionComponent } from 'react'
+import { isInteractiveElementFocused } from '../utilities/isInteractiveElementFocused'
+import { isSpecialKeyHeld } from '../utilities/isSpecialKeyHeld'
 
 export type InvisibleTimeInputProps = {
 	onInput: (seconds: number) => void
@@ -23,13 +25,7 @@ export const InvisibleTimeInput: FunctionComponent<InvisibleTimeInputProps> = ({
 
 	useEffect(() => {
 		const callback = (event: KeyboardEvent) => {
-			const isInteractive =
-				event.target instanceof HTMLInputElement ||
-				event.target instanceof HTMLTextAreaElement ||
-				event.target instanceof HTMLButtonElement ||
-				event.target instanceof HTMLAnchorElement ||
-				event.target instanceof HTMLSelectElement
-			if (isInteractive) {
+			if (isInteractiveElementFocused(event) || isSpecialKeyHeld(event)) {
 				return
 			}
 			if (event.key === 'Enter') {
