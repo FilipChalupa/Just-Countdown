@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { useChromecastSender as useChromecastSenderFromLibrary } from 'use-chromecast-caf-sender'
+import { useChromecastCafSender } from 'react-chromecast-caf'
 
 let initialized = false
 
 export const useChromecastSender = () => {
-	const sender = useChromecastSenderFromLibrary()
+	const sender = useChromecastCafSender()
 
 	useEffect(() => {
 		const { chrome, cast } = sender

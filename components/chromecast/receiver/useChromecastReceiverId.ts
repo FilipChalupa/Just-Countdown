@@ -1,26 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useChromecastReceiver } from 'use-chromecast-caf-receiver'
+import { useChromecastCafReceiver } from 'react-chromecast-caf'
 import { chromecastMessageNamespace } from '../common/constants'
 
 export const useChromecastReceiverId = () => {
 	const [id, setId] = useState<string | null>(null)
 
-	const { cast } = useChromecastReceiver()
+	const { cast } = useChromecastCafReceiver()
 
 	useEffect(() => {
 		if (cast === null) {
 			return
 		}
-		// @ts-ignore
 		const context = cast.framework.CastReceiverContext.getInstance()
 
 		if (context === null) {
 			return
 		}
 
-		const handleMessage: SystemEventHandler = (event) => {
+		const handleMessage: CustomMessageHandler = (event) => {
 			if (
-				// @ts-ignore
 				event.type !== 'message' ||
 				typeof event.data !== 'object' ||
 				event.data === null
@@ -34,7 +32,6 @@ export const useChromecastReceiverId = () => {
 
 		context.addCustomMessageListener(chromecastMessageNamespace, handleMessage)
 
-		// @ts-ignore
 		const options = new cast.framework.CastReceiverOptions()
 		options.disableIdleTimeout = true
 		context.start(options)
@@ -42,7 +39,7 @@ export const useChromecastReceiverId = () => {
 		return () => {
 			context.removeCustomMessageListener(
 				chromecastMessageNamespace,
-				handleMessage,
+				handleMessage as unknown as SystemEventHandler, // @TODO: Investigate. Maybe a bug in typings of the library.
 			)
 		}
 	}, [cast])
